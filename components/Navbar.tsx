@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import logoBeige from '../media/logo_beige.png';
 import { Section } from '../types';
 import { Menu, X } from 'lucide-react';
 
@@ -39,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
           className="flex items-center gap-4 cursor-pointer group"
           onClick={() => scrollToSection(Section.HERO)}
         >
-          <img src="/media/logo_beige.png" alt="Eagle Production" className="h-12 w-auto" />
+          <img src={logoBeige} alt="Eagle Production" className="h-12 w-auto" />
         </div>
 
         {/* Desktop Menu */}

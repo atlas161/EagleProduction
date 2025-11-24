@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import eagleBeige from '../media/aigle_beige.png';
 
 interface PreloaderProps {
   isLoading: boolean;
@@ -26,7 +27,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ isLoading }) => {
       }`}
     >
       <div className="relative w-32 h-32 md:w-48 md:h-48">
-        <img src="/media/aigle_beige.png" alt="Eagle" className="w-full h-full object-contain" />
+        <img src={eagleBeige} alt="Eagle" className="w-full h-full object-contain" />
       </div>
       
       {/* Progress Bar */}

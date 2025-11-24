@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import eagleBeige from '../media/aigle_beige.png';
 import { Mail, Phone, Instagram, Linkedin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -22,7 +23,7 @@ export const Footer: React.FC = () => {
             {/* Brand */}
             <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-6">
-                    <img src="/media/aigle_beige.png" alt="Eagle Production" className="h-10 w-auto" />
+                    <img src={eagleBeige} alt="Eagle Production" className="h-10 w-auto" />
                 </div>
                 <p className="text-textSecondary max-w-sm mb-6 leading-relaxed">
                     Solutions de drone cinématographique et studio digital. 
