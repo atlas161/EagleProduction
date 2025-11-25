@@ -22,7 +22,7 @@ export const TechSpecs: React.FC = () => {
           <Reveal delay={400}>
             <div className="grid grid-cols-2 gap-8 pt-8">
               <div className="border-l border-white/20 pl-6 group hover:border-accent transition-colors">
-                <div className="text-3xl font-semibold text-textPrimary group-hover:text-accent transition-colors">5.4K</div>
+                <div className="text-3xl font-semibold text-textPrimary group-hover:text-accent transition-colors">6K</div>
                 <div className="text-textSecondary text-xs mt-1 tracking-wider flex items-center gap-2">
                     <Zap size={12} /> Résolution
                 </div>
@@ -34,7 +34,7 @@ export const TechSpecs: React.FC = () => {
                 </div>
               </div>
               <div className="border-l border-white/20 pl-6 group hover:border-accent transition-colors">
-                <div className="text-3xl font-semibold text-textPrimary group-hover:text-accent transition-colors">70km/h</div>
+                <div className="text-3xl font-semibold text-textPrimary group-hover:text-accent transition-colors">90km/h</div>
                 <div className="text-textSecondary text-xs mt-1 tracking-wider flex items-center gap-2">
                     <Target size={12} /> Vitesse
                 </div>

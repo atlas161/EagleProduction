@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Play } from 'lucide-react';
 
 interface HeroProps {
   onScrollDown: () => void;
@@ -26,21 +26,39 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl animate-slide-up">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/70 mb-6">
-          Au-dessus de <br /> l'ordinaire.
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/70 mb-6">
+          Votre projet mérite une prise de vue au drone
         </h1>
         <p className="text-xl md:text-2xl text-textSecondary font-light max-w-2xl mx-auto mb-10">
-          Capturez le monde sous un angle inédit avec une précision cinématographique et une technologie de pointe.
+          Des prises de vue au drone précises et des solutions digitales & IT pour propulser vos projets.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
             onClick={onScrollDown}
-            className="bg-textPrimary text-background px-8 py-3 rounded-full font-medium hover:bg-white transition-all active:scale-95"
+            className="bg-accent text-background px-8 py-3 rounded-full font-semibold shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:bg-white hover:text-background transition-all active:scale-95"
           >
-            Découvrir nos services
+            Voir nos formules
           </button>
-          <button className="text-accent hover:text-accent/80 font-medium px-8 py-3 transition-colors flex items-center justify-center gap-2">
-            Voir le showreel <span className="text-xs">▶</span>
+          <button 
+            onClick={() => {
+              const el = document.getElementById('gallery');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-8 py-3 rounded-full font-semibold border border-white/20 bg-white/5 text-white hover:bg-white/10 transition-all active:scale-95 flex items-center justify-center gap-2"
+          >
+            <Play size={18} className="text-accent" /> Voir le showreel
+          </button>
+        </div>
+
+        <div className="mt-4">
+          <button 
+            onClick={() => {
+              const el = document.getElementById('studio');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-accent hover:text-accent/80 font-medium px-4 py-2 transition-colors"
+          >
+            Studio digital & solutions IT
           </button>
         </div>
       </div>

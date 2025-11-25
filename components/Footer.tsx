@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
                     <img src={eagleBeige} alt="Eagle Production" className="h-10 w-auto" />
                 </div>
                 <p className="text-textSecondary max-w-sm mb-6 leading-relaxed">
-                    Solutions de drone cinématographique et studio digital. 
+                    Solutions de drone ayant une qualité cinéma et studio digital. 
                     Nous donnons de la hauteur à vos projets et de la visibilité à votre image.
                 </p>
             </div>
@@ -88,6 +88,9 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-textSecondary/60">
             <div>
             &copy; {new Date().getFullYear()} Eagle Production. Tous droits réservés.
+            </div>
+            <div>
+              <a href="/mentions-legales.html" className="text-xs text-textSecondary hover:text-accent transition-colors">Mentions légales &amp; RGPD</a>
             </div>
         </div>
       </div>

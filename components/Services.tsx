@@ -27,7 +27,7 @@ export const Services: React.FC = () => {
           </Reveal>
           <Reveal delay={200}>
             <p className="text-xl text-textSecondary max-w-2xl mx-auto font-light leading-relaxed mb-8">
-              Des solutions adaptées à chaque besoin. Du rush brut à la production cinématographique complète.
+              Des solutions adaptées à chaque besoin.
             </p>
             
             {/* Certification Badge */}
@@ -260,7 +260,7 @@ export const Services: React.FC = () => {
 
         {/* --- SECONDARY SERVICES: DIGITAL & IT --- */}
         <Reveal delay={700}>
-          <div className="border-t border-white/5 pt-16">
+          <div id="studio" className="border-t border-white/5 pt-16">
             
             {/* Header */}
             <div className="text-center md:text-left mb-16">
@@ -291,13 +291,13 @@ export const Services: React.FC = () => {
                        
                        <ServiceCard 
                           title="Création site vitrine"
-                          price="300€"
+                          price="366€"
                           icon={<LayoutTemplate size={20} className="text-accent" />}
                           desc="Un site professionnel clé en main. Design, rédaction et identité inclus."
                        />
                        <ServiceCard 
                           title="Optimisation SEO"
-                          price="150€"
+                          price="183€"
                           icon={<Search size={20} className="text-accent" />}
                           desc="Booster votre visibilité sur Google et les moteurs de recherche."
                        />
@@ -311,7 +311,7 @@ export const Services: React.FC = () => {
                        
                        <ServiceCard 
                           title="Logo & direction artistique"
-                          price="500€"
+                          price="610€"
                           icon={<Palette size={20} className="text-accent" />}
                           desc="Création complète de votre identité : couleurs, typographie et logo vectoriel."
                        />
@@ -341,7 +341,7 @@ export const Services: React.FC = () => {
                       {/* Item 1: Conseil & Formation */}
                       <ServiceCard 
                           title="Conseil & formation"
-                          price="30€/h"
+                          price="37€/h"
                           icon={<GraduationCap size={20} className="text-accent" />}
                           desc="Consulting IT, stratégie digitale ou formation (IA, Windows, Marketing)."
                           isFullHeight
@@ -350,7 +350,7 @@ export const Services: React.FC = () => {
                        {/* Item 2: Maintenance */}
                        <ServiceCard 
                           title="Maintenance & dépannage"
-                          price="40€/h"
+                          price="49€/h"
                           icon={<Wrench size={20} className="text-accent" />}
                           desc="Résolution de bugs, pannes matérielles et optimisation système."
                           isFullHeight

@@ -2,13 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Instagram, Heart, MessageCircle, Play, X, ExternalLink, Image as ImageIcon, Loader } from 'lucide-react';
 import { Reveal } from './Reveal';
+import feedUrl from '../behold/links.txt?raw';
 
-// --- CONFIGURATION ---
-// 1. Allez sur https://behold.so/
-// 2. Connectez le compte Instagram
-// 3. Créez un feed de type "JSON"
-// 4. Collez l'URL fournie ici entre les guillemets :
-const INSTAGRAM_FEED_JSON_URL = ""; 
+const INSTAGRAM_FEED_JSON_URL = feedUrl.trim();
 
 // Interface interne pour notre composant
 interface InstaMedia {
@@ -20,6 +16,12 @@ interface InstaMedia {
   permalink: string;
   like_count?: number; // Les API publiques ne donnent pas toujours les likes exacts
   comments_count?: number;
+  sizes?: {
+    small?: { mediaUrl: string; height?: number; width?: number };
+    medium?: { mediaUrl: string; height?: number; width?: number };
+    large?: { mediaUrl: string; height?: number; width?: number };
+    full?: { mediaUrl: string; height?: number; width?: number };
+  };
 }
 
 // Données de secours (Fallback) si l'API n'est pas connectée ou échoue
@@ -116,44 +118,88 @@ export const Gallery: React.FC = () => {
   const [selectedMedia, setSelectedMedia] = useState<InstaMedia | null>(null);
   const [isLoadingFeed, setIsLoadingFeed] = useState(false);
   const [isUsingFallback, setIsUsingFallback] = useState(true);
+  const [profile, setProfile] = useState<{ username: string; profilePictureUrl: string }>({ username: 'eagleproduction.video', profilePictureUrl: '' });
 
-  // Fonction pour charger les vraies données
   useEffect(() => {
+    let intervalId: number | undefined;
+
     const fetchInstagramFeed = async () => {
       if (!INSTAGRAM_FEED_JSON_URL) return;
-
       setIsLoadingFeed(true);
       try {
         const response = await fetch(INSTAGRAM_FEED_JSON_URL);
         if (!response.ok) throw new Error('Failed to fetch feed');
-        
         const data = await response.json();
-        
-        // Mapping des données brutes vers notre format (adapté pour Behold.so ou similaire)
-        const formattedData: InstaMedia[] = data.map((item: any) => ({
-          id: item.id,
-          type: item.media_type === 'VIDEO' ? 'VIDEO' : 'IMAGE',
-          // Behold renvoie souvent media_url pour l'image et children pour les albums
-          media_url: item.media_url || item.thumbnail_url,
-          thumbnail_url: item.thumbnail_url || item.media_url,
-          caption: item.caption || '',
-          permalink: item.permalink,
-          like_count: item.like_count || Math.floor(Math.random() * 100) + 50, // Mock si non fourni
-          comments_count: item.comments_count || Math.floor(Math.random() * 20)
-        }));
 
-        setFeedData(formattedData);
-        setIsUsingFallback(false);
+        const items = Array.isArray(data) ? data : (data.posts || []);
+        if (!Array.isArray(data) && data?.username) {
+          setProfile({ username: data.username, profilePictureUrl: data.profilePictureUrl || '' });
+        }
+        const formattedData: InstaMedia[] = items.map((item: any) => {
+          const rawType = item.mediaType || item.media_type;
+          const type: InstaMedia['type'] = rawType === 'VIDEO' ? 'VIDEO' : rawType === 'CAROUSEL_ALBUM' ? 'CAROUSEL_ALBUM' : 'IMAGE';
+          const imageCandidate = item.thumbnailUrl || item.sizes?.medium?.mediaUrl || item.sizes?.small?.mediaUrl || item.sizes?.large?.mediaUrl || item.sizes?.full?.mediaUrl || item.media_url;
+          const mediaUrl = type === 'VIDEO' ? (item.mediaUrl || item.media_url || imageCandidate) : imageCandidate;
+          const thumbnail = item.thumbnailUrl || item.sizes?.medium?.mediaUrl || item.sizes?.small?.mediaUrl || item.sizes?.large?.mediaUrl || imageCandidate;
+          return {
+            id: item.id,
+            type,
+            media_url: mediaUrl,
+            thumbnail_url: thumbnail,
+            caption: item.caption || '',
+            permalink: item.permalink,
+            like_count: item.like_count ?? Math.floor(Math.random() * 100) + 50,
+            comments_count: item.comments_count ?? Math.floor(Math.random() * 20),
+            sizes: item.sizes || undefined
+          };
+        });
+
+        if (formattedData.length > 0) {
+          setFeedData(formattedData);
+          setIsUsingFallback(false);
+        }
       } catch (error) {
-        console.warn("Erreur chargement Instagram, utilisation du fallback", error);
-        // On reste sur le FALLBACK_FEED par défaut
+        console.warn('Erreur chargement Instagram, utilisation du fallback', error);
       } finally {
         setIsLoadingFeed(false);
       }
     };
 
     fetchInstagramFeed();
+    intervalId = window.setInterval(fetchInstagramFeed, 5 * 60 * 1000);
+    return () => {
+      if (intervalId) window.clearInterval(intervalId);
+    };
   }, []);
+
+  useEffect(() => {
+    const toPreload = feedData.slice(0, Math.min(feedData.length, itemsToShow + 12));
+    const run = () => {
+      toPreload.forEach((m) => {
+        const srcs: string[] = [];
+        if (m.thumbnail_url) srcs.push(m.thumbnail_url);
+        if (m.sizes?.small?.mediaUrl) srcs.push(m.sizes.small.mediaUrl);
+        if (m.sizes?.medium?.mediaUrl) srcs.push(m.sizes.medium.mediaUrl);
+        if (m.sizes?.large?.mediaUrl) srcs.push(m.sizes.large.mediaUrl);
+        if (m.sizes?.full?.mediaUrl) srcs.push(m.sizes.full.mediaUrl);
+        srcs.forEach((src) => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = src;
+        });
+        if (m.type === 'VIDEO' && m.media_url) {
+          const v = document.createElement('video');
+          v.preload = 'metadata';
+          v.src = m.media_url;
+        }
+      });
+    };
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(run);
+    } else {
+      setTimeout(run, 200);
+    }
+  }, [feedData, itemsToShow]);
 
   const handleLoadMore = () => {
     setItemsToShow(prev => Math.min(prev + 3, feedData.length));
@@ -192,6 +238,16 @@ export const Gallery: React.FC = () => {
                     src={media.thumbnail_url || media.media_url} 
                     alt={media.caption}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading={index < 6 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    fetchPriority={index < 6 ? 'high' : 'low'}
+                    srcSet={[
+                      media.sizes?.small?.mediaUrl ? `${media.sizes.small.mediaUrl} 400w` : '',
+                      media.sizes?.medium?.mediaUrl ? `${media.sizes.medium.mediaUrl} 700w` : '',
+                      media.sizes?.large?.mediaUrl ? `${media.sizes.large.mediaUrl} 1000w` : '',
+                      media.sizes?.full?.mediaUrl ? `${media.sizes.full.mediaUrl} 1080w` : ''
+                    ].filter(Boolean).join(', ')}
+                    sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                   />
                   <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm p-2 rounded-full">
                     <Play size={16} className="text-white fill-white" />
@@ -199,9 +255,19 @@ export const Gallery: React.FC = () => {
                 </>
               ) : (
                 <img 
-                  src={media.media_url} 
+                  src={media.thumbnail_url || media.media_url} 
                   alt={media.caption}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading={index < 6 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={index < 6 ? 'high' : 'low'}
+                  srcSet={[
+                    media.sizes?.small?.mediaUrl ? `${media.sizes.small.mediaUrl} 400w` : '',
+                    media.sizes?.medium?.mediaUrl ? `${media.sizes.medium.mediaUrl} 700w` : '',
+                    media.sizes?.large?.mediaUrl ? `${media.sizes.large.mediaUrl} 1000w` : '',
+                    media.sizes?.full?.mediaUrl ? `${media.sizes.full.mediaUrl} 1080w` : ''
+                  ].filter(Boolean).join(', ')}
+                  sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                 />
               )}
 
@@ -259,12 +325,20 @@ export const Gallery: React.FC = () => {
                             src={selectedMedia.media_url} 
                             controls 
                             autoPlay 
+                            poster={selectedMedia.thumbnail_url}
                             className="w-full h-full max-h-[80vh] object-contain"
                         />
                     ) : (
                         <img 
-                            src={selectedMedia.media_url} 
+                            src={selectedMedia.sizes?.full?.mediaUrl || selectedMedia.media_url} 
                             alt={selectedMedia.caption}
+                            srcSet={[
+                              selectedMedia.sizes?.small?.mediaUrl ? `${selectedMedia.sizes.small.mediaUrl} 400w` : '',
+                              selectedMedia.sizes?.medium?.mediaUrl ? `${selectedMedia.sizes.medium.mediaUrl} 700w` : '',
+                              selectedMedia.sizes?.large?.mediaUrl ? `${selectedMedia.sizes.large.mediaUrl} 1000w` : '',
+                              selectedMedia.sizes?.full?.mediaUrl ? `${selectedMedia.sizes.full.mediaUrl} 1080w` : ''
+                            ].filter(Boolean).join(', ')}
+                            sizes="(min-width:1280px) 50vw, 90vw"
                             className="w-full h-full max-h-[80vh] object-contain"
                         />
                     )}
@@ -277,11 +351,15 @@ export const Gallery: React.FC = () => {
                     <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/5">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 to-red-600 p-[2px]">
                             <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                <ImageIcon size={20} className="text-white" />
+                                {profile.profilePictureUrl ? (
+                                  <img src={profile.profilePictureUrl} alt={profile.username} className="w-full h-full object-cover" />
+                                ) : (
+                                  <ImageIcon size={20} className="text-white" />
+                                )}
                             </div>
                         </div>
                         <div>
-                            <div className="font-bold text-sm text-white">eagleproduction.video</div>
+                            <div className="font-bold text-sm text-white">{profile.username || 'eagleproduction.video'}</div>
                             <div className="text-xs text-textSecondary">Angoulême, France</div>
                         </div>
                         <a href={selectedMedia.permalink} target="_blank" rel="noreferrer" className="ml-auto text-accent text-xs font-bold hover:underline">
@@ -290,7 +368,7 @@ export const Gallery: React.FC = () => {
                     </div>
 
                     {/* Caption */}
-                    <div className="flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar">
+                    <div className="flex-1 overflow-hidden mb-6 pr-2 no-scrollbar">
                         <p className="text-sm text-textPrimary leading-relaxed whitespace-pre-line">
                             {selectedMedia.caption || "Pas de description."}
                         </p>
