@@ -21,10 +21,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
   }, []);
 
   const navLinks = [
-    { id: Section.GALLERY, label: 'Galerie' },
-    { id: Section.SERVICES, label: 'Services' },
-    { id: Section.TECH, label: 'Technologie' },
+    { id: Section.GALLERY, label: 'Portfolio' },
+    { id: Section.SERVICES, label: 'Formules' },
+    { id: Section.ABOUT, label: 'À propos' },
+    { id: Section.TECH, label: 'Technologies' },
     { id: Section.ZONE, label: 'Zone' },
+    { id: Section.REVIEWS, label: 'Avis & FAQ' },
     { id: Section.CONTACT, label: 'Contact' },
   ];
 

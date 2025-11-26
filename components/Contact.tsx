@@ -10,7 +10,7 @@ export const Contact: React.FC = () => {
         {/* Left Column: Info & Details */}
         <div className="flex flex-col justify-center">
             <Reveal>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">Parlons de votre projet.</h2>
+                <h2 id="contact-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold mb-6">Parlons de votre projet.</h2>
                 <p className="text-textSecondary text-lg mb-12 leading-relaxed">
                     Une idée ? Un besoin spécifique ? <br/>
                     Nous sommes joignables directement par téléphone ou via le formulaire.

@@ -34,7 +34,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
-            onClick={onScrollDown}
+            onClick={() => {
+              const el = document.getElementById('services-title');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+            }}
             className="bg-accent text-background px-8 py-3 rounded-full font-semibold shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:bg-white hover:text-background transition-all active:scale-95"
           >
             Voir nos formules

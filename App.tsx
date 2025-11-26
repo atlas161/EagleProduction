@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import { ChevronUp } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -12,11 +13,15 @@ import { Preloader } from './components/Preloader';
 import { Coverage } from './components/Coverage';
 import { Gallery } from './components/Gallery';
 import { CookieBanner } from './components/CookieBanner';
+import { About } from './components/About';
+import { ReviewsAndFaq } from './components/ReviewsAndFaq';
 
 function App() {
   const [activeSection, setActiveSection] = useState<Section>(Section.HERO);
   const [isLoading, setIsLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const lenisRef = useRef<any>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // Gestion du chargement initial (Preloader)
   useEffect(() => {
@@ -41,18 +46,43 @@ function App() {
 
   // Fonction de scroll manuel avec calcul de l'offset pour la navbar fixe
   const scrollToSection = (sectionId: Section) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerOffset = 80; // Hauteur de la navbar + un peu d'espace
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+    const anchorMap: Partial<Record<Section, string>> = {
+      [Section.SERVICES]: 'services-title',
+      [Section.ABOUT]: 'about-title',
+      [Section.TECH]: 'tech-title',
+      [Section.REVIEWS]: 'reviews-title',
+      [Section.CONTACT]: 'contact-title',
+    };
+    const targetId = anchorMap[sectionId];
+    const el = (targetId && document.getElementById(targetId)) || document.getElementById(sectionId);
+    if (el) {
+      const nav = document.querySelector('nav') as HTMLElement | null;
+      const navFinalHeight = (nav?.getBoundingClientRect().height) || 80;
+      const sectionOffsets: Partial<Record<Section, number>> = {
+        [Section.GALLERY]: 60,
+        [Section.ZONE]: 60,
+        [Section.ABOUT]: -10,
+      };
+      const extra = sectionOffsets[sectionId] ?? 0;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
+      setIsNavigating(true);
+      console.debug('[scrollToSection]', {
+        sectionId,
+        targetId,
+        navHeight: navFinalHeight,
+        extra,
       });
-      // On met à jour l'état immédiatement au clic
+      const lenis = lenisRef.current;
+      if (lenis) {
+        lenis.scrollTo(el, { offset: -(navFinalHeight) + extra, immediate: false, lock: true, duration: 1 });
+      } else {
+        const rectTop = el.getBoundingClientRect().top + window.scrollY;
+        const targetY = rectTop - navFinalHeight + extra;
+        console.debug('[scrollToSection:fallback]', { rectTop, targetY });
+        window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
+      }
       setActiveSection(sectionId);
+      window.setTimeout(() => setIsNavigating(false), 800);
     }
   };
 
@@ -60,12 +90,20 @@ function App() {
     const current = document.getElementById(Section.HERO);
     const next = current?.nextElementSibling as HTMLElement | null;
     if (next) {
-      const headerOffset = 80;
-      const elementPosition = next.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      const nav = document.querySelector('nav') as HTMLElement | null;
+      const navFinalHeight = (nav?.getBoundingClientRect().height) || 80;
+      const lenis = lenisRef.current;
+      setIsNavigating(true);
+      if (lenis) {
+        lenis.scrollTo(next, { offset: -(navFinalHeight), immediate: false, lock: true, duration: 1 });
+      } else {
+        const rectTop = next.getBoundingClientRect().top + window.scrollY;
+        const targetY = rectTop - navFinalHeight;
+        window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
+      }
       const nextId = next.id as Section;
       if (nextId) setActiveSection(nextId);
+      window.setTimeout(() => setIsNavigating(false), 800);
     }
   };
 
@@ -91,6 +129,23 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const lenis = new (Lenis as any)({
+      duration: 1.1,
+      easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
+      smoothTouch: true,
+    });
+    lenisRef.current = lenis;
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   return (
     <>
       <Preloader isLoading={isLoading} />
@@ -99,27 +154,38 @@ function App() {
         <Navbar activeSection={activeSection} scrollToSection={scrollToSection} />
         
         <main>
-          <section id={Section.HERO}>
+          {isNavigating && (
+            <div className="fixed top-0 left-0 right-0 h-0.5 bg-accent z-[60]" />
+          )}
+          <section id={Section.HERO} className="scroll-mt-20">
             <Hero onScrollDown={scrollToNextSection} />
           </section>
 
-          <section id={Section.GALLERY} className="min-h-screen">
+          <section id={Section.GALLERY} className="min-h-screen scroll-mt-20">
             <Gallery />
           </section>
 
-          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen">
+          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen scroll-mt-20">
             <Services />
           </section>
 
-          <section id={Section.TECH} className="min-h-screen">
+          <section id={Section.ABOUT} className="min-h-screen scroll-mt-20">
+            <About />
+          </section>
+
+          <section id={Section.TECH} className="min-h-screen scroll-mt-20">
             <TechSpecs />
           </section>
 
-          <section id={Section.ZONE} className="min-h-screen">
+          <section id={Section.ZONE} className="min-h-screen scroll-mt-20">
             <Coverage />
           </section>
 
-          <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen">
+          <section id={Section.REVIEWS} className="min-h-screen bg-background border-t border-white/5 scroll-mt-20">
+            <ReviewsAndFaq />
+          </section>
+
+          <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen scroll-mt-20">
             <Contact />
           </section>
         </main>

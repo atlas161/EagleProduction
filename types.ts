@@ -11,9 +11,11 @@ export interface ServiceItem {
 
 export enum Section {
   HERO = 'hero',
+  ABOUT = 'about',
   SERVICES = 'services',
   TECH = 'tech',
   GALLERY = 'gallery',
   ZONE = 'zone',
+  REVIEWS = 'reviews',
   CONTACT = 'contact'
 }

@@ -2,6 +2,9 @@
 import React, { ReactElement } from 'react';
 import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, PenTool, Palette, Terminal, LayoutTemplate, Search, RefreshCw, Share2, Wrench, GraduationCap, AppWindow, ShieldCheck } from 'lucide-react';
 import { Reveal } from './Reveal';
+import essentielImg from '../media/images_formules/essentiel.png';
+import altitudeImg from '../media/images_formules/altitude.png';
+import horizonImg from '../media/images_formules/horizon.png';
 
 export const Services: React.FC = () => {
   const handleServiceClick = () => {
@@ -21,7 +24,7 @@ export const Services: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <Reveal>
-            <h2 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-textPrimary to-textPrimary/60 mb-6">
+            <h2 id="services-title" className="scroll-mt-20 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-textPrimary to-textPrimary/60 mb-6">
               Nos formules.
             </h2>
           </Reveal>
@@ -44,9 +47,14 @@ export const Services: React.FC = () => {
           <Reveal delay={100} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
             >
-              <div className="flex items-center gap-3 mb-6">
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 35%' }} />
+                <div className="absolute inset-0 bg-black/50"></div>
+                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+              </div>
+              <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
                   <HardDrive size={24} />
                 </div>
@@ -56,7 +64,7 @@ export const Services: React.FC = () => {
                 Sans montage. Exploitez vos images comme vous le souhaitez. Livraison des fichiers bruts.
               </p>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 relative z-10">
                 <div className="flex justify-between items-end border-b border-white/5 pb-4">
                   <span className="text-textPrimary font-medium">1h de prise de vue</span>
                   <span className="text-3xl font-bold text-textPrimary">50€</span>
@@ -67,7 +75,7 @@ export const Services: React.FC = () => {
                 </div>
               </div>
 
-              <ul className="space-y-3">
+              <ul className="space-y-3 relative z-10">
                 <li className="flex gap-3 text-sm text-textSecondary">
                   <Check size={16} className="text-textPrimary mt-0.5" />
                   <span>Vidéos brutes non retouchées</span>
@@ -84,10 +92,15 @@ export const Services: React.FC = () => {
           <Reveal delay={300} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-8 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden"
             >
-               <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl">Populaire</div>
-              <div className="flex items-center gap-3 mb-6">
+              <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                <img src={altitudeImg} alt="Altitude" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 40%' }} />
+                <div className="absolute inset-0 bg-black/50"></div>
+                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+              </div>
+              <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-accent/20 text-accent">
                   <Film size={24} />
                 </div>
@@ -97,7 +110,7 @@ export const Services: React.FC = () => {
                 Avec montage vidéo. Offrez-vous une vidéo personnalisée et immersive clé en main.
               </p>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 relative z-10">
                 <div className="flex justify-between items-end border-b border-white/5 pb-4">
                   <div>
                       <span className="text-textPrimary font-medium block">Classique</span>
@@ -114,7 +127,7 @@ export const Services: React.FC = () => {
                 </div>
               </div>
 
-              <ul className="space-y-3">
+              <ul className="space-y-3 relative z-10">
                 <li className="flex gap-3 text-sm text-gray-300">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Montage dynamique inclus</span>
@@ -129,7 +142,7 @@ export const Services: React.FC = () => {
                 </li>
               </ul>
               
-              <button className="w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors">
+              <button className="relative z-10 w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors">
                 Choisir altitude
               </button>
             </div>
@@ -139,9 +152,14 @@ export const Services: React.FC = () => {
           <Reveal delay={500} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
             >
-              <div className="flex items-center gap-3 mb-6">
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 40%' }} />
+                <div className="absolute inset-0 bg-black/50"></div>
+                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+              </div>
+              <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-accent/10 text-accent">
                   <Clapperboard size={24} />
                 </div>
@@ -151,7 +169,7 @@ export const Services: React.FC = () => {
                 Réalisation complète. Une production inspirée de vos idées pour un résultat cinéma.
               </p>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 relative z-10">
                 <div className="flex justify-between items-end border-b border-white/5 pb-4">
                   <div>
                       <span className="text-textPrimary font-medium block">Classique</span>
@@ -168,7 +186,7 @@ export const Services: React.FC = () => {
                 </div>
               </div>
 
-              <ul className="space-y-3">
+              <ul className="space-y-3 relative z-10">
                 <li className="flex gap-3 text-sm text-textSecondary">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Scénarisation complète</span>
@@ -206,7 +224,7 @@ export const Services: React.FC = () => {
                              <div className="w-1.5 h-6 bg-accent rounded-full"></div>
                              Options & suppléments
                         </h4>
-                        <span className="text-xs text-textSecondary tracking-wide mt-2 md:mt-0">Pour personnaliser votre prestation</span>
+                        
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
