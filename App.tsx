@@ -192,7 +192,16 @@ function App() {
 
         {showBackToTop && (
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => {
+              setIsNavigating(true);
+              const lenis = lenisRef.current as any;
+              if (lenis) {
+                lenis.scrollTo(0, { immediate: false, lock: true, duration: 1 });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+              window.setTimeout(() => setIsNavigating(false), 800);
+            }}
             className="fixed bottom-6 right-6 z-50 bg-black/60 text-white border border-white/10 backdrop-blur-md p-3 rounded-full hover:bg-black/80 transition-colors shadow-lg"
             aria-label="Retour en haut"
           >

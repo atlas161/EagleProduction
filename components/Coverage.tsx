@@ -350,9 +350,9 @@ export const Coverage: React.FC = () => {
               <Navigation size={20} />
               <span className="tracking-[0.2em] text-xs font-bold">Zone d'opération</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight">
               Rayonnement <br/>
-              <span className="text-textSecondary">Grand Ouest.</span>
+              <span className="text-transparent">Grand Ouest</span>
             </h2>
           </Reveal>
           

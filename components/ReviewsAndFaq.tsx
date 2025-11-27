@@ -124,7 +124,7 @@ export const ReviewsAndFaq: React.FC = () => {
                           </div>
                           <span className="text-accent text-xs font-bold tracking-[0.2em] uppercase">Témoignages</span>
                       </div>
-                      <h2 id="reviews-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold text-white mb-12">Ils nous font <br/>confiance.</h2>
+                      <h2 id="reviews-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-12">Ils nous font <br/>confiance</h2>
                   </Reveal>
 
                   {/* Review Card Slider */}
@@ -230,7 +230,7 @@ export const ReviewsAndFaq: React.FC = () => {
                         </div>
                         <span className="text-accent text-xs font-bold tracking-[0.2em] uppercase">FAQ</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-12">Questions <br/> fréquentes.</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-12">Questions <br/> fréquentes</h2>
                  </Reveal>
 
                 <div className="space-y-4">

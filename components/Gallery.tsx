@@ -214,7 +214,7 @@ export const Gallery: React.FC = () => {
             <Instagram size={18} />
             <span className="text-sm font-semibold tracking-wide">@eagleproduction.video</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Le feed.</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Le feed</h2>
           <p className="text-textSecondary text-xl max-w-2xl mx-auto">
             {isLoadingFeed 
               ? "Actualisation du flux en cours..." 
