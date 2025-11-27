@@ -165,11 +165,11 @@ function App() {
             <Gallery />
           </section>
 
-          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen scroll-mt-20">
+          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen scroll-mt-20 border-b border-white/5">
             <Services />
           </section>
 
-          <section id={Section.ABOUT} className="min-h-screen scroll-mt-20">
+          <section id={Section.ABOUT} className="py-8 scroll-mt-20 border-b border-white/5">
             <About />
           </section>
 

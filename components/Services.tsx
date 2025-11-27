@@ -1,12 +1,14 @@
 
-import React, { ReactElement } from 'react';
-import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, PenTool, Palette, Terminal, LayoutTemplate, Search, RefreshCw, Share2, Wrench, GraduationCap, AppWindow, ShieldCheck } from 'lucide-react';
+import React, { useState, ReactElement } from 'react';
+import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, PenTool, Palette, Terminal, LayoutTemplate, Search, RefreshCw, Share2, Wrench, GraduationCap, AppWindow, ShieldCheck, X } from 'lucide-react';
 import { Reveal } from './Reveal';
 import essentielImg from '../media/images_formules/essentiel.png';
 import altitudeImg from '../media/images_formules/altitude.png';
 import horizonImg from '../media/images_formules/horizon.png';
 
 export const Services: React.FC = () => {
+  const [showExtras, setShowExtras] = useState(false);
+  const [closingExtras, setClosingExtras] = useState(false);
   const handleServiceClick = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -25,7 +27,7 @@ export const Services: React.FC = () => {
         <div className="text-center mb-16">
           <Reveal>
             <h2 id="services-title" className="scroll-mt-20 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-textPrimary to-textPrimary/60 mb-6">
-              Nos formules.
+              Nos formules drone.
             </h2>
           </Reveal>
           <Reveal delay={200}>
@@ -47,10 +49,10 @@ export const Services: React.FC = () => {
           <Reveal delay={100} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 35%' }} />
+                <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 35%' }} />
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
               </div>
@@ -60,7 +62,7 @@ export const Services: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Essentiel</h3>
               </div>
-              <p className="text-textSecondary text-sm mb-8 h-10">
+              <p className="text-white text-sm leading-relaxed mb-8">
                 Sans montage. Exploitez vos images comme vous le souhaitez. Livraison des fichiers bruts.
               </p>
               
@@ -76,15 +78,21 @@ export const Services: React.FC = () => {
               </div>
 
               <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-textPrimary mt-0.5" />
                   <span>Vidéos brutes non retouchées</span>
                 </li>
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-textPrimary mt-0.5" />
                   <span>Liberté totale de post-production</span>
                 </li>
               </ul>
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
+                className="relative z-10 mt-auto pt-4 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
+              >
+                Options & suppléments
+              </button>
             </div>
           </Reveal>
 
@@ -92,21 +100,21 @@ export const Services: React.FC = () => {
           <Reveal delay={300} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={altitudeImg} alt="Altitude" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 40%' }} />
+                <img src={altitudeImg} alt="Altitude" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} />
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
-                <div className="p-3 rounded-2xl bg-accent/20 text-accent">
+                <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
                   <Film size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Altitude</h3>
               </div>
-              <p className="text-textSecondary text-sm mb-8 h-10">
+              <p className="text-white text-sm leading-relaxed mb-8">
                 Avec montage vidéo. Offrez-vous une vidéo personnalisée et immersive clé en main.
               </p>
               
@@ -128,15 +136,15 @@ export const Services: React.FC = () => {
               </div>
 
               <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-sm text-gray-300">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Montage dynamique inclus</span>
                 </li>
-                <li className="flex gap-3 text-sm text-gray-300">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Musique libre de droits</span>
                 </li>
-                <li className="flex gap-3 text-sm text-gray-300">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Étalonnage couleur professionnel</span>
                 </li>
@@ -145,6 +153,12 @@ export const Services: React.FC = () => {
               <button className="relative z-10 w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors">
                 Choisir altitude
               </button>
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
+                className="relative z-10 mt-auto pt-3 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
+              >
+                Options & suppléments
+              </button>
             </div>
           </Reveal>
 
@@ -152,20 +166,20 @@ export const Services: React.FC = () => {
           <Reveal delay={500} className="h-full">
             <div 
               onClick={handleServiceClick}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-30" style={{ objectPosition: '50% 40%' }} />
+                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} />
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
-                <div className="p-3 rounded-2xl bg-accent/10 text-accent">
+                <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
                   <Clapperboard size={24} />
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Horizon</h3>
               </div>
-              <p className="text-textSecondary text-sm mb-8 h-10">
+              <p className="text-white text-sm leading-relaxed mb-8">
                 Réalisation complète. Une production inspirée de vos idées pour un résultat cinéma.
               </p>
               
@@ -187,204 +201,217 @@ export const Services: React.FC = () => {
               </div>
 
               <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Scénarisation complète</span>
                 </li>
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                    <Check size={16} className="text-accent mt-0.5" />
                    <span>Montage dynamique inclus</span>
                 </li>
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                    <Check size={16} className="text-accent mt-0.5" />
                    <span>Musique libre de droits</span>
                 </li>
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                    <Check size={16} className="text-accent mt-0.5" />
                    <span>Étalonnage couleur professionnel</span>
                 </li>
-                <li className="flex gap-3 text-sm text-textSecondary">
+                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
                   <Check size={16} className="text-accent mt-0.5" />
                   <span>Sound Design immersif</span>
                 </li>
               </ul>
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
+                className="relative z-10 mt-auto pt-4 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
+              >
+                Options & suppléments
+              </button>
             </div>
           </Reveal>
         </div>
-
-        {/* --- EXTRAS & INFO (Moved Here) --- */}
-        <Reveal delay={600}>
-            <div className="bg-surfaceHighlight/30 border border-white/5 rounded-2xl p-8 mb-24 relative overflow-hidden">
-                {/* Decoration background */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-
-                <div className="relative z-10">
-                    <div className="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-white/5 pb-6">
-                        <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                             <div className="w-1.5 h-6 bg-accent rounded-full"></div>
-                             Options & suppléments
-                        </h4>
-                        
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div className="flex items-center gap-4 p-4 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                            <div className="p-3 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                                <Car className="w-5 h-5 text-textSecondary group-hover:text-accent" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl font-bold text-textPrimary">0,50€ <span className="text-[10px] text-textSecondary font-normal">/km</span></span>
-                                <span className="text-[10px] text-textSecondary font-medium tracking-wide">Déplacement</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-4 p-4 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                            <div className="p-3 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                                <Camera className="w-5 h-5 text-textSecondary group-hover:text-accent" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl font-bold text-textPrimary">2€ <span className="text-[10px] text-textSecondary font-normal">/unité</span></span>
-                                <span className="text-[10px] text-textSecondary font-medium tracking-wide">Photo drone</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-4 p-4 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                            <div className="p-3 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                                <Usb className="w-5 h-5 text-textSecondary group-hover:text-accent" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl font-bold text-textPrimary">12€ <span className="text-[10px] text-textSecondary font-normal">/clé</span></span>
-                                <span className="text-[10px] text-textSecondary font-medium tracking-wide">Support USB</span>
-                            </div>
-                        </div>
-
-                        <div 
-                           onClick={handleServiceClick}
-                           className="flex items-center justify-between p-4 bg-accent/10 rounded-xl border border-accent/20 hover:bg-accent/20 transition-all cursor-pointer group"
-                        >
-                             <div className="flex flex-col">
-                                <span className="font-bold text-accent text-sm">Un projet spécifique ?</span>
-                                <span className="text-[10px] text-accent/70 font-medium">Demandez un devis sur mesure</span>
-                             </div>
-                             <div className="bg-accent text-background p-2 rounded-full group-hover:translate-x-1 transition-transform">
-                                <ArrowRight size={16} />
-                             </div>
-                        </div>
-                    </div>
+        {/* Extras Modal */}
+        {showExtras && (
+          <div 
+            className={`fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 transition-opacity duration-200 ${closingExtras ? 'opacity-0' : 'opacity-100'}`} 
+            onClick={() => {
+              setClosingExtras(true);
+              setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
+            }}
+          >
+            <button 
+              className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                setClosingExtras(true);
+                setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
+              }}
+            >
+              <X size={32} />
+            </button>
+            <div 
+              className={`max-w-4xl w-full max-h-[80vh] bg-surface rounded-2xl overflow-hidden shadow-xl border border-white/10 transform transition-transform duration-200 ${closingExtras ? 'scale-95' : 'scale-100'}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-5 md:p-6">
+                <div className="flex flex-col md:flex-row items-center justify-between mb-4 border-b border-white/5 pb-3">
+                  <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                    <div className="w-1.5 h-6 bg-accent rounded-full"></div>
+                    Options & suppléments
+                  </h4>
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation();
+                      setClosingExtras(true);
+                      setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
+                    }}
+                    className="text-textSecondary hover:text-white text-xs md:text-sm font-medium"
+                  >
+                    Fermer
+                  </button>
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
+                      <Car className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold text-textPrimary">0,50€ <span className="text-[10px] text-textSecondary font-normal">/km</span></span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Déplacement</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
+                      <Camera className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold text-textPrimary">2€ <span className="text-[10px] text-textSecondary font-normal">/unité</span></span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Photo drone</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
+                      <Usb className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold text-textPrimary">12€ <span className="text-[10px] text-textSecondary font-normal">/clé</span></span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Support USB</span>
+                    </div>
+                  </div>
+                  <div 
+                    onClick={handleServiceClick}
+                    className="flex items-center justify-between p-3 bg-accent/10 rounded-xl border border-accent/20 hover:bg-accent/20 transition-all cursor-pointer group"
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-bold text-accent text-sm">Un projet spécifique ?</span>
+                      <span className="text-[10px] text-accent/70 font-medium">Demandez un devis sur mesure</span>
+                    </div>
+                    <div className="bg-accent text-background p-2 rounded-full group-hover:translate-x-1 transition-transform">
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </Reveal>
+          </div>
+        )}
 
 
         {/* --- SECONDARY SERVICES: DIGITAL & IT --- */}
         <Reveal delay={700}>
           <div id="studio" className="border-t border-white/5 pt-16">
-            
-            {/* Header */}
             <div className="text-center md:text-left mb-16">
-               <span className="text-accent text-xs font-bold tracking-[0.2em] mb-2 block">Au-delà du drone</span>
-               <h3 className="text-3xl md:text-4xl font-bold text-textPrimary">Studio digital & solutions IT</h3>
+              <span className="text-accent text-xs font-bold tracking-[0.2em] mb-2 block">Au-delà du drone</span>
+              <h3 className="text-3xl md:text-4xl font-bold text-textPrimary">Nos services complémentaires</h3>
             </div>
-
-            {/* Content Container - STACKED LAYOUT */}
-            <div className="space-y-20">
-              
-              {/* 1. STUDIO CREATIF */}
-              <div className="animate-fade-in relative">
-                 {/* Section Title */}
-                 <div className="flex items-center gap-4 mb-10">
-                    <div className="p-3 bg-surfaceHighlight rounded-xl border border-white/5">
-                        <Palette size={24} className="text-accent" />
-                    </div>
-                    <h4 className="text-2xl font-bold text-white">Studio créatif</h4>
-                 </div>
-
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pl-4 md:pl-0 border-l border-white/5 md:border-l-0">
-                    
-                    {/* Web Services */}
-                    <div className="flex flex-col gap-6">
-                       <h5 className="text-xs font-bold text-textSecondary tracking-[0.2em] mb-2 flex items-center gap-2">
-                          <span className="w-8 h-[1px] bg-accent"></span> Web & visibilité
-                       </h5>
-                       
-                       <ServiceCard 
-                          title="Création site vitrine"
-                          price="366€"
-                          icon={<LayoutTemplate size={20} className="text-accent" />}
-                          desc="Un site professionnel clé en main. Design, rédaction et identité inclus."
-                       />
-                       <ServiceCard 
-                          title="Optimisation SEO"
-                          price="183€"
-                          icon={<Search size={20} className="text-accent" />}
-                          desc="Booster votre visibilité sur Google et les moteurs de recherche."
-                       />
-                    </div>
-
-                    {/* Branding Services */}
-                    <div className="flex flex-col gap-6">
-                       <h5 className="text-xs font-bold text-textSecondary tracking-[0.2em] mb-2 flex items-center gap-2">
-                          <span className="w-8 h-[1px] bg-accent"></span> Identité de marque
-                       </h5>
-                       
-                       <ServiceCard 
-                          title="Logo & direction artistique"
-                          price="610€"
-                          icon={<Palette size={20} className="text-accent" />}
-                          desc="Création complète de votre identité : couleurs, typographie et logo vectoriel."
-                       />
-                       <ServiceCard 
-                          title="Pack communication & print"
-                          price="Sur devis"
-                          subPrice="Social + Mail + Supports Physiques"
-                          icon={<Share2 size={20} className="text-accent" />}
-                          desc="Templates réseaux sociaux, signature mail et conception de supports physiques."
-                       />
-                    </div>
-                 </div>
-              </div>
-
-              {/* 2. POLE TECHNIQUE */}
-              <div className="animate-fade-in relative">
-                 {/* Section Title */}
-                 <div className="flex items-center gap-4 mb-10">
-                    <div className="p-3 bg-surfaceHighlight rounded-xl border border-white/5">
-                        <Terminal size={24} className="text-accent" />
-                    </div>
-                    <h4 className="text-2xl font-bold text-white">Pôle technique</h4>
-                 </div>
-
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      
-                      {/* Item 1: Conseil & Formation */}
-                      <ServiceCard 
-                          title="Conseil & formation"
-                          price="37€/h"
-                          icon={<GraduationCap size={20} className="text-accent" />}
-                          desc="Consulting IT, stratégie digitale ou formation (IA, Windows, Marketing)."
-                          isFullHeight
-                       />
-
-                       {/* Item 2: Maintenance */}
-                       <ServiceCard 
-                          title="Maintenance & dépannage"
-                          price="49€/h"
-                          icon={<Wrench size={20} className="text-accent" />}
-                          desc="Résolution de bugs, pannes matérielles et optimisation système."
-                          isFullHeight
-                       />
-
-                       {/* Item 3: Dev */}
-                       <ServiceCard 
-                          title="Développement sur mesure"
-                          price="Sur devis"
-                          icon={<AppWindow size={20} className="text-accent" />}
-                          desc="Conception de logiciels métiers et applications spécifiques à vos besoins."
-                          isFullHeight
-                       />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
+              <div className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-violet-500/10 hover:border-violet-500/30 transition-all duration-500 cursor-pointer flex flex-col overflow-hidden min-h-[420px] shadow-2xl shadow-black/20">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-violet-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                  <div className="p-3 rounded-2xl bg-violet-500/20 text-violet-300">
+                    <Film size={24} />
                   </div>
+                  <h4 className="text-xl font-bold text-textPrimary">Production Vidéo & Création Multimédia</h4>
+                </div>
+                <div className="text-[15px] text-white/80 leading-relaxed mb-4 relative z-10">Tout ce qui concerne la réalisation et la post‑production.</div>
+                <div className="relative z-10 space-y-3 border-t border-white/5 mt-2 pt-4">
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium">
+                    <Check size={18} className="text-violet-300 mt-0.5" />
+                    <span>Montage vidéo</span>
+                  </div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium">
+                    <Check size={18} className="text-violet-300 mt-0.5" />
+                    <span>Étalonnage</span>
+                  </div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium">
+                    <Check size={18} className="text-violet-300 mt-0.5" />
+                    <span>Motion design</span>
+                  </div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium">
+                    <Check size={18} className="text-violet-300 mt-0.5" />
+                    <span>Intégration vidéo dans les supports web ou marketing</span>
+                  </div>
+                </div>
+                <button className="relative z-10 self-center mt-auto pt-6 text-violet-300 text-xs md:text-sm font-medium underline underline-offset-4 decoration-violet-300/30 hover:decoration-violet-300 transition-colors">
+                  Découvrir
+                </button>
               </div>
-
+              <div className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all duration-500 cursor-pointer flex flex-col overflow-hidden min-h-[420px] shadow-2xl shadow-black/20">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-pink-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                  <div className="p-3 rounded-2xl bg-pink-500/20 text-pink-300">
+                    <Palette size={24} />
+                  </div>
+                  <h4 className="text-xl font-bold text-textPrimary">Identité Visuelle (Branding)</h4>
+                </div>
+                <div className="text-[15px] text-white/80 leading-relaxed mb-4 relative z-10">Tout ce qui définit l’image de marque.</div>
+                <div className="relative z-10 space-y-3 border-t border-white/5 mt-2 pt-4">
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-pink-300 mt-0.5" /><span>Création de logo</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-pink-300 mt-0.5" /><span>Direction artistique (charte, couleurs, typographies)</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-pink-300 mt-0.5" /><span>Templates réseaux sociaux</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-pink-300 mt-0.5" /><span>Signature mail</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-pink-300 mt-0.5" /><span>Supports physiques: cartes, flyers, affiches, kakemonos, brochures</span></div>
+                </div>
+                <button className="relative z-10 self-center mt-auto pt-6 text-pink-300 text-xs md:text-sm font-medium underline underline-offset-4 decoration-pink-300/30 hover:decoration-pink-300 transition-colors">Découvrir</button>
+              </div>
+              <div className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-sky-500/10 hover:border-sky-500/30 transition-all duration-500 cursor-pointer flex flex-col overflow-hidden min-h-[420px] shadow-2xl shadow-black/20">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-sky-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                  <div className="p-3 rounded-2xl bg-sky-500/20 text-sky-300">
+                    <Monitor size={24} />
+                  </div>
+                  <h4 className="text-xl font-bold text-textPrimary">Présence Digitale (Web & SEO)</h4>
+                </div>
+                <div className="text-[15px] text-white/80 leading-relaxed mb-4 relative z-10">Tout ce qui sert à exister en ligne.</div>
+                <div className="relative z-10 space-y-3 border-t border-white/5 mt-2 pt-4">
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-sky-300 mt-0.5" /><span>Création de site web</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-sky-300 mt-0.5" /><span>Refonte de site</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-sky-300 mt-0.5" /><span>Intégration et mise en valeur des vidéos/photos drone</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-sky-300 mt-0.5" /><span>Optimisation SEO</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-sky-300 mt-0.5" /><span>Analyse et optimisation de visibilité (Google Business Profile…)</span></div>
+                </div>
+                <button className="relative z-10 self-center mt-auto pt-6 text-sky-300 text-xs md:text-sm font-medium underline underline-offset-4 decoration-sky-300/30 hover:decoration-sky-300 transition-colors">Découvrir</button>
+              </div>
+              <div className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all duration-500 cursor-pointer flex flex-col overflow-hidden min-h-[420px] shadow-2xl shadow-black/20">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                  <div className="p-3 rounded-2xl bg-emerald-500/20 text-emerald-300">
+                    <Share2 size={24} />
+                  </div>
+                  <h4 className="text-xl font-bold text-textPrimary">Réseaux Sociaux & Contenu</h4>
+                </div>
+                <div className="text-[15px] text-white/80 leading-relaxed mb-4 relative z-10">Ce qui concerne la présence sociale et le contenu en continu.</div>
+                <div className="relative z-10 space-y-3 border-t border-white/5 mt-2 pt-4">
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Création d’Instagram / Facebook / TikTok</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Mise en place du branding sur les réseaux</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Templates éditoriaux</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Stratégie social media</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Création de contenu photo/vidéo (drone + au sol)</span></div>
+                  <div className="flex gap-3 text-[15px] text-white/90 leading-relaxed font-medium"><Check size={18} className="text-emerald-300 mt-0.5" /><span>Montage vidéo (courts formats, reels, corporate)</span></div>
+                </div>
+                <button className="relative z-10 self-center mt-auto pt-6 text-emerald-300 text-xs md:text-sm font-medium underline underline-offset-4 decoration-emerald-300/30 hover:decoration-emerald-300 transition-colors">Découvrir</button>
+              </div>
             </div>
           </div>
         </Reveal>
