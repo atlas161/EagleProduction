@@ -61,7 +61,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
             }}
             className="text-accent hover:text-accent/80 font-medium px-4 py-2 transition-colors"
           >
-            Studio digital & solutions IT
+            Services complémentaires
           </button>
         </div>
       </div>
