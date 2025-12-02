@@ -2,9 +2,10 @@
 import React, { useState, ReactElement } from 'react';
 import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, PenTool, Palette, Terminal, LayoutTemplate, Search, RefreshCw, Share2, Wrench, GraduationCap, AppWindow, ShieldCheck, X } from 'lucide-react';
 import { Reveal } from './Reveal';
-import essentielImg from '../media/images_formules/essentiel.png';
-import altitudeImg from '../media/images_formules/altitude.png';
-import horizonImg from '../media/images_formules/horizon.png';
+import essentielImg from '../media/images_formules/Essentiel.webp';
+import altitudeImg from '../media/images_formules/Altitude.webp';
+import horizonImg from '../media/images_formules/Horizon.webp';
+
 
 export const Services: React.FC = () => {
   const [showExtras, setShowExtras] = useState(false);
@@ -38,7 +39,7 @@ export const Services: React.FC = () => {
             {/* Certification Badge */}
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent font-medium text-sm hover:bg-accent/20 transition-colors cursor-default shadow-[0_0_15px_rgba(212,175,55,0.1)]">
               <ShieldCheck size={18} />
-              <span>Vols opérés par télépilote certifié (diplômé d'État)</span>
+              <span>Vols opérés par télépilote certifié (diplômé d'état)</span>
             </div>
           </Reveal>
         </div>
@@ -53,8 +54,7 @@ export const Services: React.FC = () => {
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 35%' }} />
-                <div className="absolute inset-0 bg-black/50"></div>
-                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
@@ -62,7 +62,7 @@ export const Services: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Essentiel</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed mb-8">
+              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
                 Images drone brutes de haute qualité, prêtes pour votre post‑production.
               </p>
               
@@ -109,8 +109,7 @@ export const Services: React.FC = () => {
               <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <img src={altitudeImg} alt="Altitude" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} />
-                <div className="absolute inset-0 bg-black/50"></div>
-                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
@@ -118,7 +117,7 @@ export const Services: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Altitude</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed mb-8">
+              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
                 Vidéo montée sur mesure, immersive et prête à publier sur vos canaux.
               </p>
               
@@ -173,9 +172,8 @@ export const Services: React.FC = () => {
               className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} />
-                <div className="absolute inset-0 bg-black/50"></div>
-                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
+                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '70% 60%' }} />
+                <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
@@ -183,7 +181,7 @@ export const Services: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-textPrimary">Horizon</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed mb-8">
+              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
                 Réalisation complète: écriture, tournage et montage pour un rendu cinéma.
               </p>
               

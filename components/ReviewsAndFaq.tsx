@@ -43,15 +43,15 @@ const FAQ_ITEMS = [
   },
   {
     question: "Quelle est la qualité des vidéos et photos livrées (4K, RAW) ?",
-    answer: "Nous utilisons des drones de dernière génération capables de filmer en 4K, voire 5.4K, offrant une qualité cinéma. Pour la photographie, nous livrons des fichiers en haute définition et en format RAW (brut) ou JPEG retouché, idéal pour l'impression grand format ou l'intégration sur votre site web."
+    answer: "Nous utilisons des drones de dernière génération capables de filmer en 4K, voire 6K, offrant une qualité cinéma. Pour la photographie, nous livrons des fichiers en haute définition et en format RAW (brut) ou JPEG retouché, idéal pour l'impression grand format ou l'intégration sur votre site web."
   },
   {
-    question: "Intervenez-vous pour l'immobilier ou le suivi de chantier ?",
-    answer: "Oui, nous sommes spécialisés dans la mise en valeur immobilière (prises de vues de toitures, grands domaines, villas) pour accélérer vos ventes. Nous réalisons également des missions de suivi de chantier et d'inspection technique pour le secteur du BTP, permettant de visualiser l'avancement des travaux sous des angles inédits."
+    question: "Dans quels secteurs et pour quels types de projets intervenez-vous\u00A0?",
+    answer: "Chez Eagle Production, nous pouvons intervenir dans de nombreux domaines : immobilier, suivi de chantier, associatif, sportif, événementiel et bien d’autres.\nNos prestations couvrent aussi bien la vidéo, la photo, que des relevés visuels ou observations techniques pour accompagner vos projets.\nBref, dans chaque métier, chaque domaine et chaque projet, un drone peut être un précieux allié."
   },
   {
-    question: "Assurez-vous le montage vidéo après le tournage ?",
-    answer: "Tout à fait. Eagle Production n'est pas seulement une société de drones, c'est une agence de production complète. Nous prenons en charge la post-production : montage dynamique, étalonnage des couleurs (color grading), ajout de musique libre de droits et incrustation de votre logo pour un rendu clé en main."
+    question: "Quelles sont les contraintes météorologiques pour un tournage aérien ?",
+    answer: "Pour garantir des images stables et la sécurité du matériel, nous ne volons pas sous la pluie ou par vents violents (généralement supérieurs à 30-40 km/h). Nous surveillons la météo en temps réel. En cas de mauvaises conditions, la séance de prise de vue aérienne est reportée sans frais supplémentaires à une date ultérieure."
   },
   {
     question: "Quel est le processus typique pour la création de mon identité visuelle ou de mon site web ?",
@@ -237,7 +237,7 @@ export const ReviewsAndFaq: React.FC = () => {
                             onClick={() => toggleFaq(index)}
                             className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
                         >
-                            <span className={`font-semibold pr-4 transition-colors ${
+                            <span className={`font-semibold pr-4 transition-colors [text-wrap:balance] ${
                             openIndex === index ? 'text-accent' : 'text-white'
                             }`}>
                             {item.question}

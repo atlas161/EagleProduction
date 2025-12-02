@@ -117,7 +117,7 @@ export const Coverage: React.FC = () => {
             className: 'city-label-container',
             html: labelHtml,
             iconSize: [100, 20],
-            iconAnchor: [-10, 10] // Décalage pour mettre le texte à droite du point
+            iconAnchor: [50, 35] // Centré horizontalement (50) et décalé vers le haut (35 > 20) pour être bien au-dessus
           });
 
           L.marker([city.lat, city.lng], { icon: labelIcon, zIndexOffset: 900 }).addTo(map);
@@ -310,6 +310,10 @@ export const Coverage: React.FC = () => {
         }
 
         /* City Labels Style */
+        .city-label-container {
+            background: transparent !important;
+            border: none !important;
+        }
         .city-label {
             font-family: 'SF Mono', 'Roboto Mono', monospace;
             font-size: 10px;
@@ -319,6 +323,10 @@ export const Coverage: React.FC = () => {
             white-space: nowrap;
             display: flex;
             align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
             gap: 4px;
         }
         .city-label.hq {

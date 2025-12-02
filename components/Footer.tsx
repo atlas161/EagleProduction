@@ -45,8 +45,9 @@ export const Footer: React.FC = () => {
                   <img src={eagleBeige} alt="Eagle Production" className="h-10 w-auto" />
               </div>
               <p className="text-textSecondary max-w-sm mb-6 leading-relaxed">
-                  Solutions de drone ayant une qualité cinéma et studio digital. 
-                  Nous donnons de la hauteur à vos projets et de la visibilité à votre image.
+                  Solutions drones à la qualité cinéma, alliées à un studio digital dédié.<br/>
+                  Nous donnons de la hauteur à vos projets et renforçons la visibilité de votre image, 
+                  grâce à des prises de vue aux drones précises et un accompagnement créatif global pour sublimer vos projets.
               </p>
             </div>
 

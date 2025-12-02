@@ -53,13 +53,17 @@ export const About: React.FC = () => {
             <Reveal delay={300}>
                 <div className="text-center lg:text-left space-y-4">
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        Fondé par Paul Bardin et basé à Angoulême, <strong className="text-white">Eagle Production</strong> est née d'une passion pour le pilotage et l'image.
+                        J’ai fondé <strong className="text-white">Eagle Production</strong> à 23 ans, poussé par une passion profonde pour le pilotage et la création de vidéos. Cette passion m’a naturellement conduit à devenir <strong className="text-white">télépilote certifié et diplômé</strong>, et à transformer ce savoir-faire en un véritable projet professionnel.
                     </p>
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        Plus qu'une simple prestation de drone, je vous propose une <strong className="text-white">production audiovisuelle complète</strong> (sol, montage, étalonnage). 
+                        <strong className="text-white">Eagle Production est né de cette envie : capturer le monde sous un autre angle, raconter des histoires, et offrir des images uniques.</strong>
                     </p>
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        Que vous soyez une entreprise, une agence immo ou un particulier, ma philosophie est simple : apporter une <span className="text-white underline decoration-accent/50 underline-offset-4">qualité cinéma</span>, de la modernité et de l'émotion, le tout à un tarif accessible.
+                        Notre objectif chez Eagle Production est clair : <strong className="text-white">intervenir dans un maximum de domaines.</strong> <br/>
+                        Qu’il s’agisse d’<strong className="text-white">événements</strong>, de <strong className="text-white">sport</strong>, de <strong className="text-white">construction</strong>, de <strong className="text-white">tourisme</strong>, de <strong className="text-white">projets artistiques</strong>, et bien <strong className="text-white">d’autres domaines encore</strong>, nous voulons <strong className="text-white">toucher un maximum de métiers et d’univers différents.</strong>
+                    </p>
+                    <p className="text-textSecondary text-base md:text-lg leading-relaxed">
+                        Parce que la créativité n’a pas de limites, et parce que le drone (tout comme la vidéo) permet d’explorer des perspectives nouvelles, <strong className="text-white">Eagle Production a été pensé pour s’adapter à tous les besoins</strong> et intervenir partout où une vision aérienne ou créative peut faire la différence.
                     </p>
                 </div>
             </Reveal>
