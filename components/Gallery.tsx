@@ -10,8 +10,27 @@ export const Gallery: React.FC = () => {
     script.async = true;
     document.body.appendChild(script);
 
+    // Observer pour injecter data-lenis-prevent sur les popups Elfsight qui s'ouvrent dans le body
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node instanceof HTMLElement) {
+                    // Vérifier si c'est une popup Elfsight (souvent préfixée par eapps- ou elfsight-)
+                    if (node.className && typeof node.className === 'string' && (node.className.includes('eapps-') || node.className.includes('elfsight-'))) {
+                        node.setAttribute('data-lenis-prevent', 'true');
+                    }
+                    // Recherche aussi en profondeur si le nœud ajouté contient la popup
+                    const popups = node.querySelectorAll('[class*="eapps-"], [class*="elfsight-"]');
+                    popups.forEach(popup => popup.setAttribute('data-lenis-prevent', 'true'));
+                }
+            });
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
     return () => {
-      // Nettoyage optionnel
+      observer.disconnect();
       // document.body.removeChild(script);
     };
   }, []);
@@ -34,7 +53,11 @@ export const Gallery: React.FC = () => {
 
       {/* Widget Elfsight */}
       <Reveal>
-        <div className="elfsight-app-272cf2dc-4aec-40b8-b83e-7e0b2389f8b7" data-elfsight-app-lazy></div>
+        <div 
+            className="elfsight-app-272cf2dc-4aec-40b8-b83e-7e0b2389f8b7 overscroll-contain" 
+            data-elfsight-app-lazy 
+            data-lenis-prevent
+        ></div>
       </Reveal>
     </div>
   );

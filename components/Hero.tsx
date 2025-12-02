@@ -67,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
         if (!userInteractedRef.current && !isVideoOpen && window.scrollY < 20) {
             handleOpenVideo();
         }
-    }, 6000); 
+    }, 60000); 
     return () => clearTimeout(timer);
   }, [isVideoOpen]);
 
