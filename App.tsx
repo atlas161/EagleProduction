@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Lenis from 'lenis';
+import React, { useState, useEffect } from 'react';
 import { ChevronUp } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import './index.css';
@@ -22,7 +21,6 @@ function App() {
   const [activeSection, setActiveSection] = useState<Section>(Section.HERO);
   const [isLoading, setIsLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const lenisRef = useRef<any>(null);
   const [isNavigating, setIsNavigating] = useState(false);
 
   // Gestion du chargement initial (Preloader)
@@ -64,16 +62,10 @@ function App() {
 
       setIsNavigating(true);
       
-      const lenis = lenisRef.current;
-      if (lenis) {
-        // Lenis gère le smooth scroll avec un offset négatif pour remonter un peu
-        lenis.scrollTo(el, { offset: -offset, immediate: false, lock: true, duration: 1.2 });
-      } else {
-        // Fallback natif
-        const rectTop = el.getBoundingClientRect().top + window.scrollY;
-        const targetY = rectTop - offset;
-        window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
-      }
+      // Scroll natif standard
+      const rectTop = el.getBoundingClientRect().top + window.scrollY;
+      const targetY = rectTop - offset;
+      window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
       
       setActiveSection(sectionId);
       window.setTimeout(() => setIsNavigating(false), 800);
@@ -85,15 +77,12 @@ function App() {
     const next = current?.nextElementSibling as HTMLElement | null;
     if (next) {
       const offset = 100;
-      const lenis = lenisRef.current;
       setIsNavigating(true);
-      if (lenis) {
-        lenis.scrollTo(next, { offset: -offset, immediate: false, lock: true, duration: 1.2 });
-      } else {
-        const rectTop = next.getBoundingClientRect().top + window.scrollY;
-        const targetY = rectTop - offset;
-        window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
-      }
+      
+      const rectTop = next.getBoundingClientRect().top + window.scrollY;
+      const targetY = rectTop - offset;
+      window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
+      
       const nextId = next.id as Section;
       if (nextId) setActiveSection(nextId);
       window.setTimeout(() => setIsNavigating(false), 800);
@@ -120,23 +109,6 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const lenis = new (Lenis as any)({
-      duration: 1.1,
-      easing: (t: number) => 1 - Math.pow(1 - t, 3),
-      smoothWheel: true,
-      smoothTouch: true,
-    });
-    lenisRef.current = lenis;
-    let rafId: number;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    };
-    rafId = requestAnimationFrame(raf);
-    return () => cancelAnimationFrame(rafId);
   }, []);
 
   return (
@@ -187,12 +159,7 @@ function App() {
           <button
             onClick={() => {
               setIsNavigating(true);
-              const lenis = lenisRef.current as any;
-              if (lenis) {
-                lenis.scrollTo(0, { immediate: false, lock: true, duration: 1 });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
               window.setTimeout(() => setIsNavigating(false), 800);
             }}
             className="fixed bottom-6 right-6 z-50 bg-black/60 text-white border border-white/10 backdrop-blur-md p-3 rounded-full hover:bg-black/80 transition-colors shadow-lg"

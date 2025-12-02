@@ -18,6 +18,8 @@ export const About: React.FC = () => {
                     <img 
                         src="/Photo_de_paul_bardin.jpg" 
                         alt="Paul Bardin Pilote Drone" 
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
                     

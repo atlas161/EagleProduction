@@ -39,16 +39,7 @@ const REVIEWS = [
 const FAQ_ITEMS = [
   {
     question: "Vos pilotes de drone sont-ils agréés et respectez-vous la réglementation ?",
-    answer: "Absolument. Chez Eagle Production, la sécurité est notre priorité. Nos pilotes sont agréés par la DGAC (Direction Générale de l'Aviation Civile) et disposent de tous les brevets nécessaires pour opérer en scénarios S1, S2 et S3. Nous nous occupons de toutes les démarches administratives et demandes d'autorisations de vol (préfectures, mairies) avant chaque mission."
-  },
-  {
-    question: "Quel est le tarif d'une prestation de vidéo par drone ?",
-    answer: "Chaque projet est unique. Le tarif d'une prestation drone varie selon la durée du tournage, la complexité du scénario de vol et la localisation (zone urbaine ou rurale). Nous proposons des forfaits adaptés aux agences immobilières, aux entreprises du BTP et pour l'événementiel. Contactez-nous pour obtenir un devis personnalisé et gratuit sous 24h.",
-    hasLink: true
-  },
-  {
-    question: "Quelles sont les contraintes météorologiques pour un tournage aérien ?",
-    answer: "Pour garantir des images stables et la sécurité du matériel, nous ne volons pas sous la pluie ou par vents violents (généralement supérieurs à 30-40 km/h). Nous surveillons la météo en temps réel. En cas de mauvaises conditions, la séance de prise de vue aérienne est reportée sans frais supplémentaires à une date ultérieure."
+    answer: "Absolument. Chez Eagle Production, la sécurité est notre priorité. Nos pilotes sont agréés par la DGAC (Direction Générale de l'Aviation Civile) et disposent de tous les brevets nécessaires pour opérer en scénarios STS01 et STS02. Nous nous occupons de toutes les démarches administratives et demandes d'autorisations de vol (préfectures, mairies) avant chaque mission."
   },
   {
     question: "Quelle est la qualité des vidéos et photos livrées (4K, RAW) ?",
@@ -61,6 +52,14 @@ const FAQ_ITEMS = [
   {
     question: "Assurez-vous le montage vidéo après le tournage ?",
     answer: "Tout à fait. Eagle Production n'est pas seulement une société de drones, c'est une agence de production complète. Nous prenons en charge la post-production : montage dynamique, étalonnage des couleurs (color grading), ajout de musique libre de droits et incrustation de votre logo pour un rendu clé en main."
+  },
+  {
+    question: "Quel est le processus typique pour la création de mon identité visuelle ou de mon site web ?",
+    answer: "Notre processus se déroule en 4 phases :\nDécouverte & Stratégie : Échange initial pour définir vos objectifs, vos cibles et votre positionnement.\nConception : Création des maquettes, du design, de la charte graphique et du contenu (photos/vidéos incluses si besoin).\nDéveloppement & Validation : Intégration du site, développement des fonctionnalités ou finalisation des supports.\nLancement & Formation : Mise en ligne du site, livraison des fichiers et formation à l'utilisation si nécessaire."
+  },
+  {
+    question: "Mon site sera-t-il vraiment conforme aux normes actuelles (RGPD) et sécurisé contre les failles ?",
+    answer: "Oui, c'est une priorité absolue. Nous intégrons dès la conception la conformité RGPD (gestion des cookies, politiques de confidentialité) et la sécurité technique (certificats SSL, pare-feux). Votre site est livré sur une base solide et à jour. De plus, nos services de Maintenance sont disponibles pour assurer la sécurité et la conformité sur le long terme (mises à jour, sauvegardes et surveillance active)."
   }
 ];
 
@@ -78,13 +77,6 @@ export const ReviewsAndFaq: React.FC = () => {
 
   const prevReview = () => {
     setCurrentReviewIndex((prev) => (prev - 1 + REVIEWS.length) % REVIEWS.length);
-  };
-
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   // Génération du schéma JSON-LD pour la FAQ
@@ -133,8 +125,8 @@ export const ReviewsAndFaq: React.FC = () => {
                         {/* Glow Effect */}
                         <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-transparent rounded-[2rem] blur-lg opacity-30 group-hover:opacity-60 transition duration-700"></div>
 
-                        {/* Card Container - REDUCED HEIGHT to h-[320px] */}
-                        <div className="relative bg-[#111111] border border-white/10 p-8 rounded-[1.8rem] h-[320px] flex flex-col shadow-2xl transition-all">
+                        {/* Card Container - RESPONSIVE HEIGHT */}
+                        <div className="relative bg-[#111111] border border-white/10 p-8 rounded-[1.8rem] h-[450px] md:h-[320px] flex flex-col shadow-2xl transition-all">
                             
                             {/* Decorative Quote - Smaller Size */}
                             <Quote className="absolute top-6 right-6 text-white/5 w-16 h-16 transform rotate-180 transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110" />
@@ -147,8 +139,8 @@ export const ReviewsAndFaq: React.FC = () => {
                                     ))}
                                 </div>
                                 
-                                {/* Review Content - Flexible height with scroll */}
-                                <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pr-2 mb-4">
+                                {/* Review Content - Fixed height container with scroll if needed */}
+                                <div className="flex-1 min-h-0 overflow-y-auto pr-2 mb-4">
                                     <div key={activeReview.id} className="animate-fade-in">
                                         <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light italic tracking-wide font-serif">
                                             "{activeReview.content}"
@@ -262,16 +254,8 @@ export const ReviewsAndFaq: React.FC = () => {
                             openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                             }`}
                         >
-                            <div className="p-5 pt-0 text-textSecondary text-sm leading-relaxed border-t border-white/5 mt-2">
+                            <div className="p-5 pt-0 text-textSecondary text-sm leading-relaxed border-t border-white/5 mt-2 whitespace-pre-line">
                             {item.answer}
-                            {item.hasLink && (
-                                <span 
-                                onClick={(e) => { e.stopPropagation(); scrollToContact(); }}
-                                className="text-accent hover:text-white cursor-pointer ml-1 font-medium underline decoration-accent/30 underline-offset-4 hover:decoration-white transition-all"
-                                >
-                                Contactez-nous
-                                </span>
-                            )}
                             </div>
                         </div>
                         </div>

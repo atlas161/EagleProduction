@@ -68,7 +68,7 @@ export const Contact: React.FC = () => {
                         </div>
                         <div>
                             <div className="text-xs text-textSecondary tracking-wider mb-1 group-hover:text-white transition-colors">Localisation</div>
-                            <div className="text-xl font-medium text-white">Angoulême (16) & Grand Ouest</div>
+                            <div className="text-xl font-medium text-white">Angoulême (16)</div>
                         </div>
                     </div>
                 </div>

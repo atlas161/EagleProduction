@@ -367,7 +367,7 @@ export const Coverage: React.FC = () => {
                   <Target size={14} className="text-accent" />
                   Secteurs prioritaires
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 mb-6">
                     {DEPARTMENTS.map((dep) => {
                         const isActive = activeDep === dep.code;
                         return (
@@ -393,10 +393,17 @@ export const Coverage: React.FC = () => {
                     })}
                 </div>
                 
-                <div className="mt-6 pt-4 border-t border-white/5">
-                   <p className="text-xs text-textSecondary italic opacity-80">
-                      * Interventions possibles sur d'autres zones géographiques sur demande.
-                   </p>
+                {/* Autres zones - Mis en avant */}
+                <div className="bg-accent/5 border border-accent/20 rounded-xl p-3 flex items-start gap-3">
+                    <div className="bg-accent/10 p-1.5 rounded-md shrink-0 mt-0.5">
+                         <Globe size={14} className="text-accent" />
+                    </div>
+                    <div>
+                        <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-0.5">Hors Zone</h4>
+                        <p className="text-xs text-textSecondary leading-relaxed">
+                           Interventions possibles sur toute la France et à l'étranger sur étude de dossier.
+                        </p>
+                    </div>
                 </div>
              </div>
           </Reveal>
