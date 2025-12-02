@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { ChevronUp } from 'lucide-react';
+import 'leaflet/dist/leaflet.css';
+import './index.css';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
@@ -55,32 +57,24 @@ function App() {
     };
     const targetId = anchorMap[sectionId];
     const el = (targetId && document.getElementById(targetId)) || document.getElementById(sectionId);
+    
     if (el) {
-      const nav = document.querySelector('nav') as HTMLElement | null;
-      const navFinalHeight = (nav?.getBoundingClientRect().height) || 80;
-      const sectionOffsets: Partial<Record<Section, number>> = {
-        [Section.GALLERY]: 60,
-        [Section.ZONE]: 60,
-        [Section.ABOUT]: -10,
-      };
-      const extra = sectionOffsets[sectionId] ?? 0;
+      // Hauteur de sécurité fixe pour la navbar + un peu d'espace
+      const offset = 120; 
 
       setIsNavigating(true);
-      console.debug('[scrollToSection]', {
-        sectionId,
-        targetId,
-        navHeight: navFinalHeight,
-        extra,
-      });
+      
       const lenis = lenisRef.current;
       if (lenis) {
-        lenis.scrollTo(el, { offset: -(navFinalHeight) + extra, immediate: false, lock: true, duration: 1 });
+        // Lenis gère le smooth scroll avec un offset négatif pour remonter un peu
+        lenis.scrollTo(el, { offset: -offset, immediate: false, lock: true, duration: 1.2 });
       } else {
+        // Fallback natif
         const rectTop = el.getBoundingClientRect().top + window.scrollY;
-        const targetY = rectTop - navFinalHeight + extra;
-        console.debug('[scrollToSection:fallback]', { rectTop, targetY });
+        const targetY = rectTop - offset;
         window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
       }
+      
       setActiveSection(sectionId);
       window.setTimeout(() => setIsNavigating(false), 800);
     }
@@ -90,15 +84,14 @@ function App() {
     const current = document.getElementById(Section.HERO);
     const next = current?.nextElementSibling as HTMLElement | null;
     if (next) {
-      const nav = document.querySelector('nav') as HTMLElement | null;
-      const navFinalHeight = (nav?.getBoundingClientRect().height) || 80;
+      const offset = 100;
       const lenis = lenisRef.current;
       setIsNavigating(true);
       if (lenis) {
-        lenis.scrollTo(next, { offset: -(navFinalHeight), immediate: false, lock: true, duration: 1 });
+        lenis.scrollTo(next, { offset: -offset, immediate: false, lock: true, duration: 1.2 });
       } else {
         const rectTop = next.getBoundingClientRect().top + window.scrollY;
-        const targetY = rectTop - navFinalHeight;
+        const targetY = rectTop - offset;
         window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
       }
       const nextId = next.id as Section;

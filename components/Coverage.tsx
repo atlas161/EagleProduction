@@ -2,12 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Reveal } from './Reveal';
 import { Navigation, Globe, MapPin, Target, Scan, Wifi } from 'lucide-react';
-
-declare global {
-  interface Window {
-    L: any;
-  }
-}
+import L from 'leaflet';
 
 interface Department {
   code: string;
@@ -51,13 +46,13 @@ export const Coverage: React.FC = () => {
 
   // Initialisation de la carte
   useEffect(() => {
-    if (!window.L || !mapRef.current || mapInstance.current) return;
+    if (!mapRef.current || mapInstance.current) return;
 
     const controller = new AbortController();
     let cancelled = false;
 
     try {
-        const map = window.L.map(mapRef.current, {
+        const map = L.map(mapRef.current, {
           center: [45.8, 0.5], // Centre approximatif zone
           zoom: 7,
           zoomControl: false,
@@ -73,7 +68,7 @@ export const Coverage: React.FC = () => {
         mapInstance.current = map;
 
         // Fond de carte Dark Matter (très sombre pour contraste HUD)
-        window.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
           subdomains: 'abcd',
           maxZoom: 19,
           opacity: 1
@@ -82,7 +77,7 @@ export const Coverage: React.FC = () => {
         // --- MARQUEUR SONAR (QG) ---
         // On utilise un Custom Icon pour faire l'effet d'onde CSS
         // Correction de l'ancrage pour être parfaitement centré sur Angoulême
-        const sonarIcon = window.L.divIcon({
+        const sonarIcon = L.divIcon({
             className: 'sonar-icon-wrapper', // Wrapper sans taille définie pour éviter les décalages
             html: `
               <div class="sonar-container">
@@ -97,14 +92,14 @@ export const Coverage: React.FC = () => {
 
         const hqCity = CITIES.find(c => c.isHQ);
         if (hqCity) {
-            window.L.marker([hqCity.lat, hqCity.lng], { icon: sonarIcon, zIndexOffset: 1000 }).addTo(map);
+            L.marker([hqCity.lat, hqCity.lng], { icon: sonarIcon, zIndexOffset: 1000 }).addTo(map);
         }
 
         // --- VILLES ET LABELS ---
         CITIES.forEach(city => {
           // 1. Le point physique (Petit dot)
           if (!city.isHQ) {
-            window.L.circleMarker([city.lat, city.lng], {
+            L.circleMarker([city.lat, city.lng], {
               radius: 2,
               fillColor: '#FFFFFF',
               color: '#000',
@@ -118,25 +113,20 @@ export const Coverage: React.FC = () => {
             ? `<div class="city-label hq">${city.name.toUpperCase()}</div>`
             : `<div class="city-label">${city.name.toUpperCase()}</div>`;
 
-          const labelIcon = window.L.divIcon({
+          const labelIcon = L.divIcon({
             className: 'city-label-container',
             html: labelHtml,
             iconSize: [100, 20],
             iconAnchor: [-10, 10] // Décalage pour mettre le texte à droite du point
           });
 
-          window.L.marker([city.lat, city.lng], { icon: labelIcon, zIndexOffset: 900 }).addTo(map);
+          L.marker([city.lat, city.lng], { icon: labelIcon, zIndexOffset: 900 }).addTo(map);
         });
 
         fetch('/departements-version-simplifiee.geojson', { signal: controller.signal })
           .then(async response => {
             if (!response.ok) {
-              return fetch('https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson', { signal: controller.signal })
-                .then(async r2 => {
-                  if (!r2.ok) throw new Error(`HTTP error! status: ${r2.status}`);
-                  const t2 = await r2.text();
-                  return JSON.parse(t2);
-                });
+               throw new Error(`Erreur chargement GeoJSON local: ${response.status}`);
             }
             const text = await response.text();
             return JSON.parse(text);
@@ -148,7 +138,7 @@ export const Coverage: React.FC = () => {
             const targetFeatures = data.features.filter((f: any) => targetCodes.includes(f.properties.code));
             
             // Création de la couche GeoJSON
-            const geoJsonLayer = window.L.geoJSON(data, {
+            const geoJsonLayer = L.geoJSON(data, {
               style: (feature: any) => getFeatureStyle(feature, null),
               onEachFeature: (feature: any, layer: any) => {
                 const code = feature.properties.code;
@@ -170,7 +160,7 @@ export const Coverage: React.FC = () => {
             geoJsonLayer.bringToBack();
 
             // --- CADRAGE INSTANTANÉ ---
-            const targetLayer = window.L.geoJSON({ type: "FeatureCollection", features: targetFeatures });
+            const targetLayer = L.geoJSON({ type: "FeatureCollection", features: targetFeatures } as any);
             if (targetFeatures.length > 0) {
                // On zoome immédiatement et très fort sur la zone
                currentMap.fitBounds(targetLayer.getBounds(), {

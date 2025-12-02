@@ -1,9 +1,20 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Reveal } from './Reveal';
-import { Mail, Phone, Instagram, MapPin, Send, ChevronDown } from 'lucide-react';
+import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check } from 'lucide-react';
+import { Listbox, Transition } from '@headlessui/react';
+import clsx from 'clsx';
+
+const subjects = [
+  { id: 1, name: 'Demande de devis drone' },
+  { id: 2, name: 'Studio digital & web' },
+  { id: 3, name: 'Solution informatique' },
+  { id: 4, name: 'Autre' },
+];
 
 export const Contact: React.FC = () => {
+  const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-24">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
@@ -89,16 +100,57 @@ export const Contact: React.FC = () => {
                     
                      <div className="space-y-2">
                         <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Sujet</label>
-                        <div className="relative">
-                             <select className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer">
-                                <option className="bg-surface text-white">Demande de devis drone</option>
-                                <option className="bg-surface text-white">Studio digital & web</option>
-                                <option className="bg-surface text-white">Solution informatique</option>
-                                <option className="bg-surface text-white">Autre</option>
-                             </select>
-                             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-textSecondary">
-                                <ChevronDown size={18} />
-                             </div>
+                        <div className="relative z-20">
+                             <Listbox value={selectedSubject} onChange={setSelectedSubject}>
+                                <div className="relative mt-1">
+                                  <Listbox.Button className="relative w-full cursor-pointer bg-surface border border-white/10 rounded-xl py-3 pl-4 pr-10 text-left text-white focus:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm transition-colors">
+                                    <span className="block truncate">{selectedSubject.name}</span>
+                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                      <ChevronDown
+                                        className="h-5 w-5 text-textSecondary"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  </Listbox.Button>
+                                  <Transition
+                                    as={React.Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                  >
+                                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-surfaceHighlight border border-white/10 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm backdrop-blur-xl">
+                                      {subjects.map((subject, personIdx) => (
+                                        <Listbox.Option
+                                          key={personIdx}
+                                          className={({ active }) =>
+                                            `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
+                                              active ? 'bg-white/10 text-accent' : 'text-white'
+                                            }`
+                                          }
+                                          value={subject}
+                                        >
+                                          {({ selected }) => (
+                                            <>
+                                              <span
+                                                className={`block truncate ${
+                                                  selected ? 'font-medium text-accent' : 'font-normal'
+                                                }`}
+                                              >
+                                                {subject.name}
+                                              </span>
+                                              {selected ? (
+                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-accent">
+                                                  <Check className="h-5 w-5" aria-hidden="true" />
+                                                </span>
+                                              ) : null}
+                                            </>
+                                          )}
+                                        </Listbox.Option>
+                                      ))}
+                                    </Listbox.Options>
+                                  </Transition>
+                                </div>
+                              </Listbox>
                         </div>
                     </div>
 
