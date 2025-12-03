@@ -15,8 +15,8 @@ export const TechSpecs: React.FC = () => {
              {/* DJI LOGO HEADER */}
              <div className="flex items-center gap-5 mb-6 opacity-90">
                 <img src={djiLogo} alt="DJI" className="h-8 w-auto" />
-                <div className="h-4 w-[1px] bg-white/30"></div>
-                <span className="text-sm font-bold tracking-[0.3em] text-textSecondary uppercase">Flagship Series</span>
+                <div className="h-4 w-[1px] bg-accent/50"></div>
+                <span className="text-sm font-bold tracking-[0.3em] text-accent uppercase">Flagship Series</span>
              </div>
 
             <h2 id="tech-title" className="scroll-mt-20 text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight">

@@ -7,37 +7,7 @@ export const About: React.FC = () => {
     <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         
-        {/* Colonne Image / Visuel */}
-        <Reveal>
-            <div className="relative group max-w-md mx-auto lg:max-w-none">
-                {/* Cadre décoratif */}
-                <div className="absolute inset-0 border-2 border-accent/20 translate-x-2 translate-y-2 md:translate-x-4 md:translate-y-4 rounded-3xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1"></div>
-                
-                {/* Image Container - Plus compact sur mobile */}
-                <div className="relative rounded-3xl overflow-hidden aspect-square md:aspect-[4/5] bg-surfaceHighlight shadow-2xl">
-                    <img 
-                        src="/Photo_de_paul_bardin.jpg" 
-                        alt="Paul Bardin Pilote Drone" 
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                    />
-                    
-                    {/* Badge Overlay */}
-                    <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 p-3 md:p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 flex items-center gap-3 md:gap-4">
-                        <div className="bg-accent/20 p-2 rounded-lg text-accent">
-                            <MapPin size={20} className="md:w-6 md:h-6" />
-                        </div>
-                        <div>
-                            <div className="text-white font-bold text-xs md:text-sm">Basé à Angoulême</div>
-                            <div className="text-textSecondary text-[10px] md:text-xs">Intervention Nouvelle-Aquitaine</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Reveal>
-
-        {/* Colonne Texte */}
+        {/* Colonne gauche : Titre + Image */}
         <div className="space-y-6 md:space-y-8">
             <Reveal delay={200}>
                 <div className="flex items-center gap-3 mb-3 md:mb-4 justify-center lg:justify-start">
@@ -50,20 +20,52 @@ export const About: React.FC = () => {
                 </h2>
             </Reveal>
 
+            <Reveal>
+                <div className="relative group max-w-md mx-auto lg:max-w-none">
+                    {/* Cadre décoratif */}
+                    <div className="absolute inset-0 border-2 border-accent/20 translate-x-2 translate-y-2 md:translate-x-4 md:translate-y-4 rounded-3xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1"></div>
+                    
+                    {/* Image Container - Plus compact sur mobile */}
+                    <div className="relative rounded-3xl overflow-hidden aspect-square md:aspect-[4/5] bg-surfaceHighlight shadow-2xl">
+                        <img 
+                            src="/Photo_de_paul_bardin.jpg" 
+                            alt="Paul Bardin Pilote Drone" 
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                        />
+                        
+                        {/* Badge Overlay */}
+                        <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 p-3 md:p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 flex items-center gap-3 md:gap-4">
+                            <div className="bg-accent/20 p-2 rounded-lg text-accent">
+                                <MapPin size={20} className="md:w-6 md:h-6" />
+                            </div>
+                            <div>
+                                <div className="text-white font-bold text-xs md:text-sm">Basé à Angoulême</div>
+                                <div className="text-textSecondary text-[10px] md:text-xs">Intervention Nouvelle-Aquitaine</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Reveal>
+        </div>
+
+        {/* Colonne droite : Texte */}
+        <div className="space-y-6 md:space-y-8">
             <Reveal delay={300}>
                 <div className="text-center lg:text-left space-y-4">
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        J’ai fondé <strong className="text-white">Eagle Production</strong> à 23 ans, poussé par une passion profonde pour le pilotage et la création de vidéos. Cette passion m’a naturellement conduit à devenir <strong className="text-white">télépilote certifié et diplômé</strong>, et à transformer ce savoir-faire en un véritable projet professionnel.
+                        J’ai fondé <strong className="text-white">Eagle Production</strong> à 23 ans, poussé par une passion profonde pour le pilotage et la <strong className="text-white">création de vidéos</strong>. Cette passion m’a naturellement conduit à devenir <strong className="text-white">télépilote certifié et diplômé</strong>, et à transformer ce savoir-faire en un véritable projet professionnel.
                     </p>
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        <strong className="text-white">Eagle Production est né de cette envie : capturer le monde sous un autre angle, raconter des histoires, et offrir des images uniques.</strong>
+                        Eagle Production est né de cette envie : capturer le monde sous un autre angle, raconter des histoires, et offrir des images uniques.
                     </p>
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        Notre objectif chez Eagle Production est clair : <strong className="text-white">intervenir dans un maximum de domaines.</strong> <br/>
-                        Qu’il s’agisse d’<strong className="text-white">événements</strong>, de <strong className="text-white">sport</strong>, de <strong className="text-white">construction</strong>, de <strong className="text-white">tourisme</strong>, de <strong className="text-white">projets artistiques</strong>, et bien <strong className="text-white">d’autres domaines encore</strong>, nous voulons <strong className="text-white">toucher un maximum de métiers et d’univers différents.</strong>
+                        Notre objectif chez Eagle Production est clair : intervenir dans un maximum de domaines.<br/>
+                        Qu’il s’agisse <strong className="text-white">d’événements</strong>, de <strong className="text-white">sport</strong>, de <strong className="text-white">construction</strong>, de <strong className="text-white">tourisme</strong>, de projets artistiques, et bien d’autres domaines encore, nous voulons toucher un maximum de métiers et d’univers différents.
                     </p>
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
-                        Parce que la créativité n’a pas de limites, et parce que le drone (tout comme la vidéo) permet d’explorer des perspectives nouvelles, <strong className="text-white">Eagle Production a été pensé pour s’adapter à tous les besoins</strong> et intervenir partout où une vision aérienne ou créative peut faire la différence.
+                        Parce que la créativité n’a pas de limites, et parce que le <strong className="text-white">drone</strong> (tout comme la vidéo) permet d’explorer des perspectives nouvelles, Eagle Production a été pensé pour <strong className="text-white">s’adapter à tous les besoins</strong> et intervenir partout où une vision aérienne ou créative peut faire la différence.
                     </p>
                 </div>
             </Reveal>

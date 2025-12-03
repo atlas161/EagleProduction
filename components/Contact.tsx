@@ -21,6 +21,7 @@ export const Contact: React.FC = () => {
         {/* Left Column: Info & Details */}
         <div className="flex flex-col justify-center">
             <Reveal>
+                <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Contact</span>
                 <h2 id="contact-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-6">Parlons de votre projet</h2>
                 <p className="text-textSecondary text-lg mb-12 leading-relaxed">
                     Une idée ? Un besoin spécifique ? <br/>
