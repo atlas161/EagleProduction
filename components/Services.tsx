@@ -354,7 +354,7 @@ export const Services: React.FC = () => {
                     </ul>
                   </div>
                   {/* Colonne droite */}
-                  <div className="shrink-0 flex flex-col items-end gap-4">
+                  <div className="shrink-0 flex flex-col items-start md:items-end gap-4">
                     <div className="flex items-baseline gap-1">
                       <span className="text-4xl font-bold text-accent">50€</span>
                       <span className="text-base text-textSecondary font-medium">/heure</span>
@@ -377,14 +377,14 @@ export const Services: React.FC = () => {
             {/* Stack des 3 services (Vertical) */}
             <div className="flex flex-col gap-8">
               
-              {/* Carte Identité visuelle (Maintenant en BLEU VIOLET / INDIGO) */}
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Carte Identité visuelle (DORÉ / ACCENT) */}
+              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
                   <div className="flex-1 p-5 md:p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
+                      <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
                         <Palette size={20} />
                       </div>
                       <h4 className="text-lg font-bold text-textPrimary">Identité visuelle</h4>
@@ -422,20 +422,20 @@ export const Services: React.FC = () => {
                   </div>
                   
                   {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 min-h-[200px] lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
+                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
                     <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>
               </div>
 
-              {/* Carte Présence digitale (Maintenant en SLATE / GRIS BLEUTÉ) */}
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-slate-400/30 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Carte Présence digitale (BLEU VIOLET / INDIGO) */}
+              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
                   <div className="flex-1 p-5 md:p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-xl bg-slate-500/10 text-slate-400">
+                      <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
                         <Monitor size={20} />
                       </div>
                       <h4 className="text-lg font-bold text-textPrimary">Présence digitale</h4>
@@ -462,7 +462,7 @@ export const Services: React.FC = () => {
                   </div>
                   
                   {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 min-h-[200px] lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
+                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
                     <img src={presenceDigitaleImg} alt="Présence digitale" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>
@@ -496,17 +496,17 @@ export const Services: React.FC = () => {
                           <span className="text-white/80 text-[15px]">Shooting photo et tournage vidéo</span>
                           <p className="text-white/40 text-[13px] mt-0.5">Drone + au sol</p>
                         </div>
-                        <span className="text-textPrimary font-bold text-[11px] uppercase tracking-wider mt-1">Sur demande</span>
+                        <span className="text-textPrimary font-bold text-[11px] uppercase tracking-wider mt-1 ml-4">Sur demande</span>
                       </div>
                       <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
                         <span className="text-white/80 text-[15px]">Montage courts formats, reels, tiktok et films d'entreprise</span>
-                        <span className="text-textPrimary font-bold text-base">50€/h</span>
+                        <span className="text-textPrimary font-bold text-base ml-4">50€/h</span>
                       </div>
                     </div>
                   </div>
                   
                   {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 min-h-[200px] lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
+                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
                     <img src={reseauxSociauxImg} alt="Réseaux sociaux" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>

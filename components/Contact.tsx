@@ -6,10 +6,9 @@ import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 
 const subjects = [
-  { id: 1, name: 'Demande de devis drone' },
-  { id: 2, name: 'Studio digital & web' },
-  { id: 3, name: 'Solution informatique' },
-  { id: 4, name: 'Autre' },
+  { id: 1, name: 'Devis' },
+  { id: 2, name: 'Informations' },
+  { id: 3, name: 'Autre' },
 ];
 
 export const Contact: React.FC = () => {

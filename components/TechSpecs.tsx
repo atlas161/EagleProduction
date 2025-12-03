@@ -168,10 +168,16 @@ export const TechSpecs: React.FC = () => {
 
         {/* DRONE IMAGE - LEFT */}
         <div className="hidden md:flex flex-1 w-full justify-center order-1 md:order-1">
-          <Reveal delay={300} className="relative w-full max-w-[600px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black">
+          <Reveal delay={300} className="relative w-full max-w-[600px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-gradient-to-br from-zinc-900 via-neutral-900 to-stone-950">
             
-            {/* Background Gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(50,50,50,0.2)_0%,transparent_70%)]"></div>
+            {/* Background Texture & Gradients */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.03)_0%,transparent_50%)]"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(100,100,100,0.08)_0%,transparent_50%)]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02)_0%,transparent_50%,rgba(0,0,0,0.3)_100%)]"></div>
+            {/* Subtle noise texture */}
+            <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
+            {/* Vignette effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.4)_100%)]"></div>
 
             {/* Image Container */}
             <div className="absolute inset-0 flex items-center justify-center p-12 transition-transform duration-700">

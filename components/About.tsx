@@ -53,7 +53,7 @@ export const About: React.FC = () => {
         {/* Colonne droite : Texte */}
         <div className="space-y-6 md:space-y-8">
             <Reveal delay={300}>
-                <div className="text-center lg:text-left space-y-4">
+                <div className="text-left space-y-4">
                     <p className="text-textSecondary text-base md:text-lg leading-relaxed">
                         J’ai fondé <strong className="text-white">Eagle Production</strong> à 23 ans, poussé par une passion profonde pour le pilotage et la <strong className="text-white">création de vidéos</strong>. Cette passion m’a naturellement conduit à devenir <strong className="text-white">télépilote certifié et diplômé</strong>, et à transformer ce savoir-faire en un véritable projet professionnel.
                     </p>
@@ -73,7 +73,7 @@ export const About: React.FC = () => {
             <Reveal delay={400}>
                 <div className="relative mt-8 md:mt-10 p-6 md:p-8 bg-surfaceHighlight/30 border-l-4 border-accent rounded-r-2xl">
                     <Quote className="absolute top-4 left-4 text-accent/20 w-6 h-6 md:w-8 md:h-8 transform -scale-x-100" />
-                    <p className="text-lg md:text-xl text-white font-light italic relative z-10 pl-2 md:pl-4">
+                    <p className="text-lg md:text-xl text-white font-light italic relative z-10 pl-2 md:pl-4 animate-pulse-subtle">
                         "Comme un aigle, nous visons la précision pour ne jamais manquer l'instant décisif."
                     </p>
                     <div className="flex items-center gap-3 mt-4 md:mt-6 pl-2 md:pl-4">

@@ -93,8 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
       </div>
 
       {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-background/95 backdrop-blur-2xl border-t border-white/10 px-6 py-8 flex flex-col gap-6 animate-fade-in overflow-y-auto">
+      <div className={`md:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-background/95 backdrop-blur-2xl border-t border-white/10 px-6 py-8 flex flex-col gap-6 overflow-y-auto transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
           {navLinks.map((link) => (
             <button
               key={link.id}
@@ -119,7 +118,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
             Demander un devis
           </button>
         </div>
-      )}
     </nav>
   );
 };
