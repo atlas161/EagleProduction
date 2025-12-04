@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
-import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 
@@ -10,11 +10,74 @@ const subjects = [
   { id: 3, name: 'Autre' },
 ];
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+// ═══════════════════════════════════════════════════════════════════════════════
+// 🔒 SÉCURITÉ - Configuration
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Rate limiting : délai minimum entre 2 soumissions (en ms)
+const RATE_LIMIT_DELAY = 60000; // 1 minute
+const RATE_LIMIT_KEY = 'eagle_form_last_submit';
+
+// Regex stricte pour validation email (RFC 5322 simplifiée)
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+// Domaines email jetables/temporaires à bloquer
+const BLOCKED_DOMAINS = [
+  'tempmail.com', 'throwaway.email', 'guerrillamail.com', 'mailinator.com',
+  'yopmail.com', '10minutemail.com', 'trashmail.com', 'fakeinbox.com',
+  'temp-mail.org', 'getnada.com', 'maildrop.cc'
+];
+
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error' | 'rate_limited' | 'invalid_email';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// 🔒 SÉCURITÉ - Fonctions de validation
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Vérifie si l'email est valide et non jetable
+ */
+const isValidEmail = (email: string): boolean => {
+  if (!EMAIL_REGEX.test(email)) return false;
+  
+  const domain = email.split('@')[1]?.toLowerCase();
+  if (!domain) return false;
+  
+  // Vérifie si le domaine est bloqué
+  if (BLOCKED_DOMAINS.some(blocked => domain.includes(blocked))) return false;
+  
+  return true;
+};
+
+/**
+ * Vérifie le rate limiting (localStorage)
+ */
+const checkRateLimit = (): { allowed: boolean; remainingSeconds: number } => {
+  const lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
+  if (!lastSubmit) return { allowed: true, remainingSeconds: 0 };
+  
+  const elapsed = Date.now() - parseInt(lastSubmit, 10);
+  const remaining = RATE_LIMIT_DELAY - elapsed;
+  
+  if (remaining > 0) {
+    return { allowed: false, remainingSeconds: Math.ceil(remaining / 1000) };
+  }
+  
+  return { allowed: true, remainingSeconds: 0 };
+};
+
+/**
+ * Enregistre le timestamp de soumission
+ */
+const recordSubmission = () => {
+  localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+};
 
 export const Contact: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [rateLimitSeconds, setRateLimitSeconds] = useState(0);
+  const [emailError, setEmailError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,23 +86,46 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // 🔒 Vérification rate limiting
+    const rateCheck = checkRateLimit();
+    if (!rateCheck.allowed) {
+      setFormStatus('rate_limited');
+      setRateLimitSeconds(rateCheck.remainingSeconds);
+      setTimeout(() => setFormStatus('idle'), 5000);
+      return;
+    }
+    
+    // 🔒 Validation email stricte
+    if (!isValidEmail(formData.email)) {
+      setFormStatus('invalid_email');
+      setEmailError('Veuillez entrer une adresse email valide');
+      setTimeout(() => {
+        setFormStatus('idle');
+        setEmailError('');
+      }, 5000);
+      return;
+    }
+    
     setFormStatus('submitting');
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const formDataObj = new FormData(form);
 
     try {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        body: new URLSearchParams(formDataObj as any).toString(),
       });
 
       if (response.ok) {
+        // 🔒 Enregistrer la soumission pour le rate limiting
+        recordSubmission();
+        
         setFormStatus('success');
         setFormData({ name: '', email: '', message: '' });
         setSelectedSubject(subjects[0]);
-        // Reset après 5 secondes
         setTimeout(() => setFormStatus('idle'), 5000);
       } else {
         throw new Error('Erreur lors de l\'envoi');
@@ -52,7 +138,15 @@ export const Contact: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Validation email en temps réel
+    if (name === 'email' && value && !isValidEmail(value)) {
+      setEmailError('Format email invalide');
+    } else {
+      setEmailError('');
+    }
   };
 
   return (
@@ -158,9 +252,15 @@ export const Contact: React.FC = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
+                                className={clsx(
+                                  "w-full bg-surface border rounded-xl px-4 py-3 text-white focus:outline-none transition-colors placeholder:text-white/20",
+                                  emailError ? "border-red-500 focus:border-red-500" : "border-white/10 focus:border-accent"
+                                )}
                                 placeholder="votre@email.com"
                             />
+                            {emailError && (
+                              <p className="text-red-400 text-xs mt-1 ml-2">{emailError}</p>
+                            )}
                         </div>
                     </div>
                     
@@ -239,11 +339,13 @@ export const Contact: React.FC = () => {
                     {/* Bouton avec états */}
                     <button 
                       type="submit"
-                      disabled={formStatus === 'submitting'}
+                      disabled={formStatus === 'submitting' || formStatus === 'rate_limited'}
                       className={clsx(
                         "w-full font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 transform",
                         formStatus === 'success' && "bg-green-500 text-white",
                         formStatus === 'error' && "bg-red-500 text-white",
+                        formStatus === 'rate_limited' && "bg-orange-500 text-white cursor-not-allowed",
+                        formStatus === 'invalid_email' && "bg-red-500 text-white",
                         formStatus === 'submitting' && "bg-white/50 text-black cursor-wait",
                         formStatus === 'idle' && "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98]"
                       )}
@@ -270,6 +372,18 @@ export const Contact: React.FC = () => {
                           <>
                             <AlertCircle size={18} />
                             Erreur, réessayez
+                          </>
+                        )}
+                        {formStatus === 'rate_limited' && (
+                          <>
+                            <Clock size={18} />
+                            Patientez {rateLimitSeconds}s
+                          </>
+                        )}
+                        {formStatus === 'invalid_email' && (
+                          <>
+                            <AlertCircle size={18} />
+                            Email invalide
                           </>
                         )}
                     </button>

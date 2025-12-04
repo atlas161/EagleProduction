@@ -12,16 +12,16 @@ Quand tu modifies `siteConfig.ts`, le **schéma JSON-LD** (données structurées
 
 Ce fichier permet de modifier rapidement **sans toucher au code** :
 
-| Section | Description |
-|---------|-------------|
-| `HERO_VIDEO` | Vidéo d'accueil (ID Vimeo, délai auto-ouverture) |
-| `REVIEWS` | Avis clients affichés sur le site |
-| `GOOGLE_REVIEW_LINK` | Lien pour laisser un avis Google |
-| `FAQ_ITEMS` | Questions fréquentes |
-| `PRICING` | Tarifs des formules drone (Essentiel, Altitude, Horizon) |
-| `OPTIONS` | Options et suppléments (déplacement, photo, USB) |
-| `SERVICES_COMPLEMENTAIRES` | Tarifs des services complémentaires |
-| `CONTACT` | Informations de contact |
+| Section                   |                   Description                            |
+|---------------------------|----------------------------------------------------------|
+| `HERO_VIDEO`              | Vidéo d'accueil (ID Vimeo, délai auto-ouverture)         |
+| `REVIEWS`                 | Avis clients affichés sur le site                        |
+| `GOOGLE_REVIEW_LINK`      | Lien pour laisser un avis Google                         |
+| `FAQ_ITEMS`               | Questions fréquentes                                     |
+| `PRICING`                 | Tarifs des formules drone (Essentiel, Altitude, Horizon) |
+| `OPTIONS`                 | Options et suppléments (déplacement, photo, USB)         |
+| `SERVICES_COMPLEMENTAIRES`| Tarifs des services complémentaires                      |
+| `CONTACT`                 | Informations de contact                                  |
 
 ---
 
