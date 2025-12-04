@@ -29,10 +29,10 @@ const renderParagraph = (text: string, index: number) => {
 export const About: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-end">
         
         {/* Colonne gauche : Titre + Image */}
-        <div className="space-y-6 md:space-y-8">
+        <div className="space-y-6 md:space-y-8 flex flex-col">
             <Reveal delay={200}>
                 <div className="flex items-center gap-3 mb-3 md:mb-4 justify-center lg:justify-start">
                     <span className="h-px w-8 md:w-12 bg-accent"></span>
@@ -45,18 +45,18 @@ export const About: React.FC = () => {
             </Reveal>
 
             <Reveal>
-                <div className="relative group max-w-xs mx-auto lg:max-w-sm">
+                <div className="relative group w-full lg:max-w-none">
                     {/* Cadre décoratif */}
                     <div className="absolute inset-0 border-2 border-accent/20 translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 rounded-2xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1"></div>
                     
-                    {/* Image Container - Plus compact */}
-                    <div className="relative rounded-2xl overflow-hidden aspect-[3/4] bg-surfaceHighlight shadow-2xl">
+                    {/* Image Container - Pleine largeur, hauteur fixe */}
+                    <div className="relative rounded-2xl overflow-hidden h-[420px] md:h-[540px] bg-surfaceHighlight shadow-2xl">
                         <img 
                             src={ABOUT.photo.src}
                             alt={ABOUT.photo.alt}
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover object-[center_60%] transition-transform duration-700 group-hover:scale-105"
                         />
                         
                         {/* Badge Overlay */}
