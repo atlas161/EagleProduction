@@ -5,9 +5,9 @@ import { Reveal } from './Reveal';
 import essentielImg from '../media/images_formules/Essentiel.webp';
 import altitudeImg from '../media/images_formules/Altitude.webp';
 import horizonImg from '../media/images_formules/Horizon.webp';
-import identiteVisuelImg from '../media/images_formules/Identitévisuel.png';
-import presenceDigitaleImg from '../media/images_formules/Présence_digitalev2.png';
-import reseauxSociauxImg from '../media/images_formules/RéseauxSociaux.png';
+import identiteVisuelImg from '../media/images_formules/Identitévisuel.webp';
+import presenceDigitaleImg from '../media/images_formules/Présence_digitalev2.webp';
+import reseauxSociauxImg from '../media/images_formules/RéseauxSociaux.webp';
 
 
 export const Services: React.FC = () => {
@@ -325,15 +325,17 @@ export const Services: React.FC = () => {
 
 
         {/* --- SECONDARY SERVICES: STUDIO --- */}
-        <Reveal delay={700}>
-          <div id="studio" className="border-t border-white/5 pt-20">
-            {/* Header */}
-            <div className="text-center mb-10">
-              <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Au-delà du drone</span>
-              <h3 className="text-4xl md:text-5xl font-bold text-textPrimary">Nos services complémentaires</h3>
-            </div>
+        <div id="studio" className="border-t border-white/5 pt-20">
+          {/* Header */}
+          <Reveal>
+          <div className="text-center mb-10">
+            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Au-delà du drone</span>
+            <h3 className="text-4xl md:text-5xl font-bold text-textPrimary">Nos services complémentaires</h3>
+          </div>
+          </Reveal>
 
-            {/* Carte Montage vidéo - Compacte et centrée */}
+          {/* Carte Montage vidéo - Compacte et centrée */}
+          <Reveal delay={100}>
             <div className="mb-10 max-w-3xl mx-auto">
               <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 hover:border-accent/30 transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
@@ -373,12 +375,14 @@ export const Services: React.FC = () => {
                 </div>
               </div>
             </div>
+          </Reveal>
 
-            {/* Stack des 3 services (Vertical) */}
-            <div className="flex flex-col gap-8">
+          {/* Stack des 3 services (Vertical) */}
+          <div className="flex flex-col gap-8">
               
               {/* Carte Identité visuelle (DORÉ / ACCENT) */}
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500">
+              <Reveal>
+                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
@@ -423,13 +427,15 @@ export const Services: React.FC = () => {
                   
                   {/* Colonne Image (Droite) */}
                   <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
+                    <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="lazy" decoding="async" />
                   </div>
                 </div>
-              </div>
+                </div>
+              </Reveal>
 
               {/* Carte Présence digitale (BLEU VIOLET / INDIGO) */}
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500">
+              <Reveal>
+                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
@@ -466,10 +472,12 @@ export const Services: React.FC = () => {
                     <img src={presenceDigitaleImg} alt="Présence digitale" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>
-              </div>
+                </div>
+              </Reveal>
 
               {/* Carte Réseaux sociaux */}
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/30 transition-all duration-500">
+              <Reveal>
+                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/30 transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
@@ -510,11 +518,11 @@ export const Services: React.FC = () => {
                     <img src={reseauxSociauxImg} alt="Réseaux sociaux" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>
-              </div>
+                </div>
+              </Reveal>
 
-            </div>
           </div>
-        </Reveal>
+        </div>
 
       </div>
     </div>

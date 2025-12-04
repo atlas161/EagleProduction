@@ -167,12 +167,15 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
          <div ref={videoContainerRef} className={`vimeo-wrapper transition-all duration-700 ${
                 isVideoOpen ? 'scale-100' : 'scale-105 group-hover:scale-100'
             }`}>
+            {/* @ts-ignore */}
             <iframe 
-                src="https://player.vimeo.com/video/1142391820?background=1&autoplay=1&loop=1&byline=0&title=0&badge=0&autopause=0&portrait=0" 
+                src="https://player.vimeo.com/video/1142391820?background=1&autoplay=1&loop=1&byline=0&title=0&badge=0&autopause=0&portrait=0&quality=auto" 
                 frameBorder="0" 
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
                 allowFullScreen
                 title="video_présentation_eagle_prod"
+                loading="eager"
+                fetchPriority="high"
             ></iframe>
          </div>
 

@@ -20,7 +20,7 @@ export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, className =
       },
       { 
         threshold: 0.1, // Déclenche quand 10% de l'élément est visible
-        rootMargin: "0px 0px -50px 0px" // Déclenche un peu avant le bas de l'écran
+        rootMargin: "0px 0px -10px 0px" // Déclenche juste quand l'élément entre dans le viewport
       }
     );
 

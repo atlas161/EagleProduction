@@ -28,11 +28,11 @@ export const About: React.FC = () => {
                     {/* Image Container - Plus compact sur mobile */}
                     <div className="relative rounded-3xl overflow-hidden aspect-square md:aspect-[4/5] bg-surfaceHighlight shadow-2xl">
                         <img 
-                            src="/Photo_de_paul_bardin.jpg" 
+                            src="/media/Photo paul/Photo_de_paul_bardin.webp" 
                             alt="Paul Bardin Pilote Drone" 
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         
                         {/* Badge Overlay */}

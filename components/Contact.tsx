@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
-import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check } from 'lucide-react';
+import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 
@@ -11,8 +11,50 @@ const subjects = [
   { id: 3, name: 'Autre' },
 ];
 
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+
 export const Contact: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setSelectedSubject(subjects[0]);
+        // Reset après 5 secondes
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        throw new Error('Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-24">
@@ -78,20 +120,45 @@ export const Contact: React.FC = () => {
         {/* Right Column: Contact Form */}
         <Reveal delay={200}>
             <div className="bg-surfaceHighlight/50 border border-white/5 rounded-3xl p-8 backdrop-blur-sm shadow-xl">
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                {/* Formulaire Netlify */}
+                <form 
+                  name="contact" 
+                  method="POST" 
+                  data-netlify="true" 
+                  data-netlify-honeypot="bot-field"
+                  className="space-y-6" 
+                  onSubmit={handleSubmit}
+                >
+                    {/* Champ caché pour Netlify */}
+                    <input type="hidden" name="form-name" value="contact" />
+                    {/* Honeypot anti-spam */}
+                    <p className="hidden">
+                      <label>Ne pas remplir si vous êtes humain: <input name="bot-field" /></label>
+                    </p>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Nom</label>
+                            <label htmlFor="name" className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Nom</label>
                             <input
                                 type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
                                 className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
                                 placeholder="Votre Nom"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Email</label>
+                            <label htmlFor="email" className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Email</label>
                             <input
                                 type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
                                 className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
                                 placeholder="votre@email.com"
                             />
@@ -100,6 +167,8 @@ export const Contact: React.FC = () => {
                     
                      <div className="space-y-2">
                         <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Sujet</label>
+                        {/* Input caché pour envoyer le sujet à Netlify */}
+                        <input type="hidden" name="subject" value={selectedSubject.name} />
                         <div className="relative z-20">
                              <Listbox value={selectedSubject} onChange={setSelectedSubject}>
                                 <div className="relative mt-1">
@@ -155,17 +224,55 @@ export const Contact: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Message</label>
+                        <label htmlFor="message" className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Message</label>
                         <textarea
+                            id="message"
+                            name="message"
                             rows={5}
+                            value={formData.message}
+                            onChange={handleChange}
+                            required
                             className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors resize-none placeholder:text-white/20"
                             placeholder="Détails de votre mission..."
                         ></textarea>
                     </div>
 
-                    <button className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]">
-                        <Send size={18} />
-                        Envoyer la demande
+                    {/* Bouton avec états */}
+                    <button 
+                      type="submit"
+                      disabled={formStatus === 'submitting'}
+                      className={clsx(
+                        "w-full font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 transform",
+                        formStatus === 'success' && "bg-green-500 text-white",
+                        formStatus === 'error' && "bg-red-500 text-white",
+                        formStatus === 'submitting' && "bg-white/50 text-black cursor-wait",
+                        formStatus === 'idle' && "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98]"
+                      )}
+                    >
+                        {formStatus === 'idle' && (
+                          <>
+                            <Send size={18} />
+                            Envoyer la demande
+                          </>
+                        )}
+                        {formStatus === 'submitting' && (
+                          <>
+                            <Loader2 size={18} className="animate-spin" />
+                            Envoi en cours...
+                          </>
+                        )}
+                        {formStatus === 'success' && (
+                          <>
+                            <CheckCircle size={18} />
+                            Message envoyé !
+                          </>
+                        )}
+                        {formStatus === 'error' && (
+                          <>
+                            <AlertCircle size={18} />
+                            Erreur, réessayez
+                          </>
+                        )}
                     </button>
                 </form>
             </div>

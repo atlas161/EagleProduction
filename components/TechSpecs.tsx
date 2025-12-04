@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Reveal } from './Reveal';
-import djiLogo from '../media/logo_DJI/DJI_Logo_Final.png';
+import djiLogo from '../media/logo_DJI/DJI_Innovations_logo.svg.svg';
 import droneImg from '../media/Photo_DJI/drone_mavic_4.webp';
 import { Camera, Aperture, Radio, ScanEye } from 'lucide-react';
 
@@ -19,10 +19,9 @@ const DRONE_TARGETS: Record<string, { x: number; y: number }[]> = {
   ],
   cinema: [{ x: 33, y: 50 }],  // Objectif principal (le gros au milieu)
   security: [
-    { x: 35, y: 25 },
-    { x: 80, y: 25 },
-    { x: 5, y: 50 },
-    { x: 75, y: 60 },
+    { x: 45, y: 35 },
+    { x: 46, y: 32 },
+    { x: 35, y: 35 },
   ],
   // Range n'a pas de ligne - on utilise un effet sonar à la place
 };
@@ -257,7 +256,7 @@ export const TechSpecs: React.FC = () => {
         <div className="flex-1 space-y-10 relative z-10 order-2 md:order-2">
           <Reveal>
             <div className="flex items-center gap-5 mb-6 opacity-90">
-              <img src={djiLogo} alt="DJI" className="h-8 w-auto" />
+              <img src={djiLogo} alt="DJI" className="h-8 w-auto" style={{ filter: 'brightness(0) saturate(100%) invert(73%) sepia(67%) saturate(398%) hue-rotate(6deg) brightness(92%) contrast(88%)' }} />
               <div className="h-4 w-[1px] bg-accent/50"></div>
               <span className="text-sm font-bold tracking-[0.3em] text-accent uppercase">Flagship Series</span>
             </div>
@@ -315,14 +314,14 @@ export const TechSpecs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Feature 4 - Portée 20km */}
+              {/* Feature 4 - Portée 40km */}
               <div 
                 ref={(el) => { featureRefs.current['range'] = el; }}
                 className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('range') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('range')}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className={`text-3xl font-semibold transition-colors ${isActive('range') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Portée 20km</div>
+                <div className={`text-3xl font-semibold transition-colors ${isActive('range') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Portée 40km</div>
                 <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
                     <Radio size={14} /> Signal vidéo stable
                 </div>
