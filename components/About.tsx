@@ -28,7 +28,7 @@ export const About: React.FC = () => {
                     {/* Image Container - Plus compact sur mobile */}
                     <div className="relative rounded-3xl overflow-hidden aspect-square md:aspect-[4/5] bg-surfaceHighlight shadow-2xl">
                         <img 
-                            src="/media/Photo paul/Photo_de_paul_bardin.webp" 
+                            src="/Photo_de_paul_bardin.webp" 
                             alt="Paul Bardin Pilote Drone" 
                             loading="lazy"
                             decoding="async"
