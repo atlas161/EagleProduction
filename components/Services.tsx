@@ -329,7 +329,7 @@ export const Services: React.FC = () => {
           <Reveal>
           <div className="text-center mb-10">
             <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Au-delà du drone</span>
-            <h3 className="text-4xl md:text-5xl font-bold text-textPrimary">Nos services complémentaires</h3>
+            <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60">Nos services complémentaires</h3>
           </div>
           </Reveal>
 
@@ -426,7 +426,7 @@ export const Services: React.FC = () => {
                   
                   {/* Colonne Image (Droite) */}
                   <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="lazy" decoding="async" />
+                    <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" fetchPriority="high" />
                   </div>
                 </div>
                 </div>

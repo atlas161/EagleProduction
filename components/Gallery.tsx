@@ -44,7 +44,7 @@ export const Gallery: React.FC = () => {
             <Instagram size={18} />
             <span className="text-sm font-semibold tracking-wide">@eagleproduction.video</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Le feed</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-4">Le feed</h2>
           <p className="text-textSecondary text-xl max-w-2xl mx-auto">
             Nos dernières réalisations et coulisses de tournage en temps réel.
           </p>

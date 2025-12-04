@@ -38,28 +38,31 @@ export const About: React.FC = () => {
                     <span className="h-px w-8 md:w-12 bg-accent"></span>
                     <span className="text-accent font-bold uppercase tracking-widest text-[10px] md:text-xs">{ABOUT.sectionLabel}</span>
                 </div>
-                <h2 id="about-title" className="scroll-mt-16 text-3xl md:text-5xl font-bold text-white leading-tight text-center lg:text-left">
+                <h2 id="about-title" className="scroll-mt-16 text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight text-center lg:text-left">
                     {ABOUT.title} <br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">{ABOUT.subtitle}</span>
+                    <span>{ABOUT.subtitle}</span>
                 </h2>
             </Reveal>
 
-            <Reveal>
-                <div className="relative group w-full lg:max-w-none">
-                    {/* Cadre décoratif */}
+            <div className="relative group w-full lg:max-w-none">
+                {/* Cadre décoratif */}
+                <Reveal>
                     <div className="absolute inset-0 border-2 border-accent/20 translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 rounded-2xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1"></div>
+                </Reveal>
+                
+                {/* Image Container - Visible immédiatement */}
+                <div className="relative rounded-2xl overflow-hidden h-[420px] md:h-[540px] bg-surfaceHighlight shadow-2xl">
+                    <img 
+                        src={ABOUT.photo.src}
+                        alt={ABOUT.photo.alt}
+                        loading="eager"
+                        decoding="sync"
+                        fetchPriority="high"
+                        className="w-full h-full object-cover object-[center_60%] transition-transform duration-700 group-hover:scale-105"
+                    />
                     
-                    {/* Image Container - Pleine largeur, hauteur fixe */}
-                    <div className="relative rounded-2xl overflow-hidden h-[420px] md:h-[540px] bg-surfaceHighlight shadow-2xl">
-                        <img 
-                            src={ABOUT.photo.src}
-                            alt={ABOUT.photo.alt}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-cover object-[center_60%] transition-transform duration-700 group-hover:scale-105"
-                        />
-                        
-                        {/* Badge Overlay */}
+                    {/* Badge Overlay */}
+                    <Reveal>
                         <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 p-3 md:p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 flex items-center gap-3 md:gap-4">
                             <div className="bg-accent/20 p-2 rounded-lg text-accent">
                                 <MapPin size={20} className="md:w-6 md:h-6" />
@@ -69,9 +72,9 @@ export const About: React.FC = () => {
                                 <div className="text-textSecondary text-[10px] md:text-xs">{ABOUT.badge.subtitle}</div>
                             </div>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
-            </Reveal>
+            </div>
         </div>
 
         {/* Colonne droite : Texte */}
