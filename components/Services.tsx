@@ -1,6 +1,5 @@
-
-import React, { useState, ReactElement } from 'react';
-import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, PenTool, Palette, Terminal, LayoutTemplate, Search, RefreshCw, Share2, Wrench, GraduationCap, AppWindow, ShieldCheck, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, Palette, Search, Share2, ShieldCheck, X } from 'lucide-react';
 import { Reveal } from './Reveal';
 import essentielImg from '../media/images_formules/Essentiel.webp';
 import altitudeImg from '../media/images_formules/Altitude.webp';

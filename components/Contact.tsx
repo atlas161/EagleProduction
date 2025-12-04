@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
 import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';

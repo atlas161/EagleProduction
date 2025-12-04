@@ -1,8 +1,8 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Play, X, Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Player from '@vimeo/player';
+import { HERO_VIDEO } from '../config/siteConfig';
 
 interface HeroProps {
   onScrollDown: () => void;
@@ -67,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
         if (!userInteractedRef.current && !isVideoOpen && window.scrollY < 20) {
             handleOpenVideo();
         }
-    }, 60000); 
+    }, HERO_VIDEO.autoOpenDelay); 
     return () => clearTimeout(timer);
   }, [isVideoOpen]);
 
@@ -169,7 +169,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
             }`}>
             {/* @ts-ignore */}
             <iframe 
-                src="https://player.vimeo.com/video/1142391820?background=1&autoplay=1&loop=1&byline=0&title=0&badge=0&autopause=0&portrait=0&quality=auto" 
+                src={HERO_VIDEO.embedUrl} 
                 frameBorder="0" 
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
                 allowFullScreen

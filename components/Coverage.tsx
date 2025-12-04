@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Reveal } from './Reveal';
 import { Navigation, Globe, MapPin, Target, Scan, Wifi } from 'lucide-react';
@@ -117,7 +116,7 @@ export const Coverage: React.FC = () => {
             className: 'city-label-container',
             html: labelHtml,
             iconSize: [100, 20],
-            iconAnchor: [50, 35] // Centré horizontalement (50) et décalé vers le haut (35 > 20) pour être bien au-dessus
+            iconAnchor: [50, 25] // Centré horizontalement (50), label au-dessus du point
           });
 
           L.marker([city.lat, city.lng], { icon: labelIcon, zIndexOffset: 900 }).addTo(map);

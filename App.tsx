@@ -9,13 +9,13 @@ import { TechSpecs } from './components/TechSpecs';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Section } from './types';
-import { Reveal } from './components/Reveal';
 import { Preloader } from './components/Preloader';
 import { Coverage } from './components/Coverage';
 import { Gallery } from './components/Gallery';
 import { CookieBanner } from './components/CookieBanner';
 import { About } from './components/About';
 import { ReviewsAndFaq } from './components/ReviewsAndFaq';
+import { SEOSchema } from './components/SEOSchema';
 
 function App() {
   const [activeSection, setActiveSection] = useState<Section>(Section.HERO);
@@ -113,6 +113,7 @@ function App() {
 
   return (
     <>
+      <SEOSchema />
       <Preloader isLoading={isLoading} />
       
       <div className={`min-h-screen bg-background text-textPrimary font-sans selection:bg-accent selection:text-white transition-opacity duration-700 ${isLoading ? 'h-screen overflow-hidden' : ''}`}>

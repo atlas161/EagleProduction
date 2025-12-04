@@ -1,2 +1,0 @@
-// Service IA supprimé
-export {};

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import eagleBeige from '../media/aigle_beige.png';
 import { Mail, Phone, Instagram, Linkedin } from 'lucide-react';

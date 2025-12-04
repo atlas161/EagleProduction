@@ -1,67 +1,7 @@
-
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
 import { Star, ChevronDown, ChevronLeft, ChevronRight, Quote, MessageSquare, HelpCircle } from 'lucide-react';
-
-// --- DONNÉES AVIS ---
-const REVIEWS = [
-  {
-    id: 1,
-    name: "Client",
-    role: "Projet Immobilier/Architecture",
-    content: "Travail de très grande qualité, réalisé avec sérieux et professionnalisme. Les prises de vue par drone sont superbes et mettent parfaitement en valeur le projet. Je recommande vivement EagleProduction !",
-    stars: 5
-  },
-  {
-    id: 2,
-    name: "Organisateur",
-    role: "Mariage & Événement",
-    content: "Super travail et de qualité qui plus est je recommande vivement si vous avez un mariage ou autre événement 👍",
-    stars: 5
-  },
-  {
-    id: 3,
-    name: "Entreprise Frigoriste",
-    role: "Communication d'entreprise",
-    content: "Paul de Eagle Production a réalisé un réels Instagram pour mon entreprise de frigoriste. Très bonne réalisation qui m'a permis de gagner en visibilité. Je recommande",
-    stars: 5
-  },
-  {
-    id: 4,
-    name: "Paddock Saint-Palais-sur-Mer",
-    role: "Événement Automobile",
-    content: "Paul est venu filmer notre événement « Paddock Saint-Palaisien » à Saint-Palais-sur-Mer. Très pro, il connaît son métier et sait s'adapter. Nous le recommandons fortement 🏎️",
-    stars: 5
-  }
-];
-
-// --- DONNÉES FAQ ---
-const FAQ_ITEMS = [
-  {
-    question: "Vos pilotes de drone sont-ils agréés et respectez-vous la réglementation ?",
-    answer: "Absolument. Chez Eagle Production, la sécurité est notre priorité. Nos pilotes sont agréés par la DGAC (Direction Générale de l'Aviation Civile) et disposent de tous les brevets nécessaires pour opérer en scénarios STS01 et STS02. Nous nous occupons de toutes les démarches administratives et demandes d'autorisations de vol (préfectures, mairies) avant chaque mission."
-  },
-  {
-    question: "Quelle est la qualité des vidéos et photos livrées (4K, RAW) ?",
-    answer: "Nous utilisons des drones de dernière génération capables de filmer en 4K, voire 6K, offrant une qualité cinéma. Pour la photographie, nous livrons des fichiers en haute définition et en format RAW (brut) ou JPEG retouché, idéal pour l'impression grand format ou l'intégration sur votre site web."
-  },
-  {
-    question: "Dans quels secteurs et pour quels types de projets intervenez-vous\u00A0?",
-    answer: "Chez Eagle Production, nous pouvons intervenir dans de nombreux domaines : immobilier, suivi de chantier, associatif, sportif, événementiel et bien d’autres.\nNos prestations couvrent aussi bien la vidéo, la photo, que des relevés visuels ou observations techniques pour accompagner vos projets.\nBref, dans chaque métier, chaque domaine et chaque projet, un drone peut être un précieux allié."
-  },
-  {
-    question: "Quelles sont les contraintes météorologiques pour un tournage aérien ?",
-    answer: "Pour garantir des images stables et la sécurité du matériel, nous ne volons pas sous la pluie ou par vents violents (généralement supérieurs à 30-40 km/h). Nous surveillons la météo en temps réel. En cas de mauvaises conditions, la séance de prise de vue aérienne est reportée sans frais supplémentaires à une date ultérieure."
-  },
-  {
-    question: "Quel est le processus typique pour la création de mon identité visuelle ou de mon site web ?",
-    answer: "Notre processus se déroule en 4 phases :\nDécouverte & Stratégie : Échange initial pour définir vos objectifs, vos cibles et votre positionnement.\nConception : Création des maquettes, du design, de la charte graphique et du contenu (photos/vidéos incluses si besoin).\nDéveloppement & Validation : Intégration du site, développement des fonctionnalités ou finalisation des supports.\nLancement & Formation : Mise en ligne du site, livraison des fichiers et formation à l'utilisation si nécessaire."
-  },
-  {
-    question: "Mon site sera-t-il vraiment conforme aux normes actuelles (RGPD) et sécurisé contre les failles ?",
-    answer: "Oui, c'est une priorité absolue. Nous intégrons dès la conception la conformité RGPD (gestion des cookies, politiques de confidentialité) et la sécurité technique (certificats SSL, pare-feux). Votre site est livré sur une base solide et à jour. De plus, nos services de Maintenance sont disponibles pour assurer la sécurité et la conformité sur le long terme (mises à jour, sauvegardes et surveillance active)."
-  }
-];
+import { REVIEWS, FAQ_ITEMS, GOOGLE_REVIEW_LINK } from '../config/siteConfig';
 
 export const ReviewsAndFaq: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -79,28 +19,11 @@ export const ReviewsAndFaq: React.FC = () => {
     setCurrentReviewIndex((prev) => (prev - 1 + REVIEWS.length) % REVIEWS.length);
   };
 
-  // Génération du schéma JSON-LD pour la FAQ
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": FAQ_ITEMS.map(item => ({
-      "@type": "Question",
-      "name": item.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.answer
-      }
-    }))
-  };
-
   const activeReview = REVIEWS[currentReviewIndex];
 
   return (
     <div className="py-24 bg-background relative overflow-hidden">
-      {/* Injection des données structurées pour le SEO */}
-      <script type="application/ld+json">
-        {JSON.stringify(faqSchema)}
-      </script>
+      {/* Schema JSON-LD géré par SEOSchema.tsx */}
 
       <div className="max-w-7xl mx-auto px-6">
         
@@ -202,7 +125,7 @@ export const ReviewsAndFaq: React.FC = () => {
                         <p className="text-sm text-textSecondary">Aidez-nous à améliorer nos services.</p>
                      </div>
                      <a 
-                        href="https://g.page/r/Cc7LhwWcIYG9EBM/review" 
+                        href={GOOGLE_REVIEW_LINK} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-full font-bold hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(212,175,55,0.3)] whitespace-nowrap"
