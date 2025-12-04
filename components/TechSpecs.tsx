@@ -2,12 +2,23 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Reveal } from './Reveal';
 import djiLogo from '../media/logo_DJI/DJI_Innovations_logo.svg.svg';
 import droneImg from '../media/Photo_DJI/drone_mavic_4.webp';
-import { Camera, Aperture, Radio, ScanEye } from 'lucide-react';
+import { Camera, Scan, Radio, ScanEye } from 'lucide-react';
 
 type FeatureType = 'camera' | 'cinema' | 'security' | 'range' | null;
 
 // Couleur Or/Accent
 const ACCENT_COLOR = '#D4AF37';
+
+// ========== CONFIGURATION LIDAR - MODIFIE ICI ==========
+// Point A = origine (position de la caméra)
+// Point B = coin haut du champ de vision
+// Point C = coin bas du champ de vision
+const LIDAR_TRIANGLE = {
+  A: { x: 31, y: 50},  // Caméra (point de départ)
+  B: { x: -150, y: 51 },   // Coin haut-gauche
+  C: { x: -100, y: 150 },   // Coin bas-gauche
+};
+// ========================================================
 
 // Points cibles sur le drone (en % de l'image du drone)
 // Basé sur l'image: la nacelle caméra est à gauche, avec 3 objectifs empilés verticalement
@@ -17,7 +28,7 @@ const DRONE_TARGETS: Record<string, { x: number; y: number }[]> = {
     { x: 31, y: 60 },  // Objectif principal au milieu (gros objectif)
     { x: 35, y: 59 },  // Objectif du bas (petit rond)
   ],
-  cinema: [{ x: 33, y: 50 }],  // Objectif principal (le gros au milieu)
+  cinema: [],  // Pas de ligne - on utilise l'effet LiDAR à la place
   security: [
     { x: 45, y: 35 },
     { x: 46, y: 32 },
@@ -173,6 +184,10 @@ export const TechSpecs: React.FC = () => {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.03)_0%,transparent_50%)]"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(100,100,100,0.08)_0%,transparent_50%)]"></div>
             <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02)_0%,transparent_50%,rgba(0,0,0,0.3)_100%)]"></div>
+            {/* Logo DJI en fond */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-[0.04]">
+              <img src={djiLogo} alt="" className="w-[80%] h-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+            </div>
             {/* Subtle noise texture */}
             <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
             {/* Vignette effect */}
@@ -180,13 +195,102 @@ export const TechSpecs: React.FC = () => {
 
             {/* Image Container */}
             <div className="absolute inset-0 flex items-center justify-center p-12 transition-transform duration-700">
+               {/* Ombre du drone */}
+               <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[60%] h-[8%] bg-black/30 rounded-[50%] blur-xl"></div>
                <img 
                    ref={droneRef}
                    src={droneImg} 
                    alt="DJI Mavic 4 Pro" 
-                   className="w-full h-full object-contain relative z-10 transition-transform duration-700"
+                   className="w-full h-full object-contain relative z-10 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]"
                />
             </div>
+
+            {/* LiDAR Field of View - Utilise LIDAR_TRIANGLE pour la config */}
+            <svg 
+              className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500 ${isActive('cinema') ? 'opacity-100' : 'opacity-0'}`}
+              style={{ zIndex: 15 }}
+              viewBox="0 0 100 100" 
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                {/* Dégradé automatique de A vers le milieu de B-C */}
+                <linearGradient 
+                  id="lidarGradient" 
+                  x1={`${LIDAR_TRIANGLE.A.x}%`} 
+                  y1={`${LIDAR_TRIANGLE.A.y}%`} 
+                  x2={`${(LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 2}%`} 
+                  y2={`${(LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 2}%`}
+                >
+                  <stop offset="0%" stopColor={ACCENT_COLOR} stopOpacity="0.5" />
+                  <stop offset="100%" stopColor={ACCENT_COLOR} stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              
+              {/* Triangle principal */}
+              <polygon 
+                points={`${LIDAR_TRIANGLE.A.x},${LIDAR_TRIANGLE.A.y} ${LIDAR_TRIANGLE.B.x},${LIDAR_TRIANGLE.B.y} ${LIDAR_TRIANGLE.C.x},${LIDAR_TRIANGLE.C.y}`}
+                fill="url(#lidarGradient)"
+                opacity="0.4"
+              >
+                <animate attributeName="opacity" values="0.25;0.5;0.25" dur="2s" repeatCount="indefinite" />
+              </polygon>
+              
+              {/* Lignes de scan laser - A vers B, milieu BC, et C */}
+              <g>
+                {/* Ligne vers B (haut) */}
+                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
+                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" repeatCount="indefinite" />
+                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${LIDAR_TRIANGLE.B.x}`} dur="1.8s" repeatCount="indefinite" />
+                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${LIDAR_TRIANGLE.B.y}`} dur="1.8s" repeatCount="indefinite" />
+                </line>
+                {/* Ligne vers milieu BC */}
+                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
+                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" begin="0.4s" repeatCount="indefinite" />
+                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${(LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 2}`} dur="1.8s" begin="0.4s" repeatCount="indefinite" />
+                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${(LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 2}`} dur="1.8s" begin="0.4s" repeatCount="indefinite" />
+                </line>
+                {/* Ligne vers C (bas) */}
+                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
+                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" begin="0.8s" repeatCount="indefinite" />
+                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${LIDAR_TRIANGLE.C.x}`} dur="1.8s" begin="0.8s" repeatCount="indefinite" />
+                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${LIDAR_TRIANGLE.C.y}`} dur="1.8s" begin="0.8s" repeatCount="indefinite" />
+                </line>
+              </g>
+              
+              {/* Points de détection - calculés automatiquement dans le triangle */}
+              <g>
+                {/* Point à 30% du chemin A->B */}
+                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.B.x - LIDAR_TRIANGLE.A.x) * 0.5} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.B.y - LIDAR_TRIANGLE.A.y) * 0.5} r="1" fill={ACCENT_COLOR} opacity="0">
+                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.3s" repeatCount="indefinite" />
+                </circle>
+                {/* Point à 70% du chemin A->B */}
+                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.B.x - LIDAR_TRIANGLE.A.x) * 0.75} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.B.y - LIDAR_TRIANGLE.A.y) * 0.75} r="0.8" fill={ACCENT_COLOR} opacity="0">
+                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.7s" repeatCount="indefinite" />
+                </circle>
+                {/* Point au centre du triangle */}
+                <circle cx={(LIDAR_TRIANGLE.A.x + LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 3} cy={(LIDAR_TRIANGLE.A.y + LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 3} r="1.2" fill={ACCENT_COLOR} opacity="0">
+                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1s" repeatCount="indefinite" />
+                </circle>
+                {/* Point à 50% du chemin A->C */}
+                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.C.x - LIDAR_TRIANGLE.A.x) * 0.5} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.C.y - LIDAR_TRIANGLE.A.y) * 0.5} r="0.7" fill={ACCENT_COLOR} opacity="0">
+                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1.4s" repeatCount="indefinite" />
+                </circle>
+                {/* Point à 75% du chemin A->C */}
+                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.C.x - LIDAR_TRIANGLE.A.x) * 0.75} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.C.y - LIDAR_TRIANGLE.A.y) * 0.75} r="0.9" fill={ACCENT_COLOR} opacity="0">
+                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1.7s" repeatCount="indefinite" />
+                </circle>
+              </g>
+              
+              {/* Contour en pointillés */}
+              <path 
+                d={`M ${LIDAR_TRIANGLE.A.x} ${LIDAR_TRIANGLE.A.y} L ${LIDAR_TRIANGLE.B.x} ${LIDAR_TRIANGLE.B.y} L ${LIDAR_TRIANGLE.C.x} ${LIDAR_TRIANGLE.C.y} Z`}
+                fill="none" 
+                stroke={ACCENT_COLOR} 
+                strokeWidth="0.5"
+                strokeDasharray="3,2"
+                opacity="0.5"
+              />
+            </svg>
 
             {/* SONAR Effect pour Range - SOUS le drone (z-index 5, avant l'image) */}
             <svg 
@@ -238,15 +342,17 @@ export const TechSpecs: React.FC = () => {
                 <div className="col-start-2 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('range')} onMouseLeave={handleMouseLeave} />
             </div>
 
-            {/* Badge Tech */}
-            <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full flex items-center gap-3 z-40">
-                <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${activeFeature ? 'bg-accent' : 'bg-white/50'}`}></div>
-                <span className="text-xs font-mono text-white/80 tracking-widest">
-                    {isActive('camera') ? 'SYSTEME OPTIQUE' : 
-                     isActive('cinema') ? 'MODE CINEMA' :
-                     isActive('security') ? 'CAPTEURS ACTIFS' :
-                     isActive('range') ? 'OCUSYNC 4' : 'MAVIC 4 PRO'}
-                </span>
+            {/* Indicateur technique discret */}
+            <div className={`absolute bottom-5 right-5 z-40 transition-all duration-300 ${activeFeature ? 'opacity-100' : 'opacity-50'}`}>
+                <div className="flex items-center gap-2 text-[10px] font-mono tracking-wider text-white/70">
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full transition-colors duration-200 ${activeFeature ? 'bg-accent' : 'bg-white/40'}`}></span>
+                    <span className="transition-all duration-200">
+                        {isActive('camera') ? 'CAMERA' : 
+                         isActive('cinema') ? 'LIDAR' :
+                         isActive('security') ? 'SENSORS' :
+                         isActive('range') ? 'RANGE' : 'READY'}
+                    </span>
+                </div>
             </div>
 
           </Reveal>
@@ -256,7 +362,7 @@ export const TechSpecs: React.FC = () => {
         <div className="flex-1 space-y-10 relative z-10 order-2 md:order-2">
           <Reveal>
             <div className="flex items-center gap-5 mb-6 opacity-90">
-              <img src={djiLogo} alt="DJI" className="h-8 w-auto" style={{ filter: 'brightness(0) saturate(100%) invert(73%) sepia(67%) saturate(398%) hue-rotate(6deg) brightness(92%) contrast(88%)' }} />
+              <img src={djiLogo} alt="DJI" className="h-5 w-auto" style={{ filter: 'brightness(0) saturate(100%) invert(73%) sepia(67%) saturate(398%) hue-rotate(6deg) brightness(92%) contrast(88%)' }} />
               <div className="h-4 w-[1px] bg-accent/50"></div>
               <span className="text-sm font-bold tracking-[0.3em] text-accent uppercase">Flagship Series</span>
             </div>
@@ -288,16 +394,16 @@ export const TechSpecs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Feature 2 - Qualité cinéma */}
+              {/* Feature 2 - LiDAR 3D */}
               <div 
                 ref={(el) => { featureRefs.current['cinema'] = el; }}
                 className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('cinema') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('cinema')}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className={`text-3xl font-semibold transition-colors ${isActive('cinema') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Qualité cinéma</div>
+                <div className={`text-3xl font-semibold transition-colors ${isActive('cinema') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>LiDAR 3D</div>
                 <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
-                    <Aperture size={14} /> Couleurs éclatantes
+                    <Scan size={14} /> Cartographie laser
                 </div>
               </div>
 

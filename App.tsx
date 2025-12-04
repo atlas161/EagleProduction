@@ -30,6 +30,22 @@ function App() {
       // et pour assurer une transition fluide
       setTimeout(() => {
         setIsLoading(false);
+        
+        // Gérer le hash dans l'URL après le chargement
+        const hash = window.location.hash.replace('#', '') as Section;
+        if (hash && Object.values(Section).includes(hash)) {
+          // Petit délai pour laisser le DOM se stabiliser
+          setTimeout(() => {
+            const element = document.getElementById(hash);
+            if (element) {
+              const SCROLL_OFFSET = 72;
+              const elementPosition = element.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - SCROLL_OFFSET;
+              window.scrollTo({ top: Math.max(offsetPosition, 0), behavior: 'smooth' });
+              setActiveSection(hash);
+            }
+          }, 100);
+        }
       }, 1500);
     };
 
@@ -44,30 +60,31 @@ function App() {
     return () => window.removeEventListener('load', handleLoad);
   }, []);
 
+  // Hauteur fixe de la navbar
+  const NAVBAR_HEIGHT = 72;
+  const SCROLL_OFFSET = NAVBAR_HEIGHT; // juste la navbar, pas d'espace supplémentaire
+
   // Fonction de scroll manuel avec calcul de l'offset pour la navbar fixe
   const scrollToSection = (sectionId: Section) => {
-    const anchorMap: Partial<Record<Section, string>> = {
-      [Section.SERVICES]: 'services-title',
-      [Section.ABOUT]: 'about-title',
-      [Section.TECH]: 'tech-title',
-      [Section.REVIEWS]: 'reviews-title',
-      [Section.CONTACT]: 'contact-title',
-    };
-    const targetId = anchorMap[sectionId];
-    const el = (targetId && document.getElementById(targetId)) || document.getElementById(sectionId);
+    // On cible directement la section, pas le titre
+    const sectionElement = document.getElementById(sectionId);
     
-    if (el) {
-      // Hauteur de sécurité fixe pour la navbar + un peu d'espace
-      const offset = 120; 
-
+    if (sectionElement) {
       setIsNavigating(true);
-      
-      // Scroll natif standard
-      const rectTop = el.getBoundingClientRect().top + window.scrollY;
-      const targetY = rectTop - offset;
-      window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
-      
       setActiveSection(sectionId);
+      
+      // Calcul précis de la position
+      const elementPosition = sectionElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - SCROLL_OFFSET;
+      
+      window.scrollTo({
+        top: Math.max(offsetPosition, 0),
+        behavior: 'smooth'
+      });
+      
+      // Mettre à jour l'URL sans recharger (pour le partage de liens)
+      window.history.pushState(null, '', `#${sectionId}`);
+      
       window.setTimeout(() => setIsNavigating(false), 800);
     }
   };
@@ -76,12 +93,11 @@ function App() {
     const current = document.getElementById(Section.HERO);
     const next = current?.nextElementSibling as HTMLElement | null;
     if (next) {
-      const offset = 100;
       setIsNavigating(true);
       
-      const rectTop = next.getBoundingClientRect().top + window.scrollY;
-      const targetY = rectTop - offset;
-      window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
+      const elementPosition = next.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - SCROLL_OFFSET;
+      window.scrollTo({ top: Math.max(offsetPosition, 0), behavior: 'smooth' });
       
       const nextId = next.id as Section;
       if (nextId) setActiveSection(nextId);
@@ -93,23 +109,30 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
+      
+      // Ne pas mettre à jour pendant une navigation programmée
+      if (isNavigating) return;
+      
       const sections = Object.values(Section);
-      const scrollPosition = window.scrollY + 100; // Point de déclenchement un peu plus bas que le haut de l'écran
+      const scrollPosition = window.scrollY + SCROLL_OFFSET + 50; // Point de déclenchement cohérent
 
-      for (const section of sections) {
+      // Trouver la section visible (de bas en haut pour prioriser celle en cours)
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          const { offsetTop } = element;
+          if (scrollPosition >= offsetTop) {
             setActiveSection(section);
+            break;
           }
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isNavigating]);
 
   return (
     <>
@@ -123,35 +146,35 @@ function App() {
           {isNavigating && (
             <div className="fixed top-0 left-0 right-0 h-0.5 bg-accent z-[60]" />
           )}
-          <section id={Section.HERO} className="scroll-mt-20">
+          <section id={Section.HERO}>
             <Hero onScrollDown={scrollToNextSection} />
           </section>
 
-          <section id={Section.GALLERY} className="min-h-screen scroll-mt-20">
+          <section id={Section.GALLERY} className="min-h-screen">
             <Gallery />
           </section>
 
-          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen scroll-mt-20 border-b border-white/5">
+          <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen border-b border-white/5">
             <Services />
           </section>
 
-          <section id={Section.ABOUT} className="py-8 scroll-mt-20 border-b border-white/5">
+          <section id={Section.ABOUT} className="py-8 border-b border-white/5">
             <About />
           </section>
 
-          <section id={Section.TECH} className="min-h-screen scroll-mt-20">
+          <section id={Section.TECH} className="min-h-screen">
             <TechSpecs />
           </section>
 
-          <section id={Section.ZONE} className="min-h-screen scroll-mt-20">
+          <section id={Section.ZONE} className="min-h-screen">
             <Coverage />
           </section>
 
-          <section id={Section.REVIEWS} className="min-h-screen bg-background border-t border-white/5 scroll-mt-20">
+          <section id={Section.REVIEWS} className="min-h-screen bg-background border-t border-white/5">
             <ReviewsAndFaq />
           </section>
 
-          <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen scroll-mt-20">
+          <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen">
             <Contact />
           </section>
         </main>
