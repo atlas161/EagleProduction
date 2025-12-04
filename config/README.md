@@ -22,6 +22,7 @@ Ce fichier permet de modifier rapidement **sans toucher au code** :
 | `OPTIONS`                 | Options et suppléments (déplacement, photo, USB)         |
 | `SERVICES_COMPLEMENTAIRES`| Tarifs des services complémentaires                      |
 | `CONTACT`                 | Informations de contact                                  |
+| `ABOUT`                   | Section À propos (photo, textes, citation)               |
 
 ---
 
@@ -100,6 +101,42 @@ export const OPTIONS = {
   deplacement: { price: 0.50, unit: "/km", label: "Déplacement" },
   photoDrone: { price: 2, unit: "/unité", label: "Photo drone" },
   supportUsb: { price: 12, unit: "/clé", label: "Support USB" },
+};
+```
+
+---
+
+## 👤 Modifier la section À propos
+
+```typescript
+export const ABOUT = {
+  sectionLabel: "À Propos",
+  title: "Paul Bardin :",
+  subtitle: "La vidéo vue d'en haut.",
+  
+  photo: {
+    src: "/Photo_de_paul_bardin.webp",  // ← Chemin de l'image (dans public/)
+    alt: "Paul Bardin Pilote Drone",
+  },
+  
+  badge: {
+    title: "Basé à Angoulême",           // ← Texte du badge sur la photo
+    subtitle: "Intervention Nouvelle-Aquitaine",
+  },
+  
+  // Chaque élément = un paragraphe
+  // Utilise <strong>texte</strong> pour mettre en gras (blanc)
+  // Utilise <br/> pour un saut de ligne
+  paragraphs: [
+    "Premier paragraphe avec <strong>texte en gras</strong>...",
+    "Deuxième paragraphe...",
+  ],
+  
+  quote: {
+    text: "Ta citation ici...",
+    author: "PAUL BARDIN",
+    role: "FONDATEUR",
+  },
 };
 ```
 

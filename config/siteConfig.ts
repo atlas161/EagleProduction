@@ -247,3 +247,52 @@ export const CONTACT = {
     linkedin: "https://www.linkedin.com/company/eagleproduction",
   },
 };
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// 👤 À PROPOS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const ABOUT = {
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TITRE & SOUS-TITRE
+  // ─────────────────────────────────────────────────────────────────────────────
+  sectionLabel: "À Propos",
+  title: "Paul Bardin :",
+  subtitle: "La vidéo vue d'en haut.",
+  
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PHOTO
+  // ─────────────────────────────────────────────────────────────────────────────
+  photo: {
+    src: "/Photo_de_paul_bardin.webp",
+    alt: "Paul Bardin Pilote Drone",
+  },
+  
+  // ─────────────────────────────────────────────────────────────────────────────
+  // BADGE SUR LA PHOTO
+  // ─────────────────────────────────────────────────────────────────────────────
+  badge: {
+    title: "Basé à Angoulême",
+    subtitle: "Intervention Nouvelle-Aquitaine",
+  },
+  
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PARAGRAPHES (chaque élément = un paragraphe)
+  // Utilise <strong> pour mettre en gras (sera affiché en blanc)
+  // ─────────────────────────────────────────────────────────────────────────────
+  paragraphs: [
+    "J'ai fondé <strong>Eagle Production</strong> à 23 ans, poussé par une passion profonde pour le pilotage et la <strong>création de vidéos</strong>. Cette passion m'a naturellement conduit à devenir <strong>télépilote certifié et diplômé</strong>, et à transformer ce savoir-faire en un véritable projet professionnel.",
+    "Eagle Production est né de cette envie : capturer le monde sous un autre angle, raconter des histoires, et offrir des images uniques.",
+    "Notre objectif chez Eagle Production est clair : intervenir dans un maximum de domaines.<br/>Qu'il s'agisse <strong>d'événements</strong>, de <strong>sport</strong>, de <strong>construction</strong>, de <strong>tourisme</strong>, de projets artistiques, et bien d'autres domaines encore, nous voulons toucher un maximum de métiers et d'univers différents.",
+    "Parce que la créativité n'a pas de limites, et parce que le <strong>drone</strong> (tout comme la vidéo) permet d'explorer des perspectives nouvelles, Eagle Production a été pensé pour <strong>s'adapter à tous les besoins</strong> et intervenir partout où une vision aérienne ou créative peut faire la différence.",
+  ],
+  
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CITATION
+  // ─────────────────────────────────────────────────────────────────────────────
+  quote: {
+    text: "Comme un aigle, nous visons la précision pour ne jamais manquer l'instant décisif.",
+    author: "PAUL BARDIN",
+    role: "FONDATEUR",
+  },
+};
