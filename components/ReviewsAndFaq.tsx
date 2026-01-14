@@ -63,7 +63,7 @@ export const ReviewsAndFaq: React.FC = () => {
                                 </div>
                                 
                                 {/* Review Content - Fixed height container with scroll if needed */}
-                                <div className="flex-1 min-h-0 overflow-y-auto pr-2 mb-4">
+                                <div className="flex-1 min-h-0 overflow-y-auto pr-2 mb-4 no-scrollbar">
                                     <div key={activeReview.id} className="animate-fade-in">
                                         <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light italic tracking-wide font-serif">
                                             "{activeReview.content}"

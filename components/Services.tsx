@@ -323,19 +323,11 @@ export const Services: React.FC = () => {
         )}
 
 
-        {/* --- SECONDARY SERVICES: STUDIO --- */}
-        <div id="studio" className="border-t border-white/5 pt-20">
-          {/* Header */}
-          <Reveal>
-          <div className="text-center mb-10">
-            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Au-delà du drone</span>
-            <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60">Nos services complémentaires</h3>
-          </div>
-          </Reveal>
-
+        {/* --- MONTAGE VIDEO SECTION --- */}
+        <div className="border-t border-white/5 pt-20">
           {/* Carte Montage vidéo - Compacte et centrée */}
           <Reveal delay={100}>
-            <div className="mb-10 max-w-3xl mx-auto">
+            <div className="mb-20 max-w-3xl mx-auto">
               <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 hover:border-accent/30 transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
                 <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -374,6 +366,17 @@ export const Services: React.FC = () => {
                 </div>
               </div>
             </div>
+          </Reveal>
+        </div>
+
+        {/* --- EAGLE DIGITAL SECTION --- */}
+        <div id="studio" className="border-t border-white/5 pt-20">
+          {/* Header */}
+          <Reveal>
+          <div className="text-center mb-16">
+            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Communication digitale</span>
+            <h3 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60 leading-tight pb-2">Eagle Digital</h3>
+          </div>
           </Reveal>
 
           {/* Stack des 3 services (Vertical) */}

@@ -113,16 +113,32 @@ function App() {
       // Ne pas mettre à jour pendant une navigation programmée
       if (isNavigating) return;
       
-      const sections = Object.values(Section);
-      const scrollPosition = window.scrollY + SCROLL_OFFSET + 50; // Point de déclenchement cohérent
+      // Ordre exact des sections dans le DOM (très important pour la détection inverse)
+      const ORDERED_SECTIONS = [
+        Section.HERO,
+        Section.GALLERY,
+        Section.SERVICES,
+        Section.ABOUT,
+        Section.TECH,
+        Section.ZONE,
+        Section.REVIEWS,
+        Section.CONTACT
+      ];
+
+      // Point de déclenchement : 1/3 de la hauteur de la fenêtre ou barre de nav
+      const scrollPosition = window.scrollY + (window.innerHeight * 0.3);
 
       // Trouver la section visible (de bas en haut pour prioriser celle en cours)
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
+      for (let i = ORDERED_SECTIONS.length - 1; i >= 0; i--) {
+        const section = ORDERED_SECTIONS[i];
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop } = element;
-          if (scrollPosition >= offsetTop) {
+          // Utiliser getBoundingClientRect pour une position absolue fiable par rapport au viewport
+          // puis ajouter scrollY pour avoir la position absolue dans le document
+          const rect = element.getBoundingClientRect();
+          const elementTopAbsolute = rect.top + window.scrollY;
+          
+          if (scrollPosition >= elementTopAbsolute) {
             setActiveSection(section);
             break;
           }
@@ -131,6 +147,9 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    // Déclenchement initial pour mettre à jour l'état au chargement
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isNavigating]);
 

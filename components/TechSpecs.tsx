@@ -28,12 +28,12 @@ const DRONE_TARGETS: Record<string, { x: number; y: number }[]> = {
     { x: 31, y: 60 },  // Objectif principal au milieu (gros objectif)
     { x: 35, y: 59 },  // Objectif du bas (petit rond)
   ],
-  cinema: [],  // Pas de ligne - on utilise l'effet LiDAR à la place
-  security: [
+  cinema: [
     { x: 45, y: 35 },
     { x: 46, y: 32 },
     { x: 35, y: 35 },
   ],
+  security: [],  // Pas de ligne - on utilise l'effet de vitesse à la place
   // Range n'a pas de ligne - on utilise un effet sonar à la place
 };
 
@@ -205,93 +205,113 @@ export const TechSpecs: React.FC = () => {
                />
             </div>
 
-            {/* LiDAR Field of View - Utilise LIDAR_TRIANGLE pour la config */}
+            {/* LiDAR Field of View - Maintenant avec effet 3 points */}
             <svg 
               className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500 ${isActive('cinema') ? 'opacity-100' : 'opacity-0'}`}
               style={{ zIndex: 15 }}
               viewBox="0 0 100 100" 
               preserveAspectRatio="xMidYMid meet"
             >
+              {/* Les points statiques ont été retirés pour ne laisser que les lignes connectées */}
+
+              {/* FLUX D'AIR DE PREMIER PLAN (Sur le fuselage) */}
+              {/* S'affiche uniquement si Vitesse Max est actif */}
+              <g className={`transition-opacity duration-500 ${isActive('security') ? 'opacity-100' : 'opacity-0'}`}>
+                  <defs>
+                    <linearGradient id="fuselageStreamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor={ACCENT_COLOR} stopOpacity="0" />
+                        <stop offset="30%" stopColor={ACCENT_COLOR} stopOpacity="0.8" />
+                        <stop offset="70%" stopColor={ACCENT_COLOR} stopOpacity="0.4" />
+                        <stop offset="100%" stopColor={ACCENT_COLOR} stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Ligne qui passe SUR le nez et le corps */}
+                  {/* Coordonnées approximatives: Nez ~38,55 -> Corps ~55,50 */}
+                  <path d="M 35 55 Q 45 52 60 48" stroke="url(#fuselageStreamGradient)" strokeWidth="1.2" fill="none" strokeDasharray="60,120" strokeLinecap="round">
+                      <animate attributeName="stroke-dashoffset" from="180" to="-60" dur="0.8s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0;1;0" dur="0.8s" repeatCount="indefinite" />
+                  </path>
+                  
+                  <path d="M 38 58 Q 48 55 65 50" stroke="url(#fuselageStreamGradient)" strokeWidth="0.8" fill="none" strokeDasharray="40,100" strokeLinecap="round">
+                      <animate attributeName="stroke-dashoffset" from="140" to="-40" dur="0.6s" begin="0.2s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0;0.8;0" dur="0.6s" begin="0.2s" repeatCount="indefinite" />
+                  </path>
+              </g>
+            </svg>
+
+            {/* Effet de vitesse - Vortex et Traînées (Arrière-plan) */}
+            <svg 
+              className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-700 ${isActive('security') ? 'opacity-100' : 'opacity-0'}`}
+              style={{ zIndex: 5 }}
+              viewBox="0 0 100 100" 
+              preserveAspectRatio="xMidYMid meet"
+            >
               <defs>
-                {/* Dégradé automatique de A vers le milieu de B-C */}
-                <linearGradient 
-                  id="lidarGradient" 
-                  x1={`${LIDAR_TRIANGLE.A.x}%`} 
-                  y1={`${LIDAR_TRIANGLE.A.y}%`} 
-                  x2={`${(LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 2}%`} 
-                  y2={`${(LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 2}%`}
-                >
-                  <stop offset="0%" stopColor={ACCENT_COLOR} stopOpacity="0.5" />
+                <linearGradient id="vortexGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor={ACCENT_COLOR} stopOpacity="0.1" />
+                  <stop offset="40%" stopColor={ACCENT_COLOR} stopOpacity="0.5" />
                   <stop offset="100%" stopColor={ACCENT_COLOR} stopOpacity="0" />
                 </linearGradient>
               </defs>
-              
-              {/* Triangle principal */}
-              <polygon 
-                points={`${LIDAR_TRIANGLE.A.x},${LIDAR_TRIANGLE.A.y} ${LIDAR_TRIANGLE.B.x},${LIDAR_TRIANGLE.B.y} ${LIDAR_TRIANGLE.C.x},${LIDAR_TRIANGLE.C.y}`}
-                fill="url(#lidarGradient)"
-                opacity="0.4"
-              >
-                <animate attributeName="opacity" values="0.25;0.5;0.25" dur="2s" repeatCount="indefinite" />
-              </polygon>
-              
-              {/* Lignes de scan laser - A vers B, milieu BC, et C */}
-              <g>
-                {/* Ligne vers B (haut) */}
-                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
-                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" repeatCount="indefinite" />
-                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${LIDAR_TRIANGLE.B.x}`} dur="1.8s" repeatCount="indefinite" />
-                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${LIDAR_TRIANGLE.B.y}`} dur="1.8s" repeatCount="indefinite" />
-                </line>
-                {/* Ligne vers milieu BC */}
-                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
-                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" begin="0.4s" repeatCount="indefinite" />
-                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${(LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 2}`} dur="1.8s" begin="0.4s" repeatCount="indefinite" />
-                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${(LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 2}`} dur="1.8s" begin="0.4s" repeatCount="indefinite" />
-                </line>
-                {/* Ligne vers C (bas) */}
-                <line x1={LIDAR_TRIANGLE.A.x} y1={LIDAR_TRIANGLE.A.y} x2={LIDAR_TRIANGLE.A.x} y2={LIDAR_TRIANGLE.A.y} stroke={ACCENT_COLOR} strokeWidth="0.4" opacity="0">
-                  <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" begin="0.8s" repeatCount="indefinite" />
-                  <animate attributeName="x2" values={`${LIDAR_TRIANGLE.A.x};${LIDAR_TRIANGLE.C.x}`} dur="1.8s" begin="0.8s" repeatCount="indefinite" />
-                  <animate attributeName="y2" values={`${LIDAR_TRIANGLE.A.y};${LIDAR_TRIANGLE.C.y}`} dur="1.8s" begin="0.8s" repeatCount="indefinite" />
-                </line>
-              </g>
-              
-              {/* Points de détection - calculés automatiquement dans le triangle */}
-              <g>
-                {/* Point à 30% du chemin A->B */}
-                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.B.x - LIDAR_TRIANGLE.A.x) * 0.5} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.B.y - LIDAR_TRIANGLE.A.y) * 0.5} r="1" fill={ACCENT_COLOR} opacity="0">
-                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.3s" repeatCount="indefinite" />
-                </circle>
-                {/* Point à 70% du chemin A->B */}
-                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.B.x - LIDAR_TRIANGLE.A.x) * 0.75} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.B.y - LIDAR_TRIANGLE.A.y) * 0.75} r="0.8" fill={ACCENT_COLOR} opacity="0">
-                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.7s" repeatCount="indefinite" />
-                </circle>
-                {/* Point au centre du triangle */}
-                <circle cx={(LIDAR_TRIANGLE.A.x + LIDAR_TRIANGLE.B.x + LIDAR_TRIANGLE.C.x) / 3} cy={(LIDAR_TRIANGLE.A.y + LIDAR_TRIANGLE.B.y + LIDAR_TRIANGLE.C.y) / 3} r="1.2" fill={ACCENT_COLOR} opacity="0">
-                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1s" repeatCount="indefinite" />
-                </circle>
-                {/* Point à 50% du chemin A->C */}
-                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.C.x - LIDAR_TRIANGLE.A.x) * 0.5} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.C.y - LIDAR_TRIANGLE.A.y) * 0.5} r="0.7" fill={ACCENT_COLOR} opacity="0">
-                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1.4s" repeatCount="indefinite" />
-                </circle>
-                {/* Point à 75% du chemin A->C */}
-                <circle cx={LIDAR_TRIANGLE.A.x + (LIDAR_TRIANGLE.C.x - LIDAR_TRIANGLE.A.x) * 0.75} cy={LIDAR_TRIANGLE.A.y + (LIDAR_TRIANGLE.C.y - LIDAR_TRIANGLE.A.y) * 0.75} r="0.9" fill={ACCENT_COLOR} opacity="0">
-                  <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1.7s" repeatCount="indefinite" />
-                </circle>
-              </g>
-              
-              {/* Contour en pointillés */}
-              <path 
-                d={`M ${LIDAR_TRIANGLE.A.x} ${LIDAR_TRIANGLE.A.y} L ${LIDAR_TRIANGLE.B.x} ${LIDAR_TRIANGLE.B.y} L ${LIDAR_TRIANGLE.C.x} ${LIDAR_TRIANGLE.C.y} Z`}
-                fill="none" 
-                stroke={ACCENT_COLOR} 
-                strokeWidth="0.5"
-                strokeDasharray="3,2"
-                opacity="0.5"
-              />
-            </svg>
 
+              {/* --- GROUPE VORTEX MOTEURS --- */}
+              {/* Basé sur l'image: Drone orienté vers la gauche, vue de 3/4 face */}
+              {/* Nez ~35,55 | Moteur AG ~12,48 | Moteur AD ~75,30 | Moteur AR-G ~38,70 (caché) | Moteur AR-D ~85,40 */}
+              
+              <g>
+                {/* 1. MOTEUR AVANT-GAUCHE (Celui tout à gauche) ~12,48 */}
+                {/* Le flux part du moteur et file vers l'arrière (droite) */}
+                <path d="M 12 48 C 20 48 30 50 60 55" stroke="url(#vortexGradient)" strokeWidth="1.5" fill="none" opacity="0.6" strokeDasharray="5,3">
+                   <animate attributeName="stroke-dashoffset" from="100" to="0" dur="0.3s" repeatCount="indefinite" />
+                   <animate attributeName="opacity" values="0.3;0.7;0.3" dur="1s" repeatCount="indefinite" />
+                </path>
+                {/* Spirale turbulente */}
+                <path d="M 12 48 l 5 2 l 5 -2 l 5 2 l 5 -2" stroke={ACCENT_COLOR} strokeWidth="0.8" fill="none" opacity="0">
+                    <animate attributeName="d" values="M 12 48 l 5 2 l 5 -2 l 5 2; M 12 48 l 10 4 l 10 -4 l 10 4" dur="0.4s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.6;0" dur="0.4s" repeatCount="indefinite" />
+                    <animate attributeName="transform" type="translate" from="0 0" to="30 10" dur="0.4s" repeatCount="indefinite" />
+                </path>
+
+                {/* 2. MOTEUR AVANT-DROIT (Haut Droite, le plus haut) ~75,30 */}
+                <path d="M 75 30 L 105 25" stroke="url(#vortexGradient)" strokeWidth="1" fill="none" strokeDasharray="10,5">
+                    <animate attributeName="stroke-dashoffset" from="50" to="0" dur="0.2s" repeatCount="indefinite" />
+                </path>
+
+                {/* 3. MOTEUR ARRIÈRE-DROIT (Haut, très à droite) ~85,40 */}
+                <path d="M 85 40 L 110 38" stroke="url(#vortexGradient)" strokeWidth="1" fill="none" strokeDasharray="10,5">
+                    <animate attributeName="stroke-dashoffset" from="50" to="0" dur="0.2s" repeatCount="indefinite" />
+                </path>
+                
+                 {/* 4. MOTEUR ARRIÈRE-GAUCHE (Bas, sous le corps) ~38,65 */}
+                <path d="M 38 65 C 50 65 70 68 90 70" stroke="url(#vortexGradient)" strokeWidth="1.2" fill="none" strokeDasharray="5,3">
+                    <animate attributeName="stroke-dashoffset" from="50" to="0" dur="0.25s" repeatCount="indefinite" />
+                </path>
+              </g>
+
+              {/* --- GROUPE FLUX D'AIR AMBIANT (Speed Lines) --- */}
+              <g opacity="0.4">
+                 {[...Array(8)].map((_, i) => (
+                    <line key={i} x1="-10" y1={10 + i * 12} x2="110" y2={10 + i * 12 + 5} stroke={ACCENT_COLOR} strokeWidth={0.5} strokeDasharray="20,150" strokeDashoffset="0">
+                        <animate attributeName="stroke-dashoffset" from="170" to="0" dur={`${0.5 + i * 0.1}s`} repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;1;0" dur={`${0.5 + i * 0.1}s`} repeatCount="indefinite" />
+                    </line>
+                 ))}
+              </g>
+              
+              {/* --- PARTICULES DE POUSSIÈRE RAPIDES --- */}
+              <g>
+                 {[...Array(6)].map((_, i) => (
+                    <circle key={i} cx="0" cy={Math.random() * 100} r={0.5 + Math.random()} fill="white" opacity="0">
+                        <animate attributeName="cx" values="0;120" dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
+                        <animate attributeName="cy" from={`${Math.random() * 100}`} to={`${Math.random() * 100 + 10}`} dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;0.8;0" dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
+                    </circle>
+                 ))}
+              </g>
+
+            </svg>
+            
             {/* SONAR Effect pour Range - SOUS le drone (z-index 5, avant l'image) */}
             <svg 
               className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500 ${isActive('range') ? 'opacity-100' : 'opacity-0'}`}
@@ -349,7 +369,7 @@ export const TechSpecs: React.FC = () => {
                     <span className="transition-all duration-200">
                         {isActive('camera') ? 'CAMERA' : 
                          isActive('cinema') ? 'LIDAR' :
-                         isActive('security') ? 'SENSORS' :
+                         isActive('security') ? 'SPEED' :
                          isActive('range') ? 'RANGE' : 'READY'}
                     </span>
                 </div>
@@ -407,16 +427,16 @@ export const TechSpecs: React.FC = () => {
                 </div>
               </div>
 
-              {/* Feature 3 - Sécurité 360 */}
+              {/* Feature 3 - Vitesse max */}
               <div 
                 ref={(el) => { featureRefs.current['security'] = el; }}
                 className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('security') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('security')}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className={`text-3xl font-semibold transition-colors ${isActive('security') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Sécurité 360°</div>
+                <div className={`text-3xl font-semibold transition-colors ${isActive('security') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Vitesse max</div>
                 <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
-                    <ScanEye size={14} /> Détection d'obstacles
+                    <ScanEye size={14} /> 90 km/h
                 </div>
               </div>
 
