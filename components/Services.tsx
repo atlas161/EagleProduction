@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, Palette, Search, Share2, ShieldCheck, X } from 'lucide-react';
+import { Transition } from '@headlessui/react';
 import { Reveal } from './Reveal';
 import essentielImg from '../media/images_formules/Essentiel.webp';
 import altitudeImg from '../media/images_formules/Altitude.webp';
@@ -7,20 +8,65 @@ import horizonImg from '../media/images_formules/Horizon.webp';
 import identiteVisuelImg from '../media/images_formules/Identitévisuel.webp';
 import presenceDigitaleImg from '../media/images_formules/Présence_digitalev2.webp';
 import reseauxSociauxImg from '../media/images_formules/RéseauxSociaux.webp';
+import { Toast } from './Toast';
 
+interface ServicesProps {
+  onServiceSelect?: (serviceName: string) => void;
+}
 
-export const Services: React.FC = () => {
+export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
   const [showExtras, setShowExtras] = useState(false);
-  const [closingExtras, setClosingExtras] = useState(false);
-  const handleServiceClick = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (showExtras) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showExtras]);
+
+  const handleServiceSelect = (serviceName: string, shouldScroll = false) => {
+    if (onServiceSelect) {
+      onServiceSelect(serviceName);
+      setToastMessage(`Formule "${serviceName}" ajoutée au formulaire`);
+      setShowToast(true);
+    }
+    
+    if (shouldScroll) {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const closeExtras = () => {
+    setShowExtras(false);
+  };
+
+  const handleSpecificProjectClick = () => {
+    closeExtras();
+    // Wait for modal close animation (handled by Transition)
+    setTimeout(() => {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300); 
   };
 
   return (
     <div className="bg-background py-32 relative overflow-hidden">
+      <Toast 
+        message={toastMessage} 
+        isVisible={showToast} 
+        onClose={() => setShowToast(false)} 
+      />
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -52,7 +98,7 @@ export const Services: React.FC = () => {
           {/* Card 1: ESSENTIEL */}
           <Reveal delay={100} className="h-full">
             <div 
-              onClick={handleServiceClick}
+              onClick={() => handleServiceSelect('Essentiel')}
               className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
@@ -95,6 +141,7 @@ export const Services: React.FC = () => {
                 </li>
               </ul>
               <button 
+                type="button"
                 onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
                 className="relative z-10 mt-auto pt-4 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
               >
@@ -106,7 +153,7 @@ export const Services: React.FC = () => {
           {/* Card 2: ALTITUDE */}
           <Reveal delay={300} className="h-full">
             <div 
-              onClick={handleServiceClick}
+              onClick={() => handleServiceSelect('Altitude')}
               className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
@@ -156,10 +203,18 @@ export const Services: React.FC = () => {
                 </li>
               </ul>
               
-              <button className="relative z-10 w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors">
+              <button 
+                type="button"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  handleServiceSelect('Altitude', true); 
+                }}
+                className="relative z-10 w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors"
+              >
                 Choisir altitude
               </button>
               <button 
+                type="button"
                 onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
                 className="relative z-10 mt-auto pt-3 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
               >
@@ -171,7 +226,7 @@ export const Services: React.FC = () => {
           {/* Card 3: HORIZON */}
           <Reveal delay={500} className="h-full">
             <div 
-              onClick={handleServiceClick}
+              onClick={() => handleServiceSelect('Horizon')}
               className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
@@ -237,42 +292,47 @@ export const Services: React.FC = () => {
           </Reveal>
         </div>
         {/* Extras Modal */}
-        {showExtras && (
+        <Transition
+          show={showExtras}
+          as={Fragment}
+          enter="transition-opacity duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
           <div 
-            className={`fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 transition-opacity duration-200 ${closingExtras ? 'opacity-0' : 'opacity-100'}`} 
-            onClick={() => {
-              setClosingExtras(true);
-              setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
-            }}
+            className="fixed inset-0 z-[100] bg-background/20 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setShowExtras(false)}
           >
             <button 
               className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
-                setClosingExtras(true);
-                setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
+                setShowExtras(false);
               }}
             >
               <X size={32} />
             </button>
             <div 
-              className={`max-w-4xl w-full max-h-[80vh] bg-surface rounded-2xl overflow-hidden shadow-xl border border-white/10 transform transition-transform duration-200 ${closingExtras ? 'scale-95' : 'scale-100'}`}
+              className="max-w-4xl w-full max-h-[80vh] bg-surface rounded-2xl overflow-hidden shadow-xl border border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-5 md:p-6">
-                <div className="flex flex-col md:flex-row items-center justify-between mb-4 border-b border-white/5 pb-3">
+                <div className="flex flex-row items-center justify-between mb-4 border-b border-white/5 pb-3">
                   <h4 className="text-lg font-bold text-white flex items-center gap-2">
                     <div className="w-1.5 h-6 bg-accent rounded-full"></div>
-                    Options & suppléments
+                    Options
                   </h4>
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation();
-                      setClosingExtras(true);
-                      setTimeout(() => { setShowExtras(false); setClosingExtras(false); }, 180);
+                      setShowExtras(false);
                     }}
-                    className="text-textSecondary hover:text-white text-xs md:text-sm font-medium"
+                    className="bg-white/5 hover:bg-white/10 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-2"
                   >
+                    <X size={14} />
                     Fermer
                   </button>
                 </div>
@@ -305,7 +365,7 @@ export const Services: React.FC = () => {
                     </div>
                   </div>
                   <div 
-                    onClick={handleServiceClick}
+                    onClick={handleSpecificProjectClick}
                     className="flex items-center justify-between p-3 bg-accent/10 rounded-xl border border-accent/20 hover:bg-accent/20 transition-all cursor-pointer group"
                   >
                     <div className="flex flex-col">
@@ -320,7 +380,7 @@ export const Services: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
+        </Transition>
 
 
         {/* --- MONTAGE VIDEO SECTION --- */}
@@ -384,7 +444,10 @@ export const Services: React.FC = () => {
               
               {/* Carte Identité visuelle (DORÉ / ACCENT) */}
               <Reveal>
-                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500">
+                <div 
+                  onClick={() => handleServiceSelect('Identité visuelle')}
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500 cursor-pointer"
+                >
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
@@ -437,7 +500,10 @@ export const Services: React.FC = () => {
 
               {/* Carte Présence digitale (BLEU VIOLET / INDIGO) */}
               <Reveal>
-                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500">
+                <div 
+                  onClick={() => handleServiceSelect('Présence digitale')}
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500 cursor-pointer"
+                >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
@@ -479,7 +545,10 @@ export const Services: React.FC = () => {
 
               {/* Carte Réseaux sociaux */}
               <Reveal>
-                <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/30 transition-all duration-500">
+                <div 
+                  onClick={() => handleServiceSelect('Réseaux sociaux')}
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/30 transition-all duration-500 cursor-pointer"
+                >
                 <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}

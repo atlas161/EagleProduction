@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Reveal } from './Reveal';
 import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
@@ -73,7 +73,11 @@ const recordSubmission = () => {
   localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
 };
 
-export const Contact: React.FC = () => {
+interface ContactProps {
+  selectedServices?: string[];
+}
+
+export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [rateLimitSeconds, setRateLimitSeconds] = useState(0);
@@ -83,6 +87,16 @@ export const Contact: React.FC = () => {
     email: '',
     message: '',
   });
+
+  useEffect(() => {
+    if (selectedServices && selectedServices.length > 0) {
+      const servicesList = selectedServices.join(', ');
+      setFormData(prev => ({
+        ...prev,
+        message: `Bonjour, je suis intéressé(e) par les formules suivantes : ${servicesList}.\n\nVoici quelques détails sur mon projet :`
+      }));
+    }
+  }, [selectedServices]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

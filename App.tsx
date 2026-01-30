@@ -22,6 +22,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+
+  const handleServiceSelect = (serviceName: string) => {
+    setSelectedServices(prev => {
+      if (prev.includes(serviceName)) return prev;
+      return [...prev, serviceName];
+    });
+  };
 
   // Gestion du chargement initial (Preloader)
   useEffect(() => {
@@ -174,7 +182,7 @@ function App() {
           </section>
 
           <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen border-b border-white/5">
-            <Services />
+            <Services onServiceSelect={handleServiceSelect} />
           </section>
 
           <section id={Section.ABOUT} className="py-8 border-b border-white/5">
@@ -194,7 +202,7 @@ function App() {
           </section>
 
           <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen">
-            <Contact />
+            <Contact selectedServices={selectedServices} />
           </section>
         </main>
 
