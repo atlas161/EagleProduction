@@ -5,8 +5,8 @@ import { Reveal } from './Reveal';
 import essentielImg from '../media/images_formules/Essentiel.webp';
 import altitudeImg from '../media/images_formules/Altitude.webp';
 import horizonImg from '../media/images_formules/Horizon.webp';
-import identiteVisuelImg from '../media/images_formules/Identitévisuel.webp';
-import presenceDigitaleImg from '../media/images_formules/Présence_digitalev2.webp';
+import identiteVisuelleImg from '../media/images_formules/Identité_visuelle.webp';
+import presenceDigitalImg from '../media/images_formules/Présence_digitalv2.webp';
 import reseauxSociauxImg from '../media/images_formules/RéseauxSociaux.webp';
 import { Toast } from './Toast';
 
@@ -86,9 +86,9 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
             </p>
             
             {/* Certification Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent font-medium text-sm hover:bg-accent/20 transition-colors cursor-default shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent font-medium text-sm lg:hover:bg-accent/20 transition-colors cursor-default shadow-[0_0_15px_rgba(212,175,55,0.1)]">
               <ShieldCheck size={18} />
-              <span>Vols opérés par télépilote certifié (diplômé d'état)</span>
+              <span>Vols opérés par télépilote certifié (diplômé d'État)</span>
             </div>
           </Reveal>
         </div>
@@ -99,7 +99,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           <Reveal delay={100} className="h-full">
             <div 
               onClick={() => handleServiceSelect('Essentiel')}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 lg:hover:bg-surfaceHighlight/50 transition-all duration-500 lg:hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 35%' }} />
@@ -154,7 +154,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           <Reveal delay={300} className="h-full">
             <div 
               onClick={() => handleServiceSelect('Altitude')}
-              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
+              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 lg:hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
               <div className="absolute inset-0 z-0 pointer-events-none">
@@ -227,7 +227,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           <Reveal delay={500} className="h-full">
             <div 
               onClick={() => handleServiceSelect('Horizon')}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-surfaceHighlight/50 transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 lg:hover:bg-surfaceHighlight/50 transition-all duration-500 lg:hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '70% 60%' }} />
@@ -337,27 +337,27 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                      <Car className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg lg:group-hover:bg-accent/20 transition-colors">
+                      <Car className="w-5 h-5 text-textSecondary lg:group-hover:text-accent" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-bold text-textPrimary">0,50€ <span className="text-[10px] text-textSecondary font-normal">/km</span></span>
                       <span className="text-[10px] text-textSecondary font-medium tracking-wide">Déplacement</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                      <Camera className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg lg:group-hover:bg-accent/20 transition-colors">
+                      <Camera className="w-5 h-5 text-textSecondary lg:group-hover:text-accent" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-bold text-textPrimary">2€ <span className="text-[10px] text-textSecondary font-normal">/unité</span></span>
                       <span className="text-[10px] text-textSecondary font-medium tracking-wide">Photo drone</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 hover:border-accent/30 transition-all group">
-                    <div className="p-2.5 bg-white/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                      <Usb className="w-5 h-5 text-textSecondary group-hover:text-accent" />
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg lg:group-hover:bg-accent/20 transition-colors">
+                      <Usb className="w-5 h-5 text-textSecondary lg:group-hover:text-accent" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-bold text-textPrimary">12€ <span className="text-[10px] text-textSecondary font-normal">/clé</span></span>
@@ -366,13 +366,13 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                   </div>
                   <div 
                     onClick={handleSpecificProjectClick}
-                    className="flex items-center justify-between p-3 bg-accent/10 rounded-xl border border-accent/20 hover:bg-accent/20 transition-all cursor-pointer group"
+                    className="flex items-center justify-between p-3 bg-accent/10 rounded-xl border border-accent/20 lg:hover:bg-accent/20 transition-all cursor-pointer group"
                   >
                     <div className="flex flex-col">
                       <span className="font-bold text-accent text-sm">Un projet spécifique ?</span>
                       <span className="text-[10px] text-accent/70 font-medium">Demandez un devis sur mesure</span>
                     </div>
-                    <div className="bg-accent text-background p-2 rounded-full group-hover:translate-x-1 transition-transform">
+                    <div className="bg-accent text-background p-2 rounded-full lg:group-hover:translate-x-1 transition-transform">
                       <ArrowRight size={16} />
                     </div>
                   </div>
@@ -388,8 +388,8 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           {/* Carte Montage vidéo - Compacte et centrée */}
           <Reveal delay={100}>
             <div className="mb-20 max-w-3xl mx-auto">
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 hover:border-accent/30 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 lg:group-hover:border-accent/30 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
                 <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                   {/* Colonne gauche */}
                   <div>
@@ -403,7 +403,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                     <ul className="space-y-1.5 text-white/70 text-[13px]">
                       <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Montage dynamique</li>
                       <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Étalonnage professionnel</li>
-                      <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Sound design et mixage immersif</li>
+                      <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Sound Design et mixage immersif</li>
                     </ul>
                   </div>
                   {/* Colonne droite */}
@@ -434,7 +434,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           {/* Header */}
           <Reveal>
           <div className="text-center mb-16">
-            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Communication digitale</span>
+            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Communication digital</span>
             <h3 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60 leading-tight pb-2">Eagle Digital</h3>
           </div>
           </Reveal>
@@ -446,9 +446,9 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
               <Reveal>
                 <div 
                   onClick={() => handleServiceSelect('Identité visuelle')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-amber-400/30 transition-all duration-500 cursor-pointer"
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-amber-400/30 transition-all duration-500 cursor-pointer"
                 >
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
                   <div className="flex-1 p-5 md:p-6">
@@ -476,7 +476,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                       <div className="flex justify-between items-start pt-1.5 pb-2 border-b border-white/5">
                         <div>
                           <span className="text-white/80 text-[15px]">Design de supports de communication</span>
-                          <p className="text-white/40 text-[13px] mt-0.5">Cartes, flyers, affiches, kakemonos, brochures</p>
+                          <p className="text-white/40 text-[13px] mt-0.5">Cartes, flyers, affiches, kakémonos, brochures</p>
                         </div>
                         <span className="text-textPrimary font-bold text-base">90€</span>
                       </div>
@@ -484,7 +484,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                         <span className="text-white/80 text-[15px]">Signature mail professionnelle</span>
                         <div className="text-right">
                           <span className="text-textPrimary font-bold text-base">100€</span>
-                          <p className="text-white/40 text-[11px]">+15€ par collab</p>
+                          <p className="text-white/40 text-[11px]">+15€ par collaborateur</p>
                         </div>
                       </div>
                     </div>
@@ -492,19 +492,19 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                   
                   {/* Colonne Image (Droite) */}
                   <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={identiteVisuelImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" fetchPriority="high" />
+                    <img src={identiteVisuelleImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" fetchPriority="high" />
                   </div>
                 </div>
                 </div>
               </Reveal>
 
-              {/* Carte Présence digitale (BLEU VIOLET / INDIGO) */}
+              {/* Carte Présence digital (BLEU VIOLET / INDIGO) */}
               <Reveal>
                 <div 
-                  onClick={() => handleServiceSelect('Présence digitale')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-indigo-400/30 transition-all duration-500 cursor-pointer"
+                  onClick={() => handleServiceSelect('Présence digital')}
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-indigo-400/30 transition-all duration-500 cursor-pointer"
                 >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
                   <div className="flex-1 p-5 md:p-6">
@@ -512,7 +512,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                       <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
                         <Monitor size={20} />
                       </div>
-                      <h4 className="text-lg font-bold text-textPrimary">Présence digitale</h4>
+                      <h4 className="text-lg font-bold text-textPrimary">Présence digital</h4>
                     </div>
                     
                     {/* Liste des prestations avec prix */}
@@ -537,7 +537,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                   
                   {/* Colonne Image (Droite) */}
                   <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={presenceDigitaleImg} alt="Présence digitale" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
+                    <img src={presenceDigitalImg} alt="Présence digital" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
                   </div>
                 </div>
                 </div>
@@ -547,9 +547,9 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
               <Reveal>
                 <div 
                   onClick={() => handleServiceSelect('Réseaux sociaux')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/30 transition-all duration-500 cursor-pointer"
+                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-teal-400/30 transition-all duration-500 cursor-pointer"
                 >
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex flex-col lg:flex-row h-full relative z-10">
                   {/* Colonne Contenu */}
                   <div className="flex-1 p-5 md:p-6">
@@ -609,12 +609,12 @@ const ServiceCard = ({ title, price, desc, subPrice, icon, isFullHeight }: { tit
         contactSection.scrollIntoView({ behavior: 'smooth' });
       }
     }}
-    className={`group bg-surfaceHighlight/30 hover:bg-surfaceHighlight border border-white/5 hover:border-accent/20 rounded-xl p-5 transition-all duration-300 cursor-pointer ${isFullHeight ? 'h-full' : ''}`}
+    className={`group bg-surfaceHighlight/30 border border-white/5 rounded-xl p-5 transition-all duration-300 cursor-pointer ${isFullHeight ? 'h-full' : ''}`}
   >
      <div className="flex justify-between items-start mb-3">
         <div className="flex items-center gap-3">
-            {icon && <div className="p-2 rounded-lg bg-white/5 group-hover:bg-accent/10 transition-colors">{icon}</div>}
-            <h5 className="font-bold text-textPrimary group-hover:text-white transition-colors text-base">{title}</h5>
+            {icon && <div className="p-2 rounded-lg bg-white/5 lg:group-hover:bg-accent/10 transition-colors">{icon}</div>}
+            <h5 className="font-bold text-textPrimary lg:group-hover:text-white transition-colors text-base">{title}</h5>
         </div>
         <div className="text-right">
              <span className="font-bold text-accent">{price}</span>

@@ -24,12 +24,12 @@ function App() {
   const [isNavigating, setIsNavigating] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
-  const handleServiceSelect = (serviceName: string) => {
+  const handleServiceSelect = React.useCallback((serviceName: string) => {
     setSelectedServices(prev => {
       if (prev.includes(serviceName)) return prev;
       return [...prev, serviceName];
     });
-  };
+  }, []);
 
   // Gestion du chargement initial (Preloader)
   useEffect(() => {

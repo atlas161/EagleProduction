@@ -31,7 +31,7 @@ export const SEOSchema: React.FC = () => {
           "height": 512
         },
         "image": "https://www.eagle-prod.com/Photo_de_paul_bardin.webp",
-        "description": "Société experte en prises de vues aériennes par drone, production vidéo, identité visuelle et présence digitale.",
+        "description": "Eagle Production est spécialisée dans la création de contenus vidéo et photo sur mesure par drone. Nous créons des vidéos professionnelles et des prises de vue aériennes adaptées à vos besoins.",
         "founder": {
           "@type": "Person",
           "name": "Paul Bardin",
@@ -58,7 +58,7 @@ export const SEOSchema: React.FC = () => {
         "@id": "https://www.eagle-prod.com/#localbusiness",
         "name": "Eagle Production",
         "image": "https://www.eagle-prod.com/Photo_de_paul_bardin.webp",
-        "description": "Services de drone professionnels : vidéo aérienne 6K, photographie, inspection technique. Montage vidéo, identité visuelle et création de sites web.",
+        "description": "Eagle Production crée des vidéos professionnelles et des prises de vue aériennes par drone adaptées à vos besoins. Basée à Angoulême, nous intervenons partout en France.",
         "priceRange": "€€",
         "address": {
           "@type": "PostalAddress",
@@ -165,7 +165,7 @@ export const SEOSchema: React.FC = () => {
                 "name": "Site internet vitrine",
                 "description": "Création de site web professionnel clé en main"
               },
-              "price": SERVICES_COMPLEMENTAIRES.presenceDigitale.items[0].price.toString(),
+              "price": SERVICES_COMPLEMENTAIRES.presenceDigital.items[0].price.toString(),
               "priceCurrency": "EUR"
             }
           ]
@@ -180,7 +180,7 @@ export const SEOSchema: React.FC = () => {
         "@id": "https://www.eagle-prod.com/#website",
         "url": "https://www.eagle-prod.com",
         "name": "Eagle Production",
-        "description": "Services de drone, production vidéo et création digitale",
+        "description": "Création de contenus vidéo et photo sur mesure par drone",
         "publisher": {
           "@id": "https://www.eagle-prod.com/#organization"
         },
@@ -194,14 +194,14 @@ export const SEOSchema: React.FC = () => {
         "@type": "WebPage",
         "@id": "https://www.eagle-prod.com/#webpage",
         "url": "https://www.eagle-prod.com",
-        "name": "Eagle Production | Vidéo Drone, Photos, Digitale",
+        "name": "Eagle Production | Vidéo Drone, Photo, Digital",
         "isPartOf": {
           "@id": "https://www.eagle-prod.com/#website"
         },
         "about": {
           "@id": "https://www.eagle-prod.com/#organization"
         },
-        "description": "Expert en services de drone : photographie aérienne, vidéo 4K/6K, montage vidéo et création digitale. Devis gratuit.",
+        "description": "Eagle Production est spécialisée dans la création de contenus vidéo et photo sur mesure par drone. Vidéos professionnelles et prises de vue aériennes adaptées à vos besoins.",
         "inLanguage": "fr-FR"
       },
 

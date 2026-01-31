@@ -58,7 +58,7 @@ export const REVIEWS = [
     id: 3,
     name: "Entreprise Frigoriste",
     role: "Communication d'entreprise",
-    content: "Paul de Eagle Production a réalisé un réels Instagram pour mon entreprise de frigoriste. Très bonne réalisation qui m'a permis de gagner en visibilité. Je recommande",
+    content: "Paul d'Eagle Production a réalisé un Reel Instagram pour mon entreprise de frigoriste. Très bonne réalisation qui m'a permis de gagner en visibilité. Je recommande",
     stars: 5
   },
   {
@@ -131,7 +131,7 @@ export const PRICING = {
   // ─────────────────────────────────────────────────────────────────────────────
   altitude: {
     name: "Altitude",
-    description: "Vidéo montée sur mesure, immersive et prête à publier sur vos canaux.",
+    description: "Vidéo montée sur-mesure, immersive et prête à publier sur vos canaux.",
     isPopular: true, // Affiche le badge "Populaire"
     prices: [
       { label: "Classique", sublabel: "0 à 3 minutes", price: 150 },
@@ -149,7 +149,7 @@ export const PRICING = {
   // ─────────────────────────────────────────────────────────────────────────────
   horizon: {
     name: "Horizon",
-    description: "Réalisation complète: écriture, tournage et montage pour un rendu cinéma.",
+    description: "Réalisation complète : écriture, tournage et montage pour un rendu cinéma.",
     prices: [
       { label: "Classique", sublabel: "5 à 10 minutes", price: 500 },
       { label: "Horizon +", sublabel: "10 à 20 minutes", price: 1000 },
@@ -189,7 +189,7 @@ export const SERVICES_COMPLEMENTAIRES = {
     features: [
       "Montage dynamique",
       "Étalonnage professionnel",
-      "Sound design et mixage immersif",
+      "Sound Design et mixage immersif",
     ],
   },
 
@@ -202,19 +202,19 @@ export const SERVICES_COMPLEMENTAIRES = {
       { label: "Création de Logo sur-mesure", price: 600 },
       { label: "Charte graphique complète", price: 400 },
       { label: "Templates réseaux sociaux prêts à publier", price: 110 },
-      { label: "Design de supports de communication", sublabel: "Cartes, flyers, affiches, kakemonos, brochures", price: 90 },
-      { label: "Signature mail professionnelle", price: 100, extra: "+15€ par collab" },
+      { label: "Design de supports de communication", sublabel: "Cartes, flyers, affiches, kakémonos, brochures", price: 90 },
+      { label: "Signature mail professionnelle", price: 100, extra: "+15€ par collaborateur" },
     ],
   },
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // PRÉSENCE DIGITALE
+  // PRÉSENCE DIGITAL
   // ─────────────────────────────────────────────────────────────────────────────
-  presenceDigitale: {
-    name: "Présence digitale",
+  presenceDigital: {
+    name: "Présence digital",
     items: [
       { label: "Création de site internet vitrine clé en main", price: 500 },
-      { label: "Fiche Google et pack visibilité locale", sublabel: "Fiche google business profile, solocal", price: 250 },
+      { label: "Fiche Google et pack visibilité locale", sublabel: "Fiche Google Business Profile, Solocal", price: 250 },
       { label: "Référencement SEO", price: 250 },
     ],
   },
@@ -228,7 +228,7 @@ export const SERVICES_COMPLEMENTAIRES = {
       { label: "Mise en place Instagram / Facebook / TikTok", price: 250 },
       { label: "Stratégie de contenu et templates", price: 170 },
       { label: "Shooting photo et tournage vidéo", sublabel: "Drone + au sol", price: "Sur demande" },
-      { label: "Montage courts formats, reels, tiktok et films d'entreprise", price: "50€/h" },
+      { label: "Montage courts formats, Reels, TikTok et films d'entreprise", price: "50€/h" },
     ],
   },
 };

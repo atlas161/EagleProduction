@@ -1,44 +1,47 @@
 import React, { useEffect, useState } from 'react';
 
-const getGaId = () => {
-  const envId = (import.meta as any)?.env?.VITE_GA_ID;
-  const meta = document.querySelector('meta[name="ga-id"]') as HTMLMetaElement | null;
-  return envId || meta?.content || '';
-};
+const GTM_ID = 'GTM-P6ZWJ8RQ';
 
-const injectGa = (gaId: string) => {
-  if (!gaId || (window as any).gtag) return;
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-  document.head.appendChild(script);
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  const gtag = function(){ (window as any).dataLayer.push(arguments); } as any;
-  (window as any).gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', gaId, {
-    anonymize_ip: true,
-    allow_google_signals: false,
-  });
+const injectGtm = () => {
+  if ((window as any).google_tag_manager && (window as any).google_tag_manager[GTM_ID]) {
+    return; // GTM already initialized
+  }
+
+  (function(w: any, d: any, s: string, l: string, i: string) {
+    w[l] = w[l] || [];
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', GTM_ID);
 };
 
 export const CookieBanner: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const gaId = getGaId();
 
   useEffect(() => {
     const consent = localStorage.getItem('ga_consent');
-    setVisible(consent !== 'true');
-    if (consent === 'true' && gaId) injectGa(gaId);
-  }, [gaId]);
+    // Afficher la bannière seulement si aucun choix n'a été fait
+    setVisible(consent === null);
+    
+    // Si déjà accepté, on injecte GTM
+    if (consent === 'true') {
+      injectGtm();
+    }
+  }, []);
 
   const handleClose = (accepted: boolean) => {
     setIsClosing(true);
     setTimeout(() => {
       localStorage.setItem('ga_consent', accepted ? 'true' : 'false');
       setVisible(false);
-      if (accepted && gaId) injectGa(gaId);
+      if (accepted) {
+        injectGtm();
+      }
     }, 300);
   };
 
@@ -48,22 +51,22 @@ export const CookieBanner: React.FC = () => {
     <div className={`fixed bottom-6 right-6 z-50 max-w-[340px] bg-black/80 text-white border border-white/10 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${isClosing ? 'opacity-0 translate-y-4 scale-95' : 'opacity-100 translate-y-0 scale-100'}`}>
       <div className="px-4 py-3 flex flex-col gap-3">
         <div className="text-[12px] leading-snug text-white/80">
-          Nous utilisons uniquement Google Analytics (GA4) pour mesurer l’audience.
-          En cliquant « Accepter », vous consentez au dépôt de cookies de mesure.
+          Nous utilisons des cookies et Google Tag Manager pour mesurer l’audience et améliorer votre expérience.
+          En cliquant « Accepter », vous consentez à leur utilisation.
           <a href="/mentions-legales.html#confidentialite" className="text-accent font-semibold ml-1 hover:underline">En savoir plus</a>
         </div>
         <div className="flex-shrink-0 flex flex-col gap-2">
           <button
             onClick={() => handleClose(true)}
             className="bg-accent text-background text-[12px] font-bold px-3 py-2 rounded-full hover:bg-white transition-colors w-full"
-            aria-label="Accepter les cookies de mesure d'audience"
+            aria-label="Accepter les cookies"
           >
             Accepter
           </button>
           <button
             onClick={() => handleClose(false)}
             className="text-white/70 hover:text-white text-[12px] font-medium px-2 py-1 w-full"
-            aria-label="Refuser les cookies de mesure d'audience"
+            aria-label="Refuser les cookies"
           >
             Refuser
           </button>
