@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-03-24
 title: "Suivi de chantier par drone à Angoulême : angles, sécurité et livrables"
 slug: premiers-vols-chantier
