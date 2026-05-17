@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
 import { Star, ChevronDown, ChevronLeft, ChevronRight, Quote, MessageSquare, HelpCircle } from 'lucide-react';
-import { REVIEWS, FAQ_ITEMS, GOOGLE_REVIEW_LINK } from '../config/siteConfig';
+import { FAQ_ITEMS, GOOGLE_REVIEW_LINK, REVIEWS } from '../config/siteConfig';
+import { loadAllFaqItems, loadAllReviews } from './CmsContent';
 
 export const ReviewsAndFaq: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+
+  const cmsReviews = loadAllReviews();
+  const cmsFaq = loadAllFaqItems();
+  const reviews = cmsReviews.length ? cmsReviews.map((r, idx) => ({ id: idx + 1, name: r.name, role: r.project, content: r.content, stars: Math.min(5, Math.max(1, Math.round(r.rating))) })) : REVIEWS;
+  const faqItems = cmsFaq.length ? cmsFaq.map((f) => ({ question: f.question, answer: f.answer })) : FAQ_ITEMS;
+  const faqPreview = faqItems.slice(0, 4);
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   const nextReview = () => {
-    setCurrentReviewIndex((prev) => (prev + 1) % REVIEWS.length);
+    setCurrentReviewIndex((prev) => (prev + 1) % reviews.length);
   };
 
   const prevReview = () => {
-    setCurrentReviewIndex((prev) => (prev - 1 + REVIEWS.length) % REVIEWS.length);
+    setCurrentReviewIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
   };
 
-  const activeReview = REVIEWS[currentReviewIndex];
+  const activeReview = reviews[currentReviewIndex];
 
   return (
     <div className="py-24 bg-background relative overflow-hidden">
@@ -94,7 +101,7 @@ export const ReviewsAndFaq: React.FC = () => {
                                         <div className="text-[10px] font-mono text-white/50 tracking-widest px-2 min-w-[2.5rem] text-center">
                                             <span className="text-white font-bold">{currentReviewIndex + 1}</span>
                                             <span className="opacity-30">/</span>
-                                            <span className="opacity-30">{REVIEWS.length}</span>
+                                            <span className="opacity-30">{reviews.length}</span>
                                         </div>
 
                                         <div className="h-3 w-[1px] bg-white/10"></div>
@@ -149,7 +156,7 @@ export const ReviewsAndFaq: React.FC = () => {
                  </Reveal>
 
                 <div className="space-y-4">
-                    {FAQ_ITEMS.map((item, index) => (
+                    {faqPreview.map((item, index) => (
                     <Reveal key={index} delay={index * 50}>
                         <div className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                         openIndex === index 
@@ -177,14 +184,28 @@ export const ReviewsAndFaq: React.FC = () => {
                             openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                             }`}
                         >
-                            <div className="p-5 pt-0 text-textSecondary text-sm leading-relaxed border-t border-white/5 mt-2 whitespace-pre-line">
-                            {item.answer}
+                            <div className="p-5 pt-0 text-textSecondary text-sm leading-relaxed border-t border-white/5 mt-2">
+                              {typeof item.answer === 'string' && item.answer.trim().startsWith('<') ? (
+                                <div className="blog-content" dangerouslySetInnerHTML={{ __html: item.answer }} />
+                              ) : (
+                                <div className="whitespace-pre-line">{item.answer as any}</div>
+                              )}
                             </div>
                         </div>
                         </div>
                     </Reveal>
                     ))}
                 </div>
+                <Reveal delay={250}>
+                  <div className="mt-6">
+                    <a
+                      href="/faq"
+                      className="inline-flex items-center justify-center bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-colors border border-accent/40"
+                    >
+                      Voir toute la FAQ
+                    </a>
+                  </div>
+                </Reveal>
             </div>
 
         </div>

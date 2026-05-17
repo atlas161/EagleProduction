@@ -1,0 +1,144 @@
+media:
+  - name: blog
+    label: Blog images
+    input: media/blog
+    output: /media/blog
+    categories: [image]
+    extensions: [webp, png, jpg, jpeg]
+    rename: safe
+
+content:
+  - name: blog
+    label: Blog
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    view:
+      primary: title
+      sort: date
+      order: desc
+    filename:
+      template: "{year}-{month}-{day}-{title}.md"
+      field: create
+    fields:
+      - name: published
+        label: Publié
+        type: boolean
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+      - name: category
+        label: Catégorie
+        type: select
+        options:
+          values: ["Drone", "Montage vidéo", "Digital"]
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+      - name: coverImage
+        label: Image de couverture
+        type: image
+        options:
+          media: blog
+          extensions: [webp, png, jpg, jpeg]
+          rename: safe
+      - name: excerpt
+        label: Extrait
+        type: text
+      - name: seoTitle
+        label: SEO title
+        type: string
+      - name: seoDescription
+        label: SEO description
+        type: text
+      - name: body
+        label: Contenu
+        type: rich-text
+        options:
+          format: html
+          media: blog
+          rename: safe
+
+  - name: faq
+    label: FAQ
+    type: collection
+    path: content/faqs
+    format: json
+    view:
+      primary: question
+      sort: category
+      order: asc
+    filename:
+      template: "{slug}.json"
+      field: create
+    fields:
+      - name: published
+        label: Publié
+        type: boolean
+      - name: category
+        label: Catégorie
+        type: select
+        options:
+          values: ["Drone", "Montage vidéo", "Digital", "Admin"]
+      - name: question
+        label: Question
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+      - name: answer
+        label: Réponse
+        type: rich-text
+        options:
+          format: html
+          media: blog
+          rename: safe
+
+  - name: reviews
+    label: Avis
+    type: collection
+    path: content/reviews
+    format: json
+    view:
+      primary: name
+      sort: rating
+      order: desc
+    filename:
+      template: "{slug}.json"
+      field: create
+    fields:
+      - name: published
+        label: Publié
+        type: boolean
+      - name: name
+        label: Nom
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+      - name: project
+        label: Projet
+        type: string
+      - name: rating
+        label: Note
+        type: number
+      - name: content
+        label: Avis
+        type: text

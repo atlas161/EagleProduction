@@ -1,5 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ConstructionTrackingPage } from './components/ConstructionTrackingPage';
+import { AboutPage } from './components/AboutPage';
+import { BlogListPage } from './components/BlogListPage';
+import { BlogArticlePage } from './components/BlogArticlePage';
+import { ContactPage } from './components/ContactPage';
+import { ZonePage } from './components/ZonePage';
+import { InspectionBuildingsPage } from './components/InspectionBuildingsPage';
+import { FaqPage } from './components/FaqPage';
+import { EagleDigitalPage } from './components/EagleDigitalPage';
+import { EagleProductionPage } from './components/EagleProductionPage';
+import { CreationSiteWebPage } from './components/CreationSiteWebPage';
+import { ReferencementSEOPage } from './components/ReferencementSEOPage';
+import { HebergementMailPage } from './components/HebergementMailPage';
+import { MaintenancePage } from './components/MaintenancePage';
 import App from './App';
 
 const rootElement = document.getElementById('root');
@@ -10,6 +25,24 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/chantier" element={<ConstructionTrackingPage />} />
+        <Route path="/a-propos" element={<AboutPage />} />
+        <Route path="/blog" element={<BlogListPage />} />
+        <Route path="/blog/:slug" element={<BlogArticlePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/zone" element={<ZonePage />} />
+        <Route path="/inspection" element={<InspectionBuildingsPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/eagle-digital" element={<EagleDigitalPage />} />
+        <Route path="/eagle-production" element={<EagleProductionPage />} />
+        <Route path="/eagle-digital/creation-site-web" element={<CreationSiteWebPage />} />
+        <Route path="/eagle-digital/referencement-seo" element={<ReferencementSEOPage />} />
+        <Route path="/eagle-digital/hebergement-mail" element={<HebergementMailPage />} />
+        <Route path="/eagle-digital/maintenance" element={<MaintenancePage />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );

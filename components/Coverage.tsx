@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Reveal } from './Reveal';
-import { Navigation, Globe, MapPin, Target, Scan, Wifi } from 'lucide-react';
+import { Navigation, Globe, MapPin, Target, Scan, Wifi, ArrowRight } from 'lucide-react';
 import L from 'leaflet';
 
 interface Department {
@@ -37,6 +37,7 @@ const CITIES: City[] = [
 
 export const Coverage: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mobileMapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const geoJsonLayerRef = useRef<any>(null);
   const [activeDep, setActiveDep] = useState<string | null>(null);
@@ -45,13 +46,15 @@ export const Coverage: React.FC = () => {
 
   // Initialisation de la carte
   useEffect(() => {
-    if (!mapRef.current || mapInstance.current) return;
+    const targetMapElement = window.innerWidth >= 1024 ? mapRef.current : mobileMapRef.current;
+    
+    if (!targetMapElement || mapInstance.current) return;
 
     const controller = new AbortController();
     let cancelled = false;
 
     try {
-        const map = L.map(mapRef.current, {
+        const map = L.map(targetMapElement, {
           center: [45.8, 0.5], // Centre approximatif zone
           zoom: 7,
           zoomControl: false,
@@ -338,86 +341,10 @@ export const Coverage: React.FC = () => {
 
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end relative z-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start relative z-10">
         
-        {/* --- COLONNE GAUCHE (Info) --- */}
-        <div className="lg:col-span-5 space-y-10 order-2 lg:order-1">
-          <Reveal>
-            <div className="flex items-center gap-3 text-accent mb-4">
-              <Navigation size={20} />
-              <span className="tracking-[0.2em] text-xs font-bold">Zone d'opération</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight">
-              Rayonnement <br/>
-              <span className="text-transparent">Grand Ouest</span>
-            </h2>
-          </Reveal>
-          
-          <Reveal delay={100}>
-            <p className="text-textSecondary text-lg leading-relaxed border-l-2 border-accent/30 pl-6">
-              Une couverture optimale de la région Nouvelle-Aquitaine.
-              <br/>
-              Basés en <strong className="text-white">Charente</strong>, nous garantissons réactivité et proximité.
-            </p>
-          </Reveal>
-
-          {/* Liste interactive style "Liste de cibles" */}
-          <Reveal delay={200}>
-             <div className="bg-surfaceHighlight/50 border border-white/5 rounded-3xl p-6 backdrop-blur-sm relative overflow-hidden">
-                {/* Tech corners decoration */}
-                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent"></div>
-                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent"></div>
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent"></div>
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent"></div>
-
-                <div className="text-xs text-textSecondary uppercase tracking-wider mb-4 font-mono flex items-center gap-2">
-                  <Target size={14} className="text-accent" />
-                  Secteurs prioritaires
-                </div>
-                <div className="grid grid-cols-2 gap-2 mb-6">
-                    {DEPARTMENTS.map((dep) => {
-                        const isActive = activeDep === dep.code;
-                        return (
-                            <button
-                                key={dep.code}
-                                onMouseEnter={() => setActiveDep(dep.code)}
-                                onMouseLeave={() => setActiveDep(null)}
-                                className={`flex items-center gap-3 px-3 py-2 border-l-2 transition-all duration-200 group ${
-                                    isActive 
-                                    ? 'bg-accent/10 border-accent text-white' 
-                                    : dep.code === '16'
-                                        ? 'bg-white/5 border-accent/50 text-accent'
-                                        : 'bg-transparent border-transparent text-textSecondary hover:bg-white/5 hover:border-white/30'
-                                }`}
-                            >
-                                <span className="font-mono text-[10px] opacity-70">[{dep.code}]</span>
-                                <span className="text-sm font-medium truncate uppercase tracking-tight">
-                                    {dep.name.replace(' (QG)', '')}
-                                </span>
-                                {dep.code === '16' && <Wifi size={12} className={`ml-auto animate-pulse ${isActive ? 'text-white' : 'text-accent'}`} />}
-                            </button>
-                        );
-                    })}
-                </div>
-                
-                {/* Autres zones - Mis en avant */}
-                <div className="bg-accent/5 border border-accent/20 rounded-xl p-3 flex items-start gap-3">
-                    <div className="bg-accent/10 p-1.5 rounded-md shrink-0 mt-0.5">
-                         <Globe size={14} className="text-accent" />
-                    </div>
-                    <div>
-                        <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-0.5">Hors Zone</h4>
-                        <p className="text-xs text-textSecondary leading-relaxed">
-                           Interventions possibles sur toute la France et à l'étranger sur étude de dossier.
-                        </p>
-                    </div>
-                </div>
-             </div>
-          </Reveal>
-        </div>
-
-        {/* --- COLONNE DROITE : Carte HUD Drone (Hidden on mobile) --- */}
-        <div className="hidden lg:block lg:col-span-7 h-[450px] w-full relative group order-1 lg:order-2">
+        {/* --- COLONNE GAUCHE : Carte mise en avant (Hidden on mobile) --- */}
+        <div className="hidden lg:block h-[500px] w-full relative group order-1 self-end">
             
             {/* Conteneur principal avec bordure style écran de contrôle */}
             <div className="w-full h-full relative border border-white/20 bg-black rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]">
@@ -462,6 +389,118 @@ export const Coverage: React.FC = () => {
                           <div className="text-accent text-lg font-mono tracking-widest animate-pulse flex flex-col items-center">
                               <Scan size={32} className="mb-2" />
                               SYSTEM BOOT...
+                          </div>
+                       </div>
+                    )}
+                </div>
+            </div>
+        </div>
+
+        {/* --- COLONNE DROITE (Info) --- */}
+        <div className="space-y-10 order-2">
+          <Reveal>
+            <div className="flex items-center gap-3 text-accent mb-4">
+              <Navigation size={20} />
+              <span className="tracking-[0.2em] text-xs font-bold">Zone d'opération</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight">
+              Rayonnement <br/>
+              <span className="text-accent">Grand Ouest</span>
+            </h2>
+          </Reveal>
+
+          {/* Description concise */}
+          <Reveal delay={100}>
+            <div className="rounded-[2rem] border border-accent/30 bg-gradient-to-br from-accent/15 via-accent/5 to-transparent p-6 shadow-[0_0_40px_rgba(212,175,55,0.15)]">
+              <p className="text-white/80 text-lg leading-relaxed mb-4">
+                Une couverture optimale de la région Nouvelle-Aquitaine.
+                <br />
+                Basés en <strong className="text-white">Charente</strong>, nous garantissons réactivité et proximité.
+              </p>
+              <a
+                href="/zone"
+                className="inline-flex items-center justify-center gap-2 bg-accent text-background px-5 py-2.5 rounded-full font-semibold hover:bg-white transition-colors border border-accent/40 w-full sm:w-auto"
+              >
+                Voir la page
+                <ArrowRight size={16} className="shrink-0" />
+              </a>
+            </div>
+          </Reveal>
+
+          {/* Secteurs prioritaires - version simplifiée */}
+          <Reveal delay={200}>
+             <div className="bg-surfaceHighlight/50 border border-white/5 rounded-3xl p-6 backdrop-blur-sm relative overflow-hidden">
+                {/* Tech corners decoration */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent"></div>
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent"></div>
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent"></div>
+
+                <div className="text-xs text-textSecondary uppercase tracking-wider mb-4 font-mono flex items-center gap-2">
+                  <Target size={14} className="text-accent" />
+                  Secteurs couverts
+                </div>
+                
+                {/* Grille compacte des départements */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                    {DEPARTMENTS.slice(0, 6).map((dep) => {
+                        const isActive = activeDep === dep.code;
+                        return (
+                            <button
+                                key={dep.code}
+                                onMouseEnter={() => setActiveDep(dep.code)}
+                                onMouseLeave={() => setActiveDep(null)}
+                                className={`flex flex-col items-center justify-center gap-1 px-3 py-2 border rounded-xl transition-all duration-200 ${
+                                    isActive 
+                                    ? 'bg-accent/10 border-accent text-white' 
+                                    : dep.code === '16'
+                                        ? 'bg-white/5 border-accent/50 text-accent'
+                                        : 'bg-transparent border-white/10 text-textSecondary hover:bg-white/5 hover:border-white/30'
+                                }`}
+                            >
+                                <span className="font-mono text-[10px] opacity-70">{dep.code}</span>
+                                <span className="text-xs font-medium text-center leading-tight">
+                                    {dep.name.replace(' (QG)', '').replace('-', ' ')}
+                                </span>
+                                {dep.code === '16' && <Wifi size={10} className={`animate-pulse ${isActive ? 'text-white' : 'text-accent'}`} />}
+                            </button>
+                        );
+                    })}
+                </div>
+                
+                {/* Note sur autres zones */}
+                <div className="text-center pt-2 border-t border-white/5">
+                    <p className="text-xs text-textSecondary">
+                        <span className="text-accent">{DEPARTMENTS.length}</span> départements en Nouvelle-Aquitaine
+                    </p>
+                    <p className="text-xs text-textSecondary/70 mt-1">
+                        Intervention possible sur toute la France
+                    </p>
+                </div>
+             </div>
+          </Reveal>
+        </div>
+
+        {/* --- CARTE MOBILE (visible uniquement sur mobile) --- */}
+        <div className="lg:hidden h-[400px] w-full relative order-1 mb-8">
+            <div className="w-full h-full relative border border-white/20 bg-black rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+                <div ref={mobileMapRef} className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
+                
+                {/* Overlay simplifié pour mobile */}
+                <div className="absolute inset-0 pointer-events-none z-[400]">
+                    <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,1)]"></div>
+                    
+                    {/* Coins simplifiés */}
+                    <div className="absolute top-2 left-2 w-6 h-6 border-l border-t border-accent/60"></div>
+                    <div className="absolute top-2 right-2 w-6 h-6 border-r border-t border-accent/60"></div>
+                    <div className="absolute bottom-2 left-2 w-6 h-6 border-l border-b border-accent/60"></div>
+                    <div className="absolute bottom-2 right-2 w-6 h-6 border-r border-b border-accent/60"></div>
+                    
+                    {!mapReady && !error && (
+                       <div className="absolute inset-0 flex items-center justify-center bg-black/90 z-50">
+                          <div className="text-accent text-sm font-mono tracking-widest animate-pulse flex flex-col items-center">
+                              <Scan size={24} className="mb-1" />
+                              CHARGEMENT...
                           </div>
                        </div>
                     )}

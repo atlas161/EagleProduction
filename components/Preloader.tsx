@@ -27,7 +27,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ isLoading }) => {
       }`}
     >
       <div className="relative w-32 h-32 md:w-48 md:h-48">
-        <img src={eagleBeige} alt="Eagle" className="w-full h-full object-contain" />
+        <img src={eagleBeige} alt="Eagle Production - Logo entreprise drone Angoulême" className="w-full h-full object-contain" loading="lazy" />
       </div>
       
       {/* Progress Bar */}

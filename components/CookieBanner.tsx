@@ -48,7 +48,7 @@ export const CookieBanner: React.FC = () => {
   if (!visible) return null;
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 max-w-[340px] bg-black/80 text-white border border-white/10 backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 ${isClosing ? 'opacity-0 translate-y-4 scale-95' : 'opacity-100 translate-y-0 scale-100'}`}>
+    <div className={`fixed bottom-6 right-6 z-50 max-w-[340px] bg-black/60 text-white border border-white/10 backdrop-blur-xl rounded-xl shadow-lg transition-all duration-300 ${isClosing ? 'opacity-0 translate-y-4 scale-95' : 'opacity-100 translate-y-0 scale-100'}`}>
       <div className="px-4 py-3 flex flex-col gap-3">
         <div className="text-[12px] leading-snug text-white/80">
           Nous utilisons des cookies et Google Tag Manager pour mesurer l’audience et améliorer votre expérience.
