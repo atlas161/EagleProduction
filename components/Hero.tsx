@@ -249,17 +249,26 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
 
       {/* Content - Masqué quand la vidéo est en plein écran */}
       <motion.div 
-        className="relative z-10 text-center px-4 max-w-4xl"
+        className="relative z-10 text-left px-0 max-w-none"
         animate={{ opacity: isVideoOpen ? 0 : 1, y: isVideoOpen ? 50 : 0, pointerEvents: isVideoOpen ? 'none' : 'auto' }}
         transition={{ duration: 0.5 }}
       >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/70 mb-6 drop-shadow-2xl">
-            Votre projet mérite une prise de vue au drone
+            <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(212,175,55,0.15)]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-accent">
+                <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.401 8.168L12 18.896l-7.335 3.87 1.401-8.168L.132 9.211l8.2-1.193z"/>
+              </svg>
+              <span className="text-xs text-white/90 tracking-wide">5/5</span>
+              <span className="text-xs text-white/85">Avis Google</span>
+              <span className="text-xs text-white/60">•</span>
+              <span className="text-xs text-white/75">37+</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/70 mb-6 drop-shadow-2xl px-4">
+            Votre projet mérite<br />une prise de vue au drone
             </h1>
-            <p className="text-xl md:text-2xl text-textSecondary font-light max-w-2xl mx-auto mb-10 drop-shadow-md">
-            Des prises de vue au drone précises et un accompagnement créatif global pour sublimer vos projets.
+            <p className="text-lg md:text-xl text-textSecondary font-light max-w-2xl mb-10 drop-shadow-md px-4">
+            Prises de vue drone précises et accompagnement créatif pour sublimer vos projets. Télépilote certifié DGAC à Angoulême, intervention en Charente et Nouvelle-Aquitaine.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-start px-4">
             <button 
                 onClick={(e) => {
                     e.stopPropagation();
@@ -281,7 +290,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
             </button>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 px-4">
             <button 
                 onClick={(e) => {
                     e.stopPropagation();

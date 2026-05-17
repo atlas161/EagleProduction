@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import logoBeige from '../media/logo_beige.png';
 import eagleBeige from '../media/aigle_beige.png';
 import { Section } from '../types';
-import { Menu, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
-  activeSection: Section;
+  activeSection: Section | null;
   scrollToSection: (section: Section) => void;
 }
+
+type NavLink =
+  | { kind: 'section'; id: Section; label: string }
+  | { kind: 'href'; href: string; label: string };
 
 export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobilePanel, setMobilePanel] = useState<'root' | 'formules'>('root');
+  const [isFormulesOpen, setIsFormulesOpen] = useState(false);
+  const formulesRef = useRef<HTMLDivElement | null>(null);
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,15 +29,61 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { id: Section.GALLERY, label: 'Portfolio' },
-    { id: Section.SERVICES, label: 'Formules' },
-    { id: Section.ABOUT, label: 'À propos' },
-    { id: Section.TECH, label: 'Technologies' },
-    { id: Section.ZONE, label: 'Zone' },
-    { id: Section.REVIEWS, label: 'Avis & FAQ' },
-    { id: Section.CONTACT, label: 'Contact' },
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (!isFormulesOpen) return;
+      const target = e.target as Node | null;
+      if (target && formulesRef.current && !formulesRef.current.contains(target)) {
+        setIsFormulesOpen(false);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsFormulesOpen(false);
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isFormulesOpen]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      setMobilePanel('root');
+    }
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    setIsFormulesOpen(false);
+  }, [pathname]);
+
+  const navLinks: NavLink[] = [
+    { kind: 'section', id: Section.HERO, label: 'Accueil' },
+    { kind: 'section', id: Section.GALLERY, label: 'Portfolio' },
+    { kind: 'section', id: Section.SERVICES, label: 'Formules' },
+    { kind: 'href', href: '/blog', label: 'Blog' },
+    { kind: 'section', id: Section.ZONE, label: 'Zone' },
+    { kind: 'href', href: '/a-propos', label: 'À propos' },
+    { kind: 'section', id: Section.REVIEWS, label: 'Avis & FAQ' }
   ];
+
+  const isSectionActive = (id: Section) => {
+    if (pathname === '/') {
+      if (id === Section.HERO) return activeSection === Section.HERO;
+      return activeSection === id;
+    }
+    if (id === Section.SERVICES) return pathname === '/chantier' || pathname === '/inspection' || pathname === '/eagle-production' || pathname === '/eagle-digital' || pathname.startsWith('/eagle-digital/');
+    if (id === Section.ZONE) return pathname === '/zone';
+    if (id === Section.REVIEWS) return pathname === '/faq';
+    return false;
+  };
+
+  const isHrefActive = (href: string) => {
+    if (pathname === href || pathname.startsWith(`${href}/`)) return true;
+    if (pathname === '/' && href === '/blog' && activeSection === Section.BLOG) return true;
+    return false;
+  };
 
   return (
     <nav
@@ -49,43 +103,105 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
           <img 
             src={logoBeige} 
             alt="Eagle Production" 
-            className="hidden md:block h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            className="hidden md:block h-12 w-auto object-contain" 
           />
           
           {/* Aigle Seul sur Mobile */}
           <img 
             src={eagleBeige} 
             alt="Eagle" 
-            className="md:hidden h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            className="md:hidden h-10 w-auto object-contain" 
           />
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => scrollToSection(link.id)}
-              className={`relative px-5 py-2 rounded-full text-xs font-medium tracking-wider transition-all duration-300 ${
-                activeSection === link.id 
-                  ? 'text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]' 
-                  : 'text-white/80 hover:text-white hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-          <button
-            onClick={() => scrollToSection(Section.CONTACT)}
-            className="ml-6 bg-accent text-background text-xs font-bold px-6 py-2.5 rounded-full hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+        <div className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) =>
+            link.kind === 'href' ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`relative px-5 py-2 rounded-full text-sm font-medium tracking-wider transition-all duration-300 ${
+                  isHrefActive(link.href)
+                    ? 'text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]'
+                    : 'text-white/80 hover:text-white hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]'
+                }`}
+              >
+                {link.label}
+              </a>
+            ) : link.id === Section.SERVICES ? (
+              <div key={link.id} className="relative" ref={formulesRef}>
+                <button
+                  onClick={() => setIsFormulesOpen((v) => !v)}
+                  className={`relative px-5 py-2 rounded-full text-sm font-medium tracking-wider transition-all duration-300 inline-flex items-center gap-2 ${
+                    isSectionActive(link.id)
+                      ? 'text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]'
+                      : isFormulesOpen
+                        ? 'text-white bg-white/5'
+                      : 'text-white/80 hover:text-white hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]'
+                  }`}
+                >
+                  {link.label}
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${isFormulesOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <div
+                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[240px] rounded-2xl border border-white/10 bg-background/85 backdrop-blur-2xl shadow-xl shadow-black/40 overflow-hidden transition-all duration-200 ${
+                    isFormulesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
+                  }`}
+                >
+                  <div className="p-2">
+                    <div className="grid grid-cols-1 gap-1">
+                      <a
+                        href="/eagle-production"
+                        onClick={() => setIsFormulesOpen(false)}
+                        className="group flex items-center justify-between gap-3 rounded-xl px-3.5 py-3 hover:bg-white/[0.06] transition-all"
+                      >
+                        <div className="text-white/90 font-semibold text-sm">Production vidéo</div>
+                        <span className="text-white/40 group-hover:text-accent group-hover:translate-x-0.5 transition-all">
+                          <ChevronDown size={18} className="rotate-[-90deg]" />
+                        </span>
+                      </a>
+
+                      <a
+                        href="/eagle-digital"
+                        onClick={() => setIsFormulesOpen(false)}
+                        className="group flex items-center justify-between gap-3 rounded-xl px-3.5 py-3 hover:bg-white/[0.06] transition-all"
+                      >
+                        <div className="text-white/90 font-semibold text-sm">Production Digital</div>
+                        <span className="text-white/40 group-hover:text-accent group-hover:translate-x-0.5 transition-all">
+                          <ChevronDown size={18} className="rotate-[-90deg]" />
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className={`relative px-5 py-2 rounded-full text-sm font-medium tracking-wider transition-all duration-300 ${
+                  isSectionActive(link.id)
+                    ? 'text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]'
+                    : 'text-white/80 hover:text-white hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]'
+                }`}
+              >
+                {link.label}
+              </button>
+            )
+          )}
+          <a
+            href="/contact"
+            className="ml-6 bg-accent text-background text-xs font-bold px-6 py-2.5 rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.3)]"
           >
             Devis Gratuit
-          </button>
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-textPrimary p-2 hover:bg-white/10 rounded-full transition-colors backdrop-blur-md bg-black/20 border border-white/10"
+          className="lg:hidden text-textPrimary p-2 hover:bg-white/10 rounded-full transition-colors backdrop-blur-md bg-black/20 border border-white/10"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -93,30 +209,84 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-background/95 backdrop-blur-2xl border-t border-white/10 px-6 py-8 flex flex-col gap-6 overflow-y-auto transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => {
-                scrollToSection(link.id);
-                setIsMobileMenuOpen(false);
-              }}
-              className={`text-2xl font-medium text-left transition-colors ${
-                activeSection === link.id ? 'text-accent' : 'text-textPrimary'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-          <button
-             onClick={() => {
-                scrollToSection(Section.CONTACT);
-                setIsMobileMenuOpen(false);
-              }}
-             className="mt-4 bg-accent text-background text-lg font-bold py-4 rounded-xl text-center shadow-lg shadow-accent/20"
-          >
-            Demander un devis
-          </button>
+      <div className={`lg:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-background/95 backdrop-blur-2xl border-t border-white/10 px-6 py-8 flex flex-col gap-6 overflow-y-auto transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+          {mobilePanel === 'root' ? (
+            <>
+              {navLinks.map((link) =>
+                link.kind === 'href' ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`text-2xl font-medium text-left transition-colors ${
+                      isHrefActive(link.href) ? 'text-accent' : 'text-textPrimary'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                ) : link.id === Section.SERVICES ? (
+                  <button
+                    key={link.id}
+                    onClick={() => setMobilePanel('formules')}
+                    className={`text-2xl font-medium text-left transition-colors inline-flex items-center justify-between ${
+                      isSectionActive(link.id) ? 'text-accent' : 'text-textPrimary'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <ChevronDown size={22} className="rotate-[-90deg]" />
+                  </button>
+                ) : (
+                  <button
+                    key={link.id}
+                    onClick={() => {
+                      scrollToSection(link.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`text-2xl font-medium text-left transition-colors ${
+                      isSectionActive(link.id) ? 'text-accent' : 'text-textPrimary'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                )
+              )}
+              <a
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mt-4 bg-accent text-background text-lg font-bold py-4 rounded-xl text-center shadow-lg shadow-accent/20"
+              >
+                Demander un devis
+              </a>
+            </>
+          ) : (
+            <div className="flex flex-col gap-6">
+              <button
+                onClick={() => setMobilePanel('root')}
+                className="text-2xl font-medium text-left transition-colors inline-flex items-center gap-3 text-textPrimary hover:text-white"
+              >
+                <ArrowLeft size={22} />
+                Retour
+              </button>
+
+              <a
+                href="/eagle-production"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-medium text-left transition-colors inline-flex items-center justify-between text-textPrimary hover:text-white"
+              >
+                <span>Production vidéo</span>
+                <ChevronDown size={22} className="rotate-[-90deg] text-white/40" />
+              </a>
+
+              <a
+                href="/eagle-digital"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-medium text-left transition-colors inline-flex items-center justify-between text-textPrimary hover:text-white"
+              >
+                <span>Production Digital</span>
+                <ChevronDown size={22} className="rotate-[-90deg] text-white/40" />
+              </a>
+            </div>
+          )}
         </div>
     </nav>
   );

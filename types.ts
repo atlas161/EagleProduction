@@ -13,6 +13,7 @@ export enum Section {
   HERO = 'hero',
   ABOUT = 'about',
   SERVICES = 'services',
+  BLOG = 'blog',
   TECH = 'tech',
   GALLERY = 'gallery',
   ZONE = 'zone',

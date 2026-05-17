@@ -1,23 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { HardDrive, Film, Clapperboard, Check, Car, Camera, Usb, ArrowRight, Monitor, Palette, Search, Share2, ShieldCheck, X } from 'lucide-react';
+import { Film, Check, Car, Camera, Usb, ArrowRight, Monitor, Search, ShieldCheck, X, Timer, CloudSun, Clock, LifeBuoy } from 'lucide-react';
 import { Transition } from '@headlessui/react';
 import { Reveal } from './Reveal';
-import essentielImg from '../media/images_formules/Essentiel.webp';
-import altitudeImg from '../media/images_formules/Altitude.webp';
-import horizonImg from '../media/images_formules/Horizon.webp';
-import identiteVisuelleImg from '../media/images_formules/Identité_visuelle.webp';
-import presenceDigitalImg from '../media/images_formules/Présence_digitalv2.webp';
-import reseauxSociauxImg from '../media/images_formules/RéseauxSociaux.webp';
-import { Toast } from './Toast';
+import essentielImg from '../media/images_formules/IMG_3658.webp';
+import altitudeImg from '../media/images_formules/IMG_4258.webp';
 
-interface ServicesProps {
-  onServiceSelect?: (serviceName: string) => void;
-}
-
-export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
+export const Services: React.FC = () => {
   const [showExtras, setShowExtras] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     if (showExtras) {
@@ -30,19 +19,8 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
     };
   }, [showExtras]);
 
-  const handleServiceSelect = (serviceName: string, shouldScroll = false) => {
-    if (onServiceSelect) {
-      onServiceSelect(serviceName);
-      setToastMessage(`Formule "${serviceName}" ajoutée au formulaire`);
-      setShowToast(true);
-    }
-    
-    if (shouldScroll) {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+  const handleServiceSelect = () => {
+    window.location.href = '/contact';
   };
 
   const closeExtras = () => {
@@ -51,22 +29,13 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
 
   const handleSpecificProjectClick = () => {
     closeExtras();
-    // Wait for modal close animation (handled by Transition)
     setTimeout(() => {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      window.location.href = '/contact';
     }, 300); 
   };
 
   return (
     <div className="bg-background py-32 relative overflow-hidden">
-      <Toast 
-        message={toastMessage} 
-        isVisible={showToast} 
-        onClose={() => setShowToast(false)} 
-      />
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -82,7 +51,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
           </Reveal>
           <Reveal delay={200}>
             <p className="text-xl text-textSecondary max-w-2xl mx-auto font-light leading-relaxed mb-8">
-              Des solutions adaptées à chaque besoin.
+              Des solutions adaptées à chaque besoin. De la prise de vue aérienne 4K pour l'immobilier à l'inspection technique industrielle, en passant par le suivi de chantier BTP et les captations événementielles. Notre expertise couvre tous les secteurs : immobilier, construction, événementiel, patrimoine, et communication d'entreprise.
             </p>
             
             {/* Certification Badge */}
@@ -92,202 +61,172 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
             </div>
           </Reveal>
         </div>
-
-        {/* Pricing Cards (Drone - Main Focus) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16">
-          {/* Card 1: ESSENTIEL */}
+        
+        {/* Pricing Cards (Drone & Audiovisuel) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-16">
+          {/* Card 1: TOURNAGE */}
           <Reveal delay={100} className="h-full">
             <div 
-              onClick={() => handleServiceSelect('Essentiel')}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 lg:hover:bg-surfaceHighlight/50 transition-all duration-500 lg:hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
+              onClick={handleServiceSelect}
+              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-accent/10 rounded-3xl p-6 lg:hover:bg-surfaceHighlight/50 lg:hover:border-accent/25 transition-all duration-500 lg:hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
             >
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={essentielImg} alt="Essentiel" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 35%' }} />
+                <img src={essentielImg} alt="Tournage drone professionnel - Prise de vue aérienne 4K" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 100%' }} loading="lazy" />
                 <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
-                  <HardDrive size={24} />
+                  <Camera size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-textPrimary">Essentiel</h3>
+                <h3 className="text-2xl font-bold text-textPrimary">Tournage</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
-                Images drone brutes de haute qualité, prêtes pour votre post‑production.
-              </p>
               
-              <div className="space-y-4 mb-8 relative z-10">
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <span className="text-textPrimary font-medium">1h de prise de vue</span>
-                  <span className="text-3xl font-bold text-textPrimary">50€</span>
-                </div>
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <span className="text-textPrimary font-medium">2h de prise de vue</span>
-                  <span className="text-3xl font-bold text-textPrimary">100€</span>
-                </div>
+              <div className="flex items-end border-b border-accent/10 pb-4 mb-8 relative z-10">
+                <span className="text-4xl font-bold text-textPrimary">160€</span>
+                <span className="text-textSecondary ml-2 mb-1">/ heure</span>
               </div>
 
-              <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-textPrimary mt-0.5" />
-                  <span>Images brutes non retouchées</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-textPrimary mt-0.5" />
-                  <span>Liberté totale de montage</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-textPrimary mt-0.5" />
-                  <span>Livraison rapide des fichiers</span>
-                </li>
-              </ul>
-              <button 
-                type="button"
-                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
-                className="relative z-10 mt-auto pt-4 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
-              >
-                Options
-              </button>
+              <div className="mb-6 relative z-10">
+                <p className="text-white font-medium mb-4">Prestation complète incluant :</p>
+                <ul className="space-y-4">
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-textPrimary mt-0.5 shrink-0" />
+                    <span>Prises de vue aériennes haute résolution (photos & vidéos par drone)</span>
+                  </li>
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-textPrimary mt-0.5 shrink-0" />
+                    <span>Tournage vidéo complémentaire avec caméra au sol selon les besoins du projet</span>
+                  </li>
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-textPrimary mt-0.5 shrink-0" />
+                    <span>Gestion intégrale des démarches administratives et autorisations de vol spécifiques</span>
+                  </li>
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-textPrimary mt-0.5 shrink-0" />
+                    <span>Mise à disposition de matériel professionnel de pointe et couverture par assurance RC Pro</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-auto space-y-5 relative z-10 pt-6 border-t border-accent/10">
+                <div className="flex gap-3 items-start p-3 bg-accent/5 rounded-xl border border-accent/10">
+                  <Timer size={20} className="text-textPrimary shrink-0 mt-0.5" />
+                  <p className="text-sm text-white/80 leading-relaxed">Toute prestation de tournage est facturée avec un minimum d'engagement d'une heure.</p>
+                </div>
+                <div className="flex gap-3 items-start p-3 bg-accent/5 rounded-xl border border-accent/10">
+                  <CloudSun size={20} className="text-textPrimary shrink-0 mt-0.5" />
+                  <p className="text-sm text-white/80 leading-relaxed">Les vols étant soumis aux conditions météorologiques, la prestation pourra être reportée sans frais supplémentaires en cas de météo défavorable.</p>
+                </div>
+              </div>
             </div>
           </Reveal>
 
-          {/* Card 2: ALTITUDE */}
+          {/* Card 2: MONTAGE */}
           <Reveal delay={300} className="h-full">
             <div 
-              onClick={() => handleServiceSelect('Altitude')}
-              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 lg:scale-105 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 lg:hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
+              onClick={handleServiceSelect}
+              className="group h-full relative bg-surfaceHighlight border border-accent/30 rounded-3xl p-6 shadow-2xl shadow-accent/5 z-10 transition-all duration-500 lg:hover:border-accent/50 cursor-pointer overflow-hidden flex flex-col"
             >
-              <div className="absolute top-0 right-0 bg-accent text-background text-xs font-bold px-3 py-1 rounded-bl-xl z-10">Populaire</div>
               <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={altitudeImg} alt="Altitude" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} />
+                <img src={altitudeImg} alt="Montage vidéo professionnel - Post-production drone" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '50% 40%' }} loading="lazy" />
                 <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
               </div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
                 <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
                   <Film size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-textPrimary">Altitude</h3>
+                <h3 className="text-2xl font-bold text-textPrimary">Montage vidéo</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
-                Vidéo montée sur mesure, immersive et prête à publier sur vos canaux.
-              </p>
               
-              <div className="space-y-4 mb-8 relative z-10">
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <div>
-                      <span className="text-textPrimary font-medium block">Classique</span>
-                      <span className="text-xs text-textSecondary">0 à 3 minutes</span>
-                  </div>
-                  <span className="text-4xl font-bold text-accent">150€</span>
-                </div>
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <div>
-                      <span className="text-textPrimary font-medium block">Altitude +</span>
-                      <span className="text-xs text-textSecondary">3 à 5 minutes</span>
-                  </div>
-                  <span className="text-4xl font-bold text-accent">250€</span>
-                </div>
+              <div className="flex items-end border-b border-accent/15 pb-4 mb-8 relative z-10">
+                <span className="text-4xl font-bold text-accent">60€</span>
+                <span className="text-textSecondary ml-2 mb-1">/ heure</span>
               </div>
 
-              <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-accent mt-0.5" />
-                  <span>Montage dynamique et rythmé</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-accent mt-0.5" />
-                  <span>Musique libre de droits incluse</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-accent mt-0.5" />
-                  <span>Étalonnage pro, prêt à diffuser</span>
-                </li>
-              </ul>
-              
-              <button 
-                type="button"
-                onClick={(e) => { 
-                  e.stopPropagation(); 
-                  handleServiceSelect('Altitude', true); 
-                }}
-                className="relative z-10 w-full mt-8 bg-textPrimary text-background font-semibold py-3 rounded-xl hover:bg-white transition-colors"
-              >
-                Choisir altitude
-              </button>
-              <button 
-                type="button"
-                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
-                className="relative z-10 mt-auto pt-3 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
-              >
-                Options
-              </button>
+              <div className="mb-6 relative z-10">
+                <p className="text-white font-medium mb-4">Prestation sur-mesure incluant :</p>
+                <ul className="space-y-4">
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-accent mt-0.5 shrink-0" />
+                    <span>Montage vidéo clé en main (dérushage, colorimétrie, mixage audio)</span>
+                  </li>
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-accent mt-0.5 shrink-0" />
+                    <span>Flexibilité totale avec la possibilité de modifier le montage jusqu'à 3 fois</span>
+                  </li>
+                  <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
+                    <Check size={18} className="text-accent mt-0.5 shrink-0" />
+                    <span>Respect strict de votre cahier des charges (style, format adapté aux réseaux, musique)</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-auto space-y-6 relative z-10 pt-6 border-t border-accent/15">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-accent/5 rounded-xl border border-accent/15 flex flex-col items-center text-center">
+                    <Usb size={24} className="text-accent mb-2" />
+                    <span className="text-sm font-medium text-white mb-1">Support physique</span>
+                    <span className="text-xs text-white/70">Clé USB : 12€</span>
+                  </div>
+                  <div className="p-4 bg-accent/5 rounded-xl border border-accent/15 flex flex-col items-center text-center">
+                    <Clock size={24} className="text-accent mb-2" />
+                    <span className="text-sm font-medium text-white mb-1">Délais moyens</span>
+                    <span className="text-xs text-white/70">5 à 10 jours ouvrés</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Reveal>
+        </div>
 
-          {/* Card 3: HORIZON */}
-          <Reveal delay={500} className="h-full">
-            <div 
-              onClick={() => handleServiceSelect('Horizon')}
-              className="group h-full relative bg-surfaceHighlight/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 lg:hover:bg-surfaceHighlight/50 transition-all duration-500 lg:hover:-translate-y-2 cursor-pointer overflow-hidden flex flex-col"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
+          <div className="bg-accent/10 border border-accent/20 rounded-2xl p-6 text-center">
+            <h4 className="text-white text-xl font-bold mb-2 flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+                <path d="M6 3v12"></path><path d="M6 14a4 4 0 1 0 8 0V3"></path><path d="M20 21V7"></path><path d="M20 7a4 4 0 1 0-8 0"></path>
+              </svg>
+              Suivi de chantier BTP
+            </h4>
+            <p className="text-textSecondary mb-5">Découvrez la page dédiée: livrables, sécurité, processus, exemples.</p>
+            <a
+              href="/chantier"
+              className="inline-flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-full font-semibold hover:bg-white transition-colors border border-accent/40"
             >
-              <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src={horizonImg} alt="Horizon" className="absolute inset-0 w-full h-full object-cover opacity-60" style={{ objectPosition: '70% 60%' }} />
-                <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
-              </div>
-              <div className="flex items-center gap-3 mb-6 relative z-10">
-                <div className="p-3 rounded-2xl bg-white/5 text-textPrimary">
-                  <Clapperboard size={24} />
-                </div>
-                <h3 className="text-2xl font-bold text-textPrimary">Horizon</h3>
-              </div>
-              <p className="text-white text-sm leading-relaxed mb-8 relative z-10">
-                Réalisation complète: écriture, tournage et montage pour un rendu cinéma.
-              </p>
-              
-              <div className="space-y-4 mb-8 relative z-10">
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <div>
-                      <span className="text-textPrimary font-medium block">Classique</span>
-                      <span className="text-xs text-textSecondary">5 à 10 minutes</span>
-                  </div>
-                  <span className="text-3xl font-bold text-textPrimary">500€</span>
-                </div>
-                <div className="flex justify-between items-end border-b border-white/5 pb-4">
-                  <div>
-                      <span className="text-textPrimary font-medium block">Horizon +</span>
-                      <span className="text-xs text-textSecondary">10 à 20 minutes</span>
-                  </div>
-                  <span className="text-3xl font-bold text-textPrimary">1000€</span>
-                </div>
-              </div>
+              En savoir plus
+              <ArrowRight size={18} />
+            </a>
+          </div>
 
-              <ul className="space-y-3 relative z-10">
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-accent mt-0.5" />
-                  <span>Scénarisation et storytelling</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                   <Check size={16} className="text-accent mt-0.5" />
-                   <span>Montage dynamique inclus</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                   <Check size={16} className="text-accent mt-0.5" />
-                   <span>Musique libre de droits</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                   <Check size={16} className="text-accent mt-0.5" />
-                   <span>Étalonnage couleur professionnel</span>
-                </li>
-                <li className="flex gap-3 text-[15px] text-white/90 leading-relaxed">
-                  <Check size={16} className="text-accent mt-0.5" />
-                  <span>Sound Design immersif</span>
-                </li>
-              </ul>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowExtras(true); }}
-                className="relative z-10 mt-auto pt-4 self-center text-accent text-xs md:text-sm font-medium underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-colors"
+          <div className="bg-surfaceHighlight/20 border border-white/[0.06] rounded-2xl p-6 text-center">
+            <h4 className="text-white text-xl font-bold mb-2 flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+                <path d="m3 7 9-4 9 4-9 4-9-4Z"></path><path d="M4 10v6l8 4 8-4v-6"></path><path d="M4 16l8 4 8-4"></path>
+              </svg>
+              Inspection de bâtiments par drone
+            </h4>
+            <p className="text-textSecondary mb-5">Toitures, façades, structures: sécurité, lisibilité, rapport illustré.</p>
+            <a
+              href="/inspection"
+              className="inline-flex items-center gap-2 bg-white/[0.07] text-white px-6 py-3 rounded-full font-semibold hover:bg-white/[0.12] transition-colors border border-white/[0.06]"
+            >
+              Découvrir
+              <ArrowRight size={18} />
+            </a>
+          </div>
+        </div>
+        <div className="mb-16">
+          <Reveal>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-5 bg-gradient-to-r from-accent/10 to-transparent border border-accent/20 rounded-2xl px-7 py-6">
+              <div>
+                <div className="text-white font-bold text-lg mb-1">Tout savoir sur Eagle Production</div>
+                <div className="text-white/40 text-sm">Suivi de chantier, inspection, livrables et process complet.</div>
+              </div>
+              <a
+                href="/eagle-production"
+                className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent font-semibold px-6 py-3 rounded-full hover:bg-accent/25 hover:border-accent/50 transition-all duration-200 text-sm shrink-0"
               >
-                Options
-              </button>
+                En savoir plus <ArrowRight size={15} />
+              </a>
             </div>
           </Reveal>
         </div>
@@ -316,11 +255,11 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
               <X size={32} />
             </button>
             <div 
-              className="max-w-4xl w-full max-h-[80vh] bg-surface rounded-2xl overflow-hidden shadow-xl border border-white/10"
+              className="max-w-4xl w-full max-h-[80vh] bg-surface rounded-2xl overflow-hidden shadow-xl border border-white/[0.06]"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-5 md:p-6">
-                <div className="flex flex-row items-center justify-between mb-4 border-b border-white/5 pb-3">
+                <div className="flex flex-row items-center justify-between mb-4 border-b border-white/[0.04] pb-3">
                   <h4 className="text-lg font-bold text-white flex items-center gap-2">
                     <div className="w-1.5 h-6 bg-accent rounded-full"></div>
                     Options
@@ -343,16 +282,7 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-bold text-textPrimary">0,50€ <span className="text-[10px] text-textSecondary font-normal">/km</span></span>
-                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Déplacement</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
-                    <div className="p-2.5 bg-white/5 rounded-lg lg:group-hover:bg-accent/20 transition-colors">
-                      <Camera className="w-5 h-5 text-textSecondary lg:group-hover:text-accent" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-lg font-bold text-textPrimary">2€ <span className="text-[10px] text-textSecondary font-normal">/unité</span></span>
-                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Photo drone</span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Frais kilométriques</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
@@ -361,7 +291,16 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-bold text-textPrimary">12€ <span className="text-[10px] text-textSecondary font-normal">/clé</span></span>
-                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Support USB</span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Support clé USB</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-3 bg-background/50 rounded-xl border border-white/5 lg:group-hover:border-accent/30 transition-all group">
+                    <div className="p-2.5 bg-white/5 rounded-lg lg:group-hover:bg-accent/20 transition-colors">
+                      <Film className="w-5 h-5 text-textSecondary lg:group-hover:text-accent" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold text-textPrimary">5 à 10 <span className="text-[10px] text-textSecondary font-normal">jours</span></span>
+                      <span className="text-[10px] text-textSecondary font-medium tracking-wide">Délai moyen de livraison</span>
                     </div>
                   </div>
                   <div 
@@ -383,216 +322,78 @@ export const Services: React.FC<ServicesProps> = ({ onServiceSelect }) => {
         </Transition>
 
 
-        {/* --- MONTAGE VIDEO SECTION --- */}
-        <div className="border-t border-white/5 pt-20">
-          {/* Carte Montage vidéo - Compacte et centrée */}
-          <Reveal delay={100}>
-            <div className="mb-20 max-w-3xl mx-auto">
-              <div className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 lg:group-hover:border-accent/30 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                  {/* Colonne gauche */}
-                  <div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2.5 rounded-xl bg-accent/10 text-accent">
-                        <Film size={24} />
-                      </div>
-                      <h4 className="text-xl font-bold text-textPrimary">Montage vidéo</h4>
-                    </div>
-                    <p className="text-white/80 text-[15px] mb-2">Montage intégral pour une vidéo 100% sur-mesure :</p>
-                    <ul className="space-y-1.5 text-white/70 text-[13px]">
-                      <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Montage dynamique</li>
-                      <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Étalonnage professionnel</li>
-                      <li className="flex items-center gap-2"><Check size={14} className="text-accent" />Sound Design et mixage immersif</li>
-                    </ul>
-                  </div>
-                  {/* Colonne droite */}
-                  <div className="shrink-0 flex flex-col items-start md:items-end gap-4">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold text-accent">50€</span>
-                      <span className="text-base text-textSecondary font-medium">/heure</span>
-                    </div>
-                    <div className="flex flex-col gap-2 w-[200px]">
-                      <div className="bg-accent/5 border border-accent/20 rounded-lg px-3 py-2 flex items-center gap-2 w-full">
-                        <Usb size={14} className="text-accent shrink-0" />
-                        <p className="text-[11px] text-textSecondary leading-tight text-left">Support USB : <span className="text-textPrimary font-bold">12€</span> /clé</p>
-                      </div>
-                      <div className="bg-accent/5 border border-accent/20 rounded-lg px-3 py-2 flex items-center gap-2 w-full">
-                        <Search size={14} className="text-accent shrink-0" />
-                        <p className="text-[11px] text-textSecondary leading-tight text-left">Devis précis établi après analyse de votre demande.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
         {/* --- EAGLE DIGITAL SECTION --- */}
-        <div id="studio" className="border-t border-white/5 pt-20">
+        <div id="studio" className="border-t border-white/[0.04] pt-20">
           {/* Header */}
           <Reveal>
-          <div className="text-center mb-16">
-            <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Communication digital</span>
-            <h3 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60 leading-tight pb-2">Eagle Digital</h3>
-          </div>
+            <div className="text-center mb-16">
+              <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Présence en ligne</span>
+              <h3 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/60 leading-tight pb-2">Eagle Digital</h3>
+              <p className="text-lg text-textSecondary max-w-2xl mx-auto font-light mt-6">
+                Site web, SEO et maintenance : votre présence numérique entre de bonnes mains.
+              </p>
+            </div>
           </Reveal>
 
-          {/* Stack des 3 services (Vertical) */}
-          <div className="flex flex-col gap-8">
-              
-              {/* Carte Identité visuelle (DORÉ / ACCENT) */}
-              <Reveal>
-                <div 
-                  onClick={() => handleServiceSelect('Identité visuelle')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-amber-400/30 transition-all duration-500 cursor-pointer"
-                >
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="flex flex-col lg:flex-row h-full relative z-10">
-                  {/* Colonne Contenu */}
-                  <div className="flex-1 p-5 md:p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
-                        <Palette size={20} />
-                      </div>
-                      <h4 className="text-lg font-bold text-textPrimary">Identité visuelle</h4>
-                    </div>
-                    
-                    {/* Liste des prestations avec prix */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Création de Logo sur-mesure</span>
-                        <span className="text-textPrimary font-bold text-base">600€</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Charte graphique complète</span>
-                        <span className="text-textPrimary font-bold text-base">400€</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Templates réseaux sociaux prêts à publier</span>
-                        <span className="text-textPrimary font-bold text-base">110€</span>
-                      </div>
-                      <div className="flex justify-between items-start pt-1.5 pb-2 border-b border-white/5">
-                        <div>
-                          <span className="text-white/80 text-[15px]">Design de supports de communication</span>
-                          <p className="text-white/40 text-[13px] mt-0.5">Cartes, flyers, affiches, kakémonos, brochures</p>
-                        </div>
-                        <span className="text-textPrimary font-bold text-base">90€</span>
-                      </div>
-                      <div className="flex justify-between items-start pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Signature mail professionnelle</span>
-                        <div className="text-right">
-                          <span className="text-textPrimary font-bold text-base">100€</span>
-                          <p className="text-white/40 text-[11px]">+15€ par collaborateur</p>
-                        </div>
-                      </div>
-                    </div>
+          {/* 3 piliers */}
+          <Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+              {[
+                {
+                  icon: <Monitor size={22} className="text-indigo-400" />,
+                  iconBg: 'bg-indigo-500/10 border-indigo-500/20',
+                  border: 'border-indigo-500/15 hover:border-indigo-400/35',
+                  accent: 'text-indigo-400',
+                  title: 'Création de Site Web',
+                  desc: 'Site vitrine, multi-pages ou e-commerce. Domaine, hébergement, e-mails pro, RGPD inclus an 1.',
+                  price: 'Dès 1 200€',
+                },
+                {
+                  icon: <Search size={22} className="text-teal-400" />,
+                  iconBg: 'bg-teal-500/10 border-teal-500/20',
+                  border: 'border-teal-500/15 hover:border-teal-400/35',
+                  accent: 'text-teal-400',
+                  title: 'SEO & Visibilité',
+                  desc: 'Audit SEO, fiche Google Business, e-mailing pour être trouvé localement et fidéliser vos clients.',
+                  price: 'Dès 150€',
+                },
+                {
+                  icon: <LifeBuoy size={22} className="text-rose-400" />,
+                  iconBg: 'bg-rose-500/10 border-rose-500/20',
+                  border: 'border-rose-500/15 hover:border-rose-400/35',
+                  accent: 'text-rose-400',
+                  title: 'Maintenance',
+                  desc: 'Sauvegardes, sécurité, mises à jour, support humain, e-mailing et Solocal géré. Un seul interlocuteur.',
+                  price: 'Dès 49€/mois',
+                },
+              ].map((item, i) => (
+                <div key={i} className={`bg-surfaceHighlight/15 border rounded-2xl p-5 flex flex-col gap-4 transition-all duration-300 ${item.border}`}>
+                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${item.iconBg}`}>{item.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white font-bold text-sm mb-1">{item.title}</div>
+                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
                   </div>
-                  
-                  {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={identiteVisuelleImg} alt="Identité visuelle" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" fetchPriority="high" />
-                  </div>
+                  <div className={`text-xs font-bold tracking-wide ${item.accent}`}>{item.price}</div>
                 </div>
-                </div>
-              </Reveal>
+              ))}
+            </div>
+          </Reveal>
 
-              {/* Carte Présence digital (BLEU VIOLET / INDIGO) */}
-              <Reveal>
-                <div 
-                  onClick={() => handleServiceSelect('Présence digital')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-indigo-400/30 transition-all duration-500 cursor-pointer"
-                >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="flex flex-col lg:flex-row h-full relative z-10">
-                  {/* Colonne Contenu */}
-                  <div className="flex-1 p-5 md:p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
-                        <Monitor size={20} />
-                      </div>
-                      <h4 className="text-lg font-bold text-textPrimary">Présence digital</h4>
-                    </div>
-                    
-                    {/* Liste des prestations avec prix */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Création de site internet vitrine clé en main</span>
-                        <span className="text-textPrimary font-bold text-base">500€</span>
-                      </div>
-                      <div className="flex justify-between items-start pt-1.5 pb-2 border-b border-white/5">
-                        <div>
-                          <span className="text-white/80 text-[15px]">Fiche Google et pack visibilité locale</span>
-                          <p className="text-white/40 text-[13px] mt-0.5">Fiche google business profile, solocal</p>
-                        </div>
-                        <span className="text-textPrimary font-bold text-base">250€</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Référencement SEO</span>
-                        <span className="text-textPrimary font-bold text-base">250€</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={presenceDigitalImg} alt="Présence digital" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
-                  </div>
-                </div>
-                </div>
-              </Reveal>
-
-              {/* Carte Réseaux sociaux */}
-              <Reveal>
-                <div 
-                  onClick={() => handleServiceSelect('Réseaux sociaux')}
-                  className="group relative bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden lg:group-hover:border-teal-400/30 transition-all duration-500 cursor-pointer"
-                >
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="flex flex-col lg:flex-row h-full relative z-10">
-                  {/* Colonne Contenu */}
-                  <div className="flex-1 p-5 md:p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-xl bg-teal-500/10 text-teal-400">
-                        <Share2 size={20} />
-                      </div>
-                      <h4 className="text-lg font-bold text-textPrimary">Réseaux sociaux</h4>
-                    </div>
-                    
-                    {/* Liste des prestations avec prix */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Mise en place Instagram / Facebook / TikTok</span>
-                        <span className="text-textPrimary font-bold text-base">250€</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Stratégie de contenu et templates</span>
-                        <span className="text-textPrimary font-bold text-base">170€</span>
-                      </div>
-                      <div className="flex justify-between items-start pt-1.5 pb-2 border-b border-white/5">
-                        <div>
-                          <span className="text-white/80 text-[15px]">Shooting photo et tournage vidéo</span>
-                          <p className="text-white/40 text-[13px] mt-0.5">Drone + au sol</p>
-                        </div>
-                        <span className="text-textPrimary font-bold text-[11px] uppercase tracking-wider mt-1 ml-4">Sur demande</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1.5 pb-2 border-b border-white/5">
-                        <span className="text-white/80 text-[15px]">Montage courts formats, reels, tiktok et films d'entreprise</span>
-                        <span className="text-textPrimary font-bold text-base ml-4">50€/h</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Colonne Image (Droite) */}
-                  <div className="lg:w-1/3 h-[250px] lg:h-auto lg:min-h-full border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-                    <img src={reseauxSociauxImg} alt="Réseaux sociaux" className="w-full h-full object-cover object-center" style={{ imageRendering: 'auto', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }} loading="eager" decoding="sync" />
-                  </div>
-                </div>
-                </div>
-              </Reveal>
-
-          </div>
+          {/* CTA Eagle Digital */}
+          <Reveal>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-5 bg-gradient-to-r from-accent/10 to-transparent border border-accent/20 rounded-2xl px-7 py-6">
+              <div>
+                <div className="text-white font-bold text-lg mb-1">Tout savoir sur Eagle Digital</div>
+                <div className="text-white/40 text-sm">SEO, maintenance, processus et tarifs complets.</div>
+              </div>
+              <a
+                href="/eagle-digital"
+                className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent font-semibold px-6 py-3 rounded-full hover:bg-accent/25 hover:border-accent/50 transition-all duration-200 text-sm shrink-0"
+              >
+                En savoir plus <ArrowRight size={15} />
+              </a>
+            </div>
+          </Reveal>
         </div>
 
       </div>

@@ -79,7 +79,7 @@ Crawl-delay: 2
 
 # Disallow admin/private paths (if any)
 Disallow: /api/
-Disallow: /*.json$
+Disallow: /api/*.json$
 Disallow: /node_modules/
 
 # Sitemaps

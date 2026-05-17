@@ -18,10 +18,7 @@ export const Footer: React.FC = () => {
   const scrollToSection = (sectionId: Section) => {
     const anchorMap: Partial<Record<Section, string>> = {
       [Section.SERVICES]: 'services-title',
-      [Section.ABOUT]: 'about-title',
-      [Section.TECH]: 'tech-title',
       [Section.REVIEWS]: 'reviews-title',
-      [Section.CONTACT]: 'contact-title',
     };
     const targetId = anchorMap[sectionId];
     const el = (targetId && document.getElementById(targetId)) || document.getElementById(sectionId);
@@ -41,7 +38,7 @@ export const Footer: React.FC = () => {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-6">
-                  <img src={eagleBeige} alt="Eagle Production" className="h-10 w-auto" />
+                  <img src={eagleBeige} alt="Eagle Production - Expert drone à Angoulême" className="h-10 w-auto" loading="lazy" />
               </div>
               <p className="text-textSecondary max-w-sm mb-6 leading-relaxed">
                   Solutions drone à la qualité cinéma, alliées à un studio digital dédié.<br/>
@@ -113,10 +110,7 @@ export const Footer: React.FC = () => {
                   <button onClick={() => scrollToSection(Section.SERVICES)} className="text-textSecondary hover:text-accent transition-colors">Formules</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection(Section.ABOUT)} className="text-textSecondary hover:text-accent transition-colors">À propos</button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection(Section.TECH)} className="text-textSecondary hover:text-accent transition-colors">Technologies</button>
+                  <a href="/a-propos" className="text-textSecondary hover:text-accent transition-colors">À propos</a>
                 </li>
                 <li>
                   <button onClick={() => scrollToSection(Section.ZONE)} className="text-textSecondary hover:text-accent transition-colors">Zone</button>
@@ -125,7 +119,7 @@ export const Footer: React.FC = () => {
                   <button onClick={() => scrollToSection(Section.REVIEWS)} className="text-textSecondary hover:text-accent transition-colors">Avis & FAQ</button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection(Section.CONTACT)} className="text-textSecondary hover:text-accent transition-colors">Contact</button>
+                  <a href="/contact" className="text-textSecondary hover:text-accent transition-colors">Contact</a>
                 </li>
               </ul>
             </div>
