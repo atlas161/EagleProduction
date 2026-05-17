@@ -6,30 +6,21 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { TechSpecs } from './components/TechSpecs';
-import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Section } from './types';
 import { Preloader } from './components/Preloader';
 import { Coverage } from './components/Coverage';
 import { Gallery } from './components/Gallery';
 import { CookieBanner } from './components/CookieBanner';
-import { About } from './components/About';
 import { ReviewsAndFaq } from './components/ReviewsAndFaq';
 import { SEOSchema } from './components/SEOSchema';
+import { BlogPreview } from './components/BlogPreview';
 
 function App() {
   const [activeSection, setActiveSection] = useState<Section>(Section.HERO);
   const [isLoading, setIsLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-
-  const handleServiceSelect = React.useCallback((serviceName: string) => {
-    setSelectedServices(prev => {
-      if (prev.includes(serviceName)) return prev;
-      return [...prev, serviceName];
-    });
-  }, []);
 
   // Gestion du chargement initial (Preloader)
   useEffect(() => {
@@ -38,6 +29,31 @@ function App() {
       // et pour assurer une transition fluide
       setTimeout(() => {
         setIsLoading(false);
+
+        const pendingSection = (() => {
+          try {
+            return sessionStorage.getItem('scrollToSection') as Section | null;
+          } catch {
+            return null;
+          }
+        })();
+        if (pendingSection && Object.values(Section).includes(pendingSection)) {
+          try {
+            sessionStorage.removeItem('scrollToSection');
+          } catch {
+          }
+          setTimeout(() => {
+            const element = document.getElementById(pendingSection);
+            if (element) {
+              const SCROLL_OFFSET = 72;
+              const elementPosition = element.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - SCROLL_OFFSET;
+              window.scrollTo({ top: Math.max(offsetPosition, 0), behavior: 'smooth' });
+              setActiveSection(pendingSection);
+            }
+          }, 100);
+          return;
+        }
         
         // Gérer le hash dans l'URL après le chargement
         const hash = window.location.hash.replace('#', '') as Section;
@@ -90,9 +106,6 @@ function App() {
         behavior: 'smooth'
       });
       
-      // Mettre à jour l'URL sans recharger (pour le partage de liens)
-      window.history.pushState(null, '', `#${sectionId}`);
-      
       window.setTimeout(() => setIsNavigating(false), 800);
     }
   };
@@ -126,11 +139,10 @@ function App() {
         Section.HERO,
         Section.GALLERY,
         Section.SERVICES,
-        Section.ABOUT,
+        Section.BLOG,
         Section.TECH,
         Section.ZONE,
-        Section.REVIEWS,
-        Section.CONTACT
+        Section.REVIEWS
       ];
 
       // Point de déclenchement : 1/3 de la hauteur de la fenêtre ou barre de nav
@@ -182,11 +194,11 @@ function App() {
           </section>
 
           <section id={Section.SERVICES} className="relative z-10 bg-background min-h-screen border-b border-white/5">
-            <Services onServiceSelect={handleServiceSelect} />
+            <Services />
           </section>
 
-          <section id={Section.ABOUT} className="py-8 border-b border-white/5">
-            <About />
+          <section id={Section.BLOG}>
+            <BlogPreview />
           </section>
 
           <section id={Section.TECH} className="min-h-screen">
@@ -201,8 +213,23 @@ function App() {
             <ReviewsAndFaq />
           </section>
 
-          <section id={Section.CONTACT} className="bg-gradient-to-b from-background to-surfaceHighlight min-h-screen">
-            <Contact selectedServices={selectedServices} />
+          <section className="bg-gradient-to-b from-background to-surfaceHighlight">
+            <div className="max-w-7xl mx-auto px-6 py-16">
+              <div className="rounded-[2rem] border border-accent/30 bg-gradient-to-br from-accent/15 via-accent/5 to-transparent p-8 md:p-10 shadow-[0_0_40px_rgba(212,175,55,0.15)]">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-white">Un projet en tête ?</h3>
+                    <p className="text-white/80 mt-1">Drone, montage, digital: recevez une proposition claire et rapide.</p>
+                  </div>
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center justify-center bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-colors border border-accent/40"
+                  >
+                    Devis gratuit
+                  </a>
+                </div>
+              </div>
+            </div>
           </section>
         </main>
 

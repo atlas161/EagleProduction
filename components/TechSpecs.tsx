@@ -186,7 +186,7 @@ export const TechSpecs: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02)_0%,transparent_50%,rgba(0,0,0,0.3)_100%)]"></div>
             {/* Logo DJI en fond */}
             <div className="absolute inset-0 flex items-center justify-center opacity-[0.04]">
-              <img src={djiLogo} alt="" className="w-[80%] h-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src={djiLogo} alt="Logo DJI - Leader mondial des drones professionnels" className="w-[80%] h-auto" loading="lazy" style={{ filter: 'brightness(0) invert(1)' }} />
             </div>
             {/* Subtle noise texture */}
             <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
@@ -382,7 +382,7 @@ export const TechSpecs: React.FC = () => {
         <div className="flex-1 space-y-10 relative z-10 order-2 md:order-2">
           <Reveal>
             <div className="flex items-center gap-5 mb-6 opacity-90">
-              <img src={djiLogo} alt="DJI" className="h-5 w-auto" style={{ filter: 'brightness(0) saturate(100%) invert(73%) sepia(67%) saturate(398%) hue-rotate(6deg) brightness(92%) contrast(88%)' }} />
+              <img src={djiLogo} alt="DJI - Leader mondial des drones civils et professionnels" className="h-5 w-auto" loading="lazy" style={{ filter: 'brightness(0) saturate(100%) invert(73%) sepia(67%) saturate(398%) hue-rotate(6deg) brightness(92%) contrast(88%)' }} />
               <div className="h-4 w-[1px] bg-accent/50"></div>
               <span className="text-sm font-bold tracking-[0.3em] text-accent uppercase">Flagship Series</span>
             </div>

@@ -73,11 +73,7 @@ const recordSubmission = () => {
   localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
 };
 
-interface ContactProps {
-  selectedServices?: string[];
-}
-
-export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
+export const Contact: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [rateLimitSeconds, setRateLimitSeconds] = useState(0);
@@ -87,16 +83,6 @@ export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
     email: '',
     message: '',
   });
-
-  useEffect(() => {
-    if (selectedServices && selectedServices.length > 0) {
-      const servicesList = selectedServices.join(', ');
-      setFormData(prev => ({
-        ...prev,
-        message: `Bonjour, je suis intéressé(e) par les formules suivantes : ${servicesList}.\n\nVoici quelques détails sur mon projet :`
-      }));
-    }
-  }, [selectedServices]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -164,8 +150,13 @@ export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-24">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 -left-40 w-[680px] h-[680px] rounded-full bg-accent/5 blur-[120px]" />
+        <div className="absolute -bottom-40 -right-40 w-[520px] h-[520px] rounded-full bg-white/5 blur-[120px]" />
+      </div>
+      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24">
         {/* Left Column: Info & Details */}
         <div className="flex flex-col justify-center">
             <Reveal>
@@ -175,6 +166,17 @@ export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
                     Une idée ? Un besoin spécifique ? <br/>
                     Nous sommes joignables directement par téléphone ou via le formulaire.
                 </p>
+                <div className="flex flex-wrap gap-2 mb-12">
+                  <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                    Devis gratuit
+                  </span>
+                  <span className="text-[11px] uppercase tracking-widest bg-accent/20 border border-accent/30 text-accent px-3 py-1.5 rounded-full">
+                    Réponse rapide
+                  </span>
+                  <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                    Certifié DGAC
+                  </span>
+                </div>
 
                 <div className="space-y-8">
                     {/* Email */}
@@ -226,7 +228,7 @@ export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
 
         {/* Right Column: Contact Form */}
         <Reveal delay={200}>
-            <div className="bg-surfaceHighlight/50 border border-white/5 rounded-3xl p-8 backdrop-blur-sm shadow-xl">
+            <div className="bg-surfaceHighlight/50 border border-white/10 rounded-3xl p-8 backdrop-blur-sm shadow-xl shadow-black/30">
                 {/* Formulaire Netlify */}
                 <form 
                   name="contact" 
@@ -404,6 +406,7 @@ export const Contact: React.FC<ContactProps> = ({ selectedServices = [] }) => {
                 </form>
             </div>
         </Reveal>
+      </div>
       </div>
     </div>
   );
