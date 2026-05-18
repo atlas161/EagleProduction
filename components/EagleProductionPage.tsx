@@ -72,7 +72,7 @@ export const EagleProductionPage: React.FC = () => {
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
     setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-production');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-production/');
     setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
@@ -85,7 +85,7 @@ export const EagleProductionPage: React.FC = () => {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-production');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-production/');
   }, []);
 
   const services = [

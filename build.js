@@ -102,46 +102,78 @@ let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/blog</loc>
+    <loc>https://www.eagle-prod.com/blog/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/faq</loc>
+    <loc>https://www.eagle-prod.com/faq/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/contact</loc>
+    <loc>https://www.eagle-prod.com/contact/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/chantier</loc>
+    <loc>https://www.eagle-prod.com/chantier/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/eagle-production</loc>
+    <loc>https://www.eagle-prod.com/eagle-production/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/inspection</loc>
+    <loc>https://www.eagle-prod.com/inspection/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/zone</loc>
+    <loc>https://www.eagle-prod.com/zone/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
+  </url>`;
+
+sitemap += `
+  <url>
+    <loc>https://www.eagle-prod.com/a-propos/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/eagle-digital/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/eagle-digital/creation-site-web/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/eagle-digital/referencement-seo/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/eagle-digital/hebergement-mail/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/eagle-digital/maintenance/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.7</priority>
   </url>`;
 
 // Ajouter chaque article de blog individuellement
 posts.forEach(post => {
   sitemap += `
   <url>
-    <loc>https://www.eagle-prod.com${post.url}</loc>
+    <loc>https://www.eagle-prod.com${post.url}/</loc>
     <lastmod>${post.date}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -224,43 +256,79 @@ const generateStaticPages = (posts, baseHtml) => {
       path: 'blog',
       title: 'Blog Drone, Vidéo & Digital | Eagle Production Angoulême',
       description: 'Articles sur la captation drone, le montage vidéo professionnel et la présence digitale locale à Angoulême et en Nouvelle-Aquitaine.',
-      canonical: `${BASE}/blog`,
+      canonical: `${BASE}/blog/`,
     },
     {
       path: 'faq',
       title: 'FAQ Drone & Vidéo Angoulême | Questions Fréquentes | Eagle Production',
       description: 'Toutes les réponses sur nos prestations drone, vidéo et digital à Angoulême : réglementation DGAC, qualité 4K, tarifs, délais, livrables. Télépilote certifié en Charente et Nouvelle-Aquitaine.',
-      canonical: `${BASE}/faq`,
+      canonical: `${BASE}/faq/`,
     },
     {
       path: 'contact',
       title: 'Contact & Devis Gratuit | Eagle Production Angoulême - Drone & Vidéo',
       description: 'Contactez Eagle Production pour un devis gratuit : captation drone, montage vidéo, suivi de chantier ou inspection à Angoulême et en Nouvelle-Aquitaine. Réponse sous 24h.',
-      canonical: `${BASE}/contact`,
+      canonical: `${BASE}/contact/`,
     },
     {
       path: 'chantier',
       title: 'Suivi de Chantier par Drone Angoulême | Eagle Production',
       description: 'Suivi de chantier BTP par drone à Angoulême et en Charente. Photos 4K, orthophoto, comparatifs, rapport PDF. Télépilote certifié DGAC.',
-      canonical: `${BASE}/chantier`,
+      canonical: `${BASE}/chantier/`,
     },
     {
       path: 'eagle-production',
       title: 'Eagle Production - Suivi de chantier & Inspection par drone à Angoulême',
       description: 'Eagle Production à Angoulême: suivi de chantier BTP et inspection de bâtiments par drone. Vues 4K, rapports PDF, sécurité renforcée, intervention en Charente et Nouvelle-Aquitaine.',
-      canonical: `${BASE}/eagle-production`,
+      canonical: `${BASE}/eagle-production/`,
     },
     {
       path: 'inspection',
       title: 'Inspection de Bâtiments par Drone Angoulême | Eagle Production',
       description: 'Eagle Production inspecte vos toitures, façades et structures par drone à Angoulême et en Charente. Vues 4K, rapport illustré PDF, télépilote certifié DGAC. Devis gratuit.',
-      canonical: `${BASE}/inspection`,
+      canonical: `${BASE}/inspection/`,
     },
     {
       path: 'zone',
       title: 'Zone d\'Intervention Drone Nouvelle-Aquitaine | Eagle Production Angoulême',
       description: 'Eagle Production intervient dans toute la Nouvelle-Aquitaine : Angoulême, Cognac, Bordeaux, La Rochelle, Poitiers, Périgueux, Niort, Saintes, Royan. Télépilote drone certifié DGAC.',
-      canonical: `${BASE}/zone`,
+      canonical: `${BASE}/zone/`,
+    },
+    {
+      path: 'a-propos',
+      title: 'À Propos | Eagle Production Angoulême',
+      description: 'Découvrez Eagle Production : télépilote drone certifié DGAC à Angoulême, vision, méthode de travail et engagements qualité en Charente et Nouvelle-Aquitaine.',
+      canonical: `${BASE}/a-propos/`,
+    },
+    {
+      path: 'eagle-digital',
+      title: 'Eagle Digital | Sites Web, SEO & Informatique | Angoulême',
+      description: 'Eagle Digital : création de sites web, SEO local, hébergement mail et maintenance à Angoulême. Une approche simple, performante et orientée résultats.',
+      canonical: `${BASE}/eagle-digital/`,
+    },
+    {
+      path: path.join('eagle-digital', 'creation-site-web'),
+      title: 'Création de Site Web à Angoulême | Eagle Digital',
+      description: 'Sites vitrines, multi-pages et e-commerce rapides, modernes et optimisés SEO. Nom de domaine, hébergement sécurisé, e-mails pro et conformité RGPD.',
+      canonical: `${BASE}/eagle-digital/creation-site-web/`,
+    },
+    {
+      path: path.join('eagle-digital', 'referencement-seo'),
+      title: 'Référencement SEO Local à Angoulême | Eagle Digital',
+      description: 'Audit SEO technique, optimisation Google Business Profile et contenus. Objectif : gagner en visibilité quand vos clients cherchent vos services à Angoulême et en Charente.',
+      canonical: `${BASE}/eagle-digital/referencement-seo/`,
+    },
+    {
+      path: path.join('eagle-digital', 'hebergement-mail'),
+      title: 'Hébergement Mail Pro | Eagle Digital Angoulême',
+      description: 'E-mails professionnels (ex: prenom@votre-domaine.fr), sécurité, délivrabilité, configuration et support. Un service mail fiable pour votre entreprise.',
+      canonical: `${BASE}/eagle-digital/hebergement-mail/`,
+    },
+    {
+      path: path.join('eagle-digital', 'maintenance'),
+      title: 'Maintenance de Site Web | Eagle Digital Angoulême',
+      description: 'Mises à jour, sauvegardes, sécurité, performances et support. Gardez un site fiable, rapide et sécurisé en continu.',
+      canonical: `${BASE}/eagle-digital/maintenance/`,
     },
   ];
 
@@ -275,7 +343,7 @@ const generateStaticPages = (posts, baseHtml) => {
   // --- Pages d'articles de blog ---
   let count = 0;
   posts.forEach(post => {
-    const canonical = `${BASE}/blog/${post.slug}`;
+    const canonical = `${BASE}/blog/${post.slug}/`;
     const ogImage = post.coverImage
       ? (post.coverImage.startsWith('http') ? post.coverImage : `${BASE}${post.coverImage}`)
       : `${BASE}/Photo_de_paul_bardin.webp`;
@@ -304,7 +372,7 @@ const generateStaticPages = (posts, baseHtml) => {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${BASE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog` },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog/` },
         { '@type': 'ListItem', position: 3, name: post.title, item: canonical },
       ],
     };

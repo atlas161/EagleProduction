@@ -31,7 +31,7 @@ export const ConstructionTrackingPage: React.FC = () => {
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
     setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/chantier');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/chantier/');
     setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
@@ -42,7 +42,7 @@ export const ConstructionTrackingPage: React.FC = () => {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/chantier');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/chantier/');
   }, []);
   const serviceLd = {
     '@context': 'https://schema.org',
@@ -75,7 +75,7 @@ export const ConstructionTrackingPage: React.FC = () => {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.eagle-prod.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Suivi de chantier BTP', item: 'https://www.eagle-prod.com/chantier' }
+      { '@type': 'ListItem', position: 2, name: 'Suivi de chantier BTP', item: 'https://www.eagle-prod.com/chantier/' }
     ]
   };
   return (

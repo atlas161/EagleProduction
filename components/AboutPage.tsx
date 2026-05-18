@@ -38,7 +38,7 @@ export const AboutPage: React.FC = () => {
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
     setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/a-propos');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/a-propos/');
     setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
@@ -50,14 +50,14 @@ export const AboutPage: React.FC = () => {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/a-propos');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/a-propos/');
   }, []);
 
   const aboutPageLd = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     name: 'À propos',
-    url: 'https://www.eagle-prod.com/a-propos',
+    url: 'https://www.eagle-prod.com/a-propos/',
     inLanguage: 'fr-FR',
     description:
       "Eagle Production est un studio drone basé à Angoulême (Charente). Télépilote certifié DGAC: vidéo aérienne 4K, photo drone, inspection technique, photogrammétrie et suivi de chantier BTP.",
@@ -89,7 +89,7 @@ export const AboutPage: React.FC = () => {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.eagle-prod.com/' },
-      { '@type': 'ListItem', position: 2, name: 'À propos', item: 'https://www.eagle-prod.com/a-propos' }
+      { '@type': 'ListItem', position: 2, name: 'À propos', item: 'https://www.eagle-prod.com/a-propos/' }
     ]
   };
 

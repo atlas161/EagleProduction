@@ -40,7 +40,7 @@ export const BlogArticlePage: React.FC = () => {
     if (!post) return;
     const title = post.seoTitle || `${post.title} | Blog`;
     const desc = post.seoDescription || post.excerpt || `Article: ${post.title}`;
-    const url = `https://www.eagle-prod.com/blog/${post.slug}`;
+    const url = `https://www.eagle-prod.com/blog/${post.slug}/`;
     const image = post.coverImage ? `https://www.eagle-prod.com${post.coverImage}` : 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp';
     document.title = title;
     const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
@@ -99,7 +99,7 @@ export const BlogArticlePage: React.FC = () => {
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `https://www.eagle-prod.com/blog/${post.slug}`
+        '@id': `https://www.eagle-prod.com/blog/${post.slug}/`
       },
       articleSection: post.category,
       keywords: post.tags?.join(', ') || '',

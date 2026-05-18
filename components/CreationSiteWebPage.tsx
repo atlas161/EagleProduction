@@ -31,11 +31,11 @@ export const CreationSiteWebPage: React.FC = () => {
     setMeta('name', 'description', desc);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/creation-site-web');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/creation-site-web/');
     setMeta('name', 'keywords', 'création site web Angoulême, site vitrine Charente, site e-commerce Angoulême, agence web Charente, site professionnel pas cher, Eagle Digital');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/creation-site-web');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/creation-site-web/');
   }, []);
 
   return (

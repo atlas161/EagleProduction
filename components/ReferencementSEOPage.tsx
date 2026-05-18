@@ -89,11 +89,11 @@ export const ReferencementSEOPage: React.FC = () => {
     setMeta('name', 'description', desc);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/referencement-seo');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/referencement-seo/');
     setMeta('name', 'keywords', 'SEO Angoulême, référencement local Charente, Google Business Profile, audit SEO, e-mailing pro, Eagle Digital, visibilité locale');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/referencement-seo');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/referencement-seo/');
   }, []);
 
   return (

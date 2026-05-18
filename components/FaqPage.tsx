@@ -133,14 +133,14 @@ export const FaqPage: React.FC = () => {
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
     setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/faq');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/faq/');
     setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', desc);
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/faq');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/faq/');
   }, []);
 
   const faqLd = useMemo(() => ({

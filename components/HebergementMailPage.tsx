@@ -31,11 +31,11 @@ export const HebergementMailPage: React.FC = () => {
     setMeta('name', 'description', desc);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail/');
     setMeta('name', 'keywords', 'hébergement web Angoulême, nom de domaine Charente, e-mail professionnel entreprise, adresse e-mail personnalisée, Eagle Digital, SSL, migration domaine');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail/');
   }, []);
 
   return (

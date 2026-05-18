@@ -32,11 +32,11 @@ export const MaintenancePage: React.FC = () => {
     setMeta('name', 'description', desc);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/maintenance');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/maintenance/');
     setMeta('name', 'keywords', 'contrat maintenance site web Angoulême, maintenance informatique Charente, SEO mensuel, sauvegardes site web, support informatique TPE PME, Eagle Digital');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/maintenance');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/maintenance/');
   }, []);
 
   const plans = [

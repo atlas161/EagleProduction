@@ -32,7 +32,7 @@ export const ContactPage: React.FC = () => {
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', desc);
     setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/contact');
+    setMeta('property', 'og:url', 'https://www.eagle-prod.com/contact/');
     setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
@@ -43,7 +43,7 @@ export const ContactPage: React.FC = () => {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/contact');
+    canonical.setAttribute('href', 'https://www.eagle-prod.com/contact/');
   }, []);
 
   return (
