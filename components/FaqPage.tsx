@@ -90,13 +90,56 @@ export const FaqPage: React.FC = () => {
   const items = loadAllFaqItems();
   const categories = useMemo(() => ['Toutes', ...Array.from(new Set(items.map((i) => i.category)))], [items]);
   const [category, setCategory] = useState<string>('Toutes');
+  const [topic, setTopic] = useState<string>('Tous');
   const [search, setSearch] = useState('');
   const [expandAll, setExpandAll] = useState(false);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const searchRef = useRef<HTMLInputElement>(null);
 
+  const topicFor = (i: CmsFaqItem) => {
+    const slug = (i.slug || '').toLowerCase();
+    const question = (i.question || '').toLowerCase();
+    const combined = `${slug} ${question}`;
+    if (combined.includes('immobilier')) return 'Immobilier';
+    if (combined.includes('evenement') || combined.includes('mariage')) return 'Événementiel';
+    if (combined.includes('reels') || combined.includes('shorts') || combined.includes('tiktok') || combined.includes('instagram')) return 'Réseaux sociaux';
+    if (combined.includes('sport') || combined.includes('automobile') || combined.includes('competition') || combined.includes('entraînement')) return 'Sport & action';
+    if (combined.includes('chantier') || combined.includes('btp') || combined.includes('orthophoto') || combined.includes('points fixes')) return 'Suivi de chantier';
+    if (combined.includes('inspection') || combined.includes('toiture') || combined.includes('bâtiment') || combined.includes('façade')) return 'Inspection';
+    if (combined.includes('paysage') || combined.includes('photographie aérienne') || combined.includes('photo aérienne') || combined.includes('artistique')) return 'Photo & vidéo';
+    if (combined.includes('tarif') || combined.includes('coût') || combined.includes('prix') || combined.includes('devis')) return 'Tarifs';
+    if (combined.includes('dgac') || combined.includes('réglement') || combined.includes('zones interdites') || combined.includes('météo')) return 'Réglementation';
+    if (combined.includes('livrable') || combined.includes('qualité') || combined.includes('rapport') || combined.includes('pdf')) return 'Livrables';
+    if (i.category === 'Digital & présence en ligne') return 'Digital';
+    if (i.category === 'Montage vidéo') return 'Montage';
+    if (i.category === 'Administratif & sécurité') return 'Administratif';
+    return 'Général';
+  };
+
+  const topics = useMemo(() => {
+    const list = Array.from(new Set(items.map(topicFor)));
+    const preferredOrder = [
+      'Immobilier',
+      'Événementiel',
+      'Réseaux sociaux',
+      'Suivi de chantier',
+      'Inspection',
+      'Sport & action',
+      'Photo & vidéo',
+      'Livrables',
+      'Tarifs',
+      'Réglementation',
+      'Montage',
+      'Digital',
+      'Administratif',
+      'Général',
+    ];
+    return ['Tous', ...list.sort((a, b) => preferredOrder.indexOf(a) - preferredOrder.indexOf(b) || a.localeCompare(b, 'fr'))];
+  }, [items]);
+
   const filtered = useMemo(() => {
     let list = category === 'Toutes' ? items : items.filter((i) => i.category === category);
+    if (topic !== 'Tous') list = list.filter((i) => topicFor(i) === topic);
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter((i) =>
@@ -105,17 +148,17 @@ export const FaqPage: React.FC = () => {
       );
     }
     return list;
-  }, [items, category, search]);
+  }, [items, category, topic, search]);
 
   const grouped = useMemo((): Record<string, import('./CmsContent').CmsFaqItem[]> | null => {
-    if (category !== 'Toutes' || search.trim()) return null;
+    if (category !== 'Toutes' || topic !== 'Tous' || search.trim()) return null;
     const map: Record<string, import('./CmsContent').CmsFaqItem[]> = {};
     items.forEach((i) => {
       if (!map[i.category]) map[i.category] = [];
       map[i.category].push(i);
     });
     return map;
-  }, [items, category, search]);
+  }, [items, category, topic, search]);
 
   const countFor = (cat: string) =>
     cat === 'Toutes' ? items.length : items.filter((i) => i.category === cat).length;
@@ -162,7 +205,7 @@ export const FaqPage: React.FC = () => {
     setOpen(next);
   }, [expandAll, filtered]);
 
-  useEffect(() => { if (expandAll) return; setOpen({}); }, [expandAll, category]);
+  useEffect(() => { if (expandAll) return; setOpen({}); }, [expandAll, category, topic]);
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
@@ -251,7 +294,7 @@ export const FaqPage: React.FC = () => {
               return (
                 <button
                   key={cat}
-                  onClick={() => { setCategory(cat); setSearch(''); setExpandAll(false); }}
+                  onClick={() => { setCategory(cat); setTopic('Tous'); setSearch(''); setExpandAll(false); }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 ${
                     active
                       ? 'bg-accent text-background border-accent shadow-lg shadow-accent/20'
@@ -277,6 +320,25 @@ export const FaqPage: React.FC = () => {
             </button>
           </div>
 
+          <div className="flex flex-wrap gap-2 mb-10">
+            {topics.map((t) => {
+              const active = topic === t;
+              return (
+                <button
+                  key={t}
+                  onClick={() => { setTopic(t); setSearch(''); setExpandAll(false); }}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 ${
+                    active
+                      ? 'bg-white text-background border-white shadow-lg shadow-white/10'
+                      : 'bg-white/5 text-white/70 border-white/8 hover:bg-white/10 hover:text-white hover:border-white/15'
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+
           {/* Résultats de recherche */}
           {search.trim() && (
             <div className="mb-6 flex items-center gap-2 text-sm text-white/50">
@@ -286,7 +348,7 @@ export const FaqPage: React.FC = () => {
           )}
 
           {/* Mode : recherche ou filtre → liste plate */}
-          {(search.trim() || category !== 'Toutes') && (
+          {(search.trim() || category !== 'Toutes' || topic !== 'Tous') && (
             filtered.length > 0 ? (
               <div className="space-y-3">
                 {filtered.map((f, idx) => <FaqItem key={f.slug} f={f} idx={idx} isOpen={expandAll || !!open[f.slug]} onToggle={toggleOne} />)}

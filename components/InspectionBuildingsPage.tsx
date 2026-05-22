@@ -63,6 +63,7 @@ export const InspectionBuildingsPage: React.FC = () => {
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', desc);
+    setMeta('name', 'keywords', 'inspection de toiture par drone, inspection bâtiment drone, inspection façade drone, télépilote drone certifié DGAC, rapport inspection PDF, drone Angoulême, Charente, Nouvelle-Aquitaine');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
       canonical = document.createElement('link');

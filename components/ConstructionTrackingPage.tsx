@@ -36,6 +36,7 @@ export const ConstructionTrackingPage: React.FC = () => {
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', desc);
+    setMeta('name', 'keywords', 'suivi de chantier par drone, drone BTP Angoulême, orthophoto chantier, comparatif T-1 T, rapport PDF chantier, télépilote drone certifié DGAC, Charente, Nouvelle-Aquitaine');
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
       canonical = document.createElement('link');

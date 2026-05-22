@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrowRight, FileDown, FileText, MapPinned, ShieldCheck, Building2, Clock, Scan, Camera, Layers, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowRight, FileDown, FileText, MapPinned, ShieldCheck, Building2, Clock, Scan, Camera, Layers, CheckCircle2, Sparkles, Home, Smartphone, Activity, Mountain, Users } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { CookieBanner } from './CookieBanner';
@@ -41,21 +41,25 @@ export const EagleProductionPage: React.FC = () => {
       name: 'Charente (16), Nouvelle-Aquitaine',
     },
     description:
-      "Eagle Production accompagne les professionnels à Angoulême avec des prestations drone orientées terrain: suivi de chantier BTP et inspection de bâtiments par drone. Livrables 4K et rapports illustrés, télépilote certifié.",
+      "Eagle Production accompagne à Angoulême (Charente) avec des prestations drone & vidéo : inspection de toiture et bâtiments, suivi de chantier BTP, photo/vidéo immobilier, contenus réseaux sociaux (Reels, Shorts), sport & événementiel. Livrables 4K, montages, rapports PDF, télépilote certifié.",
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Services Eagle Production',
       itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suivi de chantier BTP par drone', description: 'Suivi régulier, comparatifs, orthophotos et rapports PDF' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Inspection de bâtiments par drone', description: 'Toitures, façades, structures, vues 4K et rapport illustré' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Inspection de toiture par drone', description: 'Contrôle toiture sans échafaudage : vues 4K, photos de détails, rapport illustré PDF' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suivi de chantier par drone', description: 'Orthophotos, comparatifs T-1/T, livrables organisés et reporting' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Immobilier : photo & vidéo', description: 'Mise en valeur de biens (vente/location) : plans drone 4K, photos aériennes, montage' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Contenus Réseaux Sociaux', description: 'Reels Instagram, YouTube Shorts, TikTok : tournage drone + au sol, montage vertical' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Sport & Action', description: 'Sport automobile, events, compétitions : captation dynamique, plans d’action' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Événementiel & Souvenirs', description: 'Soirées d’entreprise, souvenirs familiaux : film, teaser, montage prêt à publier' } },
       ],
     },
   };
 
   useEffect(() => {
-    const title = 'Eagle Production - Suivi de chantier & Inspection par drone à Angoulême';
+    const title = 'Eagle Production | Drone Angoulême : inspection toiture, suivi chantier, immobilier & vidéos';
     const desc =
-      "Eagle Production à Angoulême: suivi de chantier BTP et inspection de bâtiments par drone. Vues 4K, rapports PDF, sécurité renforcée, intervention en Charente et Nouvelle-Aquitaine.";
+      "Eagle Production à Angoulême (Charente) : inspection de toiture et bâtiments par drone, suivi de chantier BTP (orthophotos, comparatifs, rapports PDF), photo/vidéo immobilier, contenus réseaux sociaux (Reels, Shorts, TikTok), sport & événementiel. Images 4K, livrables propres, devis gratuit.";
     document.title = title;
 
     const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
@@ -77,7 +81,7 @@ export const EagleProductionPage: React.FC = () => {
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', desc);
-    setMeta('name', 'keywords', 'Eagle Production, drone Angoulême, suivi de chantier BTP drone, inspection bâtiment drone, Charente, Nouvelle-Aquitaine');
+    setMeta('name', 'keywords', 'drone Angoulême, inspection de toiture par drone, inspection bâtiment drone, suivi de chantier par drone, photo immobilière drone, vidéo immobilière drone, Instagram Reels vidéo, YouTube Shorts vidéo, TikTok vidéo, sport automobile vidéo, événementiel drone, Charente, Nouvelle-Aquitaine');
 
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
@@ -217,14 +221,14 @@ export const EagleProductionPage: React.FC = () => {
                     Drone terrain, livrables propres
                     <br />
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fff2b5] via-[#d4af37] to-[#b68512]">
-                        suivi de chantier et inspection technique
+                        drone, vidéo & contenus qui convertissent
                       </span>
                   </h1>
                 </Reveal>
                 <Reveal delay={200}>
                   <p className="mt-6 max-w-3xl text-lg text-textSecondary leading-relaxed">
                     Basés à <span className="text-white">Angoulême</span>, on intervient en <span className="text-white">Charente</span> et en <span className="text-white">Nouvelle-Aquitaine</span>
-                    pour vous apporter de la preuve visuelle, de la sécurité et une lecture claire de vos chantiers et bâtiments.
+                    pour vous apporter de la preuve visuelle, de la sécurité et des formats prêts à publier (rapport, vidéo, reels/shorts) selon votre besoin.
                   </p>
                 </Reveal>
 
@@ -327,10 +331,10 @@ export const EagleProductionPage: React.FC = () => {
         <section className="py-20 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-7xl mx-auto">
             <Reveal>
-              <p className="text-center text-accent text-xs font-semibold tracking-[0.3em] uppercase mb-5">Services</p>
-              <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">Deux pages dédiées, bien structurées.</h2>
+              <p className="text-center text-accent text-xs font-semibold tracking-[0.3em] uppercase mb-5">Prestations</p>
+              <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">Des pages claires, par besoin.</h2>
               <p className="text-center text-textSecondary max-w-3xl mx-auto">
-                Chaque service a sa page propre (détails, livrables, process). Et la structure est prête pour ajouter d&apos;autres services plus tard.
+                Chaque service est expliqué avec ses livrables, sa méthode, et des exemples. Objectif : guider vos clients et structurer une vraie logique de pages dédiées.
               </p>
             </Reveal>
 
@@ -339,7 +343,11 @@ export const EagleProductionPage: React.FC = () => {
                 const Icon = s.icon;
                 return (
                   <Reveal key={s.href} delay={100 + idx * 140} className="h-full">
-                    <div className="group h-full rounded-[2rem] border border-white/[0.10] bg-surfaceHighlight/20 backdrop-blur-xl overflow-hidden lg:hover:border-accent/35 transition-all duration-300 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                    <a
+                      href={s.href}
+                      className="group block h-full rounded-[2rem] border border-white/[0.10] bg-surfaceHighlight/20 backdrop-blur-xl overflow-hidden lg:hover:border-accent/35 transition-all duration-300 shadow-[0_20px_60px_rgba(0,0,0,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                      aria-label={`Ouvrir la page ${s.title}`}
+                    >
                       <div className="relative h-52">
                         <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-75 lg:group-hover:opacity-85 transition-opacity" loading="lazy" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent" />
@@ -372,27 +380,70 @@ export const EagleProductionPage: React.FC = () => {
                             </div>
                           ))}
                         </div>
-
-                        <div className="mt-7 flex flex-wrap gap-3">
-                          <a
-                            href={s.href}
-                            className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-colors text-sm border border-accent/40"
-                          >
-                            Voir la page dédiée <ArrowRight size={16} />
-                          </a>
-                          <a
-                            href="/contact"
-                            className="inline-flex items-center gap-2 bg-white/[0.06] text-white px-6 py-3 rounded-full font-semibold hover:bg-white/[0.1] transition-colors text-sm border border-white/[0.08]"
-                          >
-                            Demander un devis <ArrowRight size={16} />
-                          </a>
+                        <div className="mt-7 flex items-center gap-2 text-sm font-semibold text-accent">
+                          Voir la page dédiée <ArrowRight size={16} />
                         </div>
                       </div>
-                    </div>
+                    </a>
                   </Reveal>
                 );
               })}
             </div>
+
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { icon: Home, title: 'Immobilier', desc: 'Vente/location : plans drone 4K, photos aériennes, vidéo montée.', href: '/immobilier-drone' },
+                { icon: Users, title: 'Événementiel', desc: 'Soirées, souvenirs : teaser + film, formats courts.', href: '/evenementiel' },
+                { icon: Smartphone, title: 'Reels & Shorts', desc: 'Réseaux sociaux : vertical 9:16, sous-titres, versions.', href: '/reels-shorts' },
+                { icon: Activity, title: 'Sport & action', desc: 'Captation dynamique : sport auto, events, entraînements.', href: '/sport-action' },
+                { icon: Mountain, title: 'Photo & vidéo', desc: 'Paysages, contenus cinématiques : rendu premium.', href: '/photo-video' },
+              ].map((c, idx) => {
+                const Icon = c.icon;
+                const highlight = c.href === '/immobilier-drone' || c.href === '/evenementiel';
+                return (
+                  <Reveal key={c.href} delay={120 + idx * 70} className="h-full">
+                    <a
+                      href={c.href}
+                      className={`group h-full rounded-3xl border p-6 transition-all duration-300 flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
+                        highlight
+                          ? 'bg-gradient-to-b from-accent/10 to-white/5 border-accent/25 hover:border-accent/45'
+                          : 'bg-white/5 border-white/[0.10] hover:border-accent/25'
+                      }`}
+                      aria-label={`Ouvrir la page ${c.title}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-11 h-11 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
+                          <Icon size={20} className="text-accent" />
+                        </span>
+                        <div className="text-white font-extrabold">{c.title}</div>
+                      </div>
+                      <div className="mt-3 text-sm text-white/65 leading-relaxed flex-1">{c.desc}</div>
+                      <div className="mt-6 flex items-center justify-between">
+                        <span className="text-sm font-semibold text-accent">Voir la page</span>
+                        <span className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/10 transition-all">
+                          <ArrowRight size={18} />
+                        </span>
+                      </div>
+                    </a>
+                  </Reveal>
+                );
+              })}
+            </div>
+
+            <Reveal>
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-5 bg-gradient-to-r from-accent/10 to-transparent border border-accent/20 rounded-2xl px-7 py-6">
+                <div>
+                  <div className="text-white font-bold text-lg mb-1">Vous hésitez ?</div>
+                  <div className="text-white/40 text-sm">Dites-nous votre objectif, on vous propose la meilleure approche et les bons livrables.</div>
+                </div>
+                <a
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-colors text-sm border border-accent/40"
+                >
+                  Demander un devis <ArrowRight size={16} />
+                </a>
+              </div>
+            </Reveal>
           </div>
         </section>
 

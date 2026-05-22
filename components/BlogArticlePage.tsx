@@ -184,6 +184,57 @@ export const BlogArticlePage: React.FC = () => {
                     ))}
                   </div>
                 ) : null}
+                <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {(() => {
+                    const category = (post.category || '').toLowerCase();
+                    const tags = (post.tags || []).join(' ').toLowerCase();
+                    const combined = `${category} ${tags}`.trim();
+
+                    const base = [
+                      { href: '/eagle-production', title: 'Eagle Production', desc: 'Drone & vidéo : prestations, livrables, pages dédiées.' },
+                      { href: '/eagle-digital', title: 'Eagle Digital', desc: 'Sites web, SEO local, maintenance : services et process.' },
+                      { href: '/contact', title: 'Devis gratuit', desc: 'Expliquez votre besoin, réponse rapide.' },
+                    ] as const;
+
+                    if (combined.includes('digital') || combined.includes('seo') || combined.includes('site')) {
+                      return [
+                        { href: '/eagle-digital/referencement-seo', title: 'SEO local', desc: 'Audit, fiche Google, contenus : gagner en visibilité.' },
+                        { href: '/eagle-digital/creation-site-web', title: 'Création site web', desc: 'Site rapide, propre, prêt à rank et convertir.' },
+                        { href: '/contact', title: 'Parler du projet', desc: 'On vous conseille sur la meilleure stratégie.' },
+                      ];
+                    }
+
+                    if (combined.includes('montage') || combined.includes('reels') || combined.includes('shorts') || combined.includes('tiktok')) {
+                      return [
+                        { href: '/reels-shorts', title: 'Reels & Shorts', desc: 'Tournage + montage vertical, sous-titres, versions.' },
+                        { href: '/photo-video', title: 'Photo & vidéo', desc: 'Rendu premium : montage, colorimétrie, exports.' },
+                        { href: '/contact', title: 'Demander un devis', desc: 'Délais, formats, nombre de versions.' },
+                      ];
+                    }
+
+                    if (combined.includes('chantier') || combined.includes('btp') || combined.includes('inspection') || combined.includes('toiture')) {
+                      return [
+                        { href: '/chantier', title: 'Suivi de chantier', desc: 'Comparatifs, points fixes, orthophotos, rapport PDF.' },
+                        { href: '/inspection', title: 'Inspection toiture', desc: 'Vues 4K, photos HD, rapport illustré.' },
+                        { href: '/contact', title: 'Devis gratuit', desc: 'On valide la faisabilité et les livrables.' },
+                      ];
+                    }
+
+                    return base;
+                  })().map((c) => (
+                    <a
+                      key={c.href}
+                      href={c.href}
+                      className="group rounded-3xl border border-white/[0.10] bg-white/5 p-5 hover:border-accent/25 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                    >
+                      <div className="text-white font-extrabold">{c.title}</div>
+                      <div className="mt-1 text-sm text-white/60 leading-relaxed">{c.desc}</div>
+                      <div className="mt-4 text-sm font-semibold text-accent inline-flex items-center gap-2">
+                        Ouvrir <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
                 <div className="mt-10 rounded-[2rem] border border-accent/30 bg-gradient-to-br from-accent/15 via-accent/5 to-transparent p-6 md:p-8 shadow-[0_0_40px_rgba(212,175,55,0.15)]">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>

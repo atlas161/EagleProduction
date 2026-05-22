@@ -73,7 +73,21 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
       if (id === Section.HERO) return activeSection === Section.HERO;
       return activeSection === id;
     }
-    if (id === Section.SERVICES) return pathname === '/chantier' || pathname === '/inspection' || pathname === '/eagle-production' || pathname === '/eagle-digital' || pathname.startsWith('/eagle-digital/');
+    if (id === Section.SERVICES) {
+      return (
+        pathname === '/chantier' ||
+        pathname === '/inspection' ||
+        pathname === '/eagle-production' ||
+        pathname === '/inspection-suivi' ||
+        pathname === '/immobilier-drone' ||
+        pathname === '/reels-shorts' ||
+        pathname === '/sport-action' ||
+        pathname === '/photo-video' ||
+        pathname === '/evenementiel' ||
+        pathname === '/eagle-digital' ||
+        pathname.startsWith('/eagle-digital/')
+      );
+    }
     if (id === Section.ZONE) return pathname === '/zone';
     if (id === Section.REVIEWS) return pathname === '/faq';
     return false;
@@ -162,7 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
                           <ChevronDown size={18} className="rotate-[-90deg]" />
                         </span>
                       </a>
-
+                      
                       <a
                         href="/eagle-digital"
                         onClick={() => setIsFormulesOpen(false)}
@@ -276,7 +290,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, scrollToSection }
                 <span>Production vidéo</span>
                 <ChevronDown size={22} className="rotate-[-90deg] text-white/40" />
               </a>
-
+              
               <a
                 href="/eagle-digital"
                 onClick={() => setIsMobileMenuOpen(false)}

@@ -15,6 +15,12 @@ import { CreationSiteWebPage } from './components/CreationSiteWebPage';
 import { ReferencementSEOPage } from './components/ReferencementSEOPage';
 import { HebergementMailPage } from './components/HebergementMailPage';
 import { MaintenancePage } from './components/MaintenancePage';
+import { InspectionSuiviPage } from './components/InspectionSuiviPage';
+import { ImmobilierDronePage } from './components/ImmobilierDronePage';
+import { ReelsShortsPage } from './components/ReelsShortsPage';
+import { SportActionPage } from './components/SportActionPage';
+import { PhotoVideoPage } from './components/PhotoVideoPage';
+import { EvenementielPage } from './components/EvenementielPage';
 import App from './App';
 
 const rootElement = document.getElementById('root');
@@ -38,6 +44,12 @@ root.render(
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/eagle-digital" element={<EagleDigitalPage />} />
         <Route path="/eagle-production" element={<EagleProductionPage />} />
+        <Route path="/inspection-suivi" element={<InspectionSuiviPage />} />
+        <Route path="/immobilier-drone" element={<ImmobilierDronePage />} />
+        <Route path="/reels-shorts" element={<ReelsShortsPage />} />
+        <Route path="/sport-action" element={<SportActionPage />} />
+        <Route path="/photo-video" element={<PhotoVideoPage />} />
+        <Route path="/evenementiel" element={<EvenementielPage />} />
         <Route path="/eagle-digital/creation-site-web" element={<CreationSiteWebPage />} />
         <Route path="/eagle-digital/referencement-seo" element={<ReferencementSEOPage />} />
         <Route path="/eagle-digital/hebergement-mail" element={<HebergementMailPage />} />

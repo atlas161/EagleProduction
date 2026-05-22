@@ -117,6 +117,11 @@ let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.eagle-prod.com/mentions-legales.html</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://www.eagle-prod.com/chantier/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
@@ -130,6 +135,36 @@ let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <loc>https://www.eagle-prod.com/inspection/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/inspection-suivi/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/immobilier-drone/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/reels-shorts/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/sport-action/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/photo-video/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.eagle-prod.com/evenementiel/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.eagle-prod.com/zone/</loc>
@@ -234,6 +269,10 @@ const injectMetas = (baseHtml, { title, description, canonical, ogImage, ogType 
   // canonical
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${escHtml(canonical)}$2`);
 
+  // hreflang (mettre l'URL de la page, pas la home)
+  html = html.replace(/(<link rel="alternate" hreflang="fr" href=")[^"]*(")/, `$1${escHtml(canonical)}$2`);
+  html = html.replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/, `$1${escHtml(canonical)}$2`);
+
   // Injecter schema JSON-LD avant </head>
   const schemas = [];
   if (articleSchema) schemas.push(`<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>`);
@@ -278,8 +317,8 @@ const generateStaticPages = (posts, baseHtml) => {
     },
     {
       path: 'eagle-production',
-      title: 'Eagle Production - Suivi de chantier & Inspection par drone à Angoulême',
-      description: 'Eagle Production à Angoulême: suivi de chantier BTP et inspection de bâtiments par drone. Vues 4K, rapports PDF, sécurité renforcée, intervention en Charente et Nouvelle-Aquitaine.',
+      title: 'Eagle Production | Drone Angoulême : inspection toiture, suivi chantier, immobilier & vidéos',
+      description: 'Eagle Production à Angoulême (Charente) : inspection de toiture/bâtiments, suivi de chantier BTP (orthophotos, comparatifs, rapports PDF), immobilier, réseaux sociaux, sport & événementiel. Images 4K, livrables propres, devis gratuit.',
       canonical: `${BASE}/eagle-production/`,
     },
     {
@@ -287,6 +326,42 @@ const generateStaticPages = (posts, baseHtml) => {
       title: 'Inspection de Bâtiments par Drone Angoulême | Eagle Production',
       description: 'Eagle Production inspecte vos toitures, façades et structures par drone à Angoulême et en Charente. Vues 4K, rapport illustré PDF, télépilote certifié DGAC. Devis gratuit.',
       canonical: `${BASE}/inspection/`,
+    },
+    {
+      path: 'inspection-suivi',
+      title: 'Inspection toiture & suivi de chantier par drone | Angoulême (Charente) | Eagle Production',
+      description: 'Inspection de toiture/bâtiments et suivi de chantier par drone à Angoulême : vues 4K, orthophotos, comparatifs T-1/T, rapport PDF illustré. Télépilote certifié DGAC. Devis gratuit.',
+      canonical: `${BASE}/inspection-suivi/`,
+    },
+    {
+      path: 'immobilier-drone',
+      title: 'Drone Immobilier Angoulême | Photos & Vidéos (vente/location) | Eagle Production',
+      description: 'Immobilier à Angoulême : photos et vidéos immobilières par drone (4K). Mise en valeur de biens vente/location, formats annonces + Reels/Shorts. Télépilote certifié DGAC.',
+      canonical: `${BASE}/immobilier-drone/`,
+    },
+    {
+      path: 'reels-shorts',
+      title: 'Reels Instagram & YouTube Shorts | Vidéos courtes à Angoulême | Eagle Production',
+      description: 'Création de Reels/Shorts à Angoulême : tournage drone + au sol, montage vertical 9:16, sous-titres, déclinaisons TikTok/Facebook. Vidéos prêtes à publier.',
+      canonical: `${BASE}/reels-shorts/`,
+    },
+    {
+      path: 'sport-action',
+      title: 'Vidéo Sport & Action (drone + au sol) | Angoulême | Eagle Production',
+      description: 'Sport automobile et événements sportifs : vidéo drone + caméra au sol, montage rythmé, plans d’action et formats Reels/Shorts. Télépilote certifié DGAC.',
+      canonical: `${BASE}/sport-action/`,
+    },
+    {
+      path: 'photo-video',
+      title: 'Photo & vidéo artistique par drone | Angoulême (Charente) | Eagle Production',
+      description: 'Vidéo de paysages et photographie aérienne à Angoulême : plans drone 4K, montage cinématique, étalonnage, livrables premium. Charente et Nouvelle-Aquitaine.',
+      canonical: `${BASE}/photo-video/`,
+    },
+    {
+      path: 'evenementiel',
+      title: 'Vidéos événementielles à Angoulême | Soirées d’entreprise & souvenirs | Eagle Production',
+      description: 'Événementiel à Angoulême : vidéos pour soirées d’entreprise et souvenirs familiaux. Drone + au sol, montage, teaser, Reels/Shorts. Livrables prêts à publier.',
+      canonical: `${BASE}/evenementiel/`,
     },
     {
       path: 'zone',

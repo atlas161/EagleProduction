@@ -116,7 +116,7 @@ export const SEOSchema: React.FC = () => {
         "@id": "https://www.eagle-prod.com/#localbusiness",
         "name": "Eagle Production",
         "image": "https://www.eagle-prod.com/Photo_de_paul_bardin.webp",
-        "description": "Eagle Production, expert drone certifié DGAC à Angoulême, spécialisé dans les prises de vue aériennes 4K, photogrammétrie, inspections techniques et suivis de chantier. Télépilote professionnel intervenant dans toute la Charente pour vos besoins en immobilier, événementiel, industrie et patrimoine.",
+        "description": "Eagle Production, télépilote drone certifié DGAC à Angoulême (Charente), réalise des prestations drone & vidéo : inspection de toiture/bâtiments, suivi de chantier BTP (orthophotos, rapports PDF), photo/vidéo immobilier, contenus réseaux sociaux (Instagram Reels, YouTube Shorts, TikTok), sport & événementiel. Images 4K, montage vidéo, livrables prêts à publier en Nouvelle-Aquitaine.",
         "makesOffer": [
           {
             "@type": "Offer",
@@ -138,6 +138,14 @@ export const SEOSchema: React.FC = () => {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "name": "Contenus Réseaux Sociaux",
+              "description": "Reels Instagram, YouTube Shorts, TikTok : tournage drone + au sol, montage vertical"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
               "name": "Suivi de chantier par drone",
               "description": "Suivi d'évolution et mesures photogrammétriques sur Angoulême et sa région"
             }
@@ -148,6 +156,14 @@ export const SEOSchema: React.FC = () => {
               "@type": "Service",
               "name": "Vidéo événementielle par drone",
               "description": "Captation aérienne d'événements à Angoulême : festivals, mariages, sports"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sport & action (drone + vidéo)",
+              "description": "Captations dynamiques : sport automobile, compétitions, entraînements, événements"
             }
           }
         ],
