@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Reveal } from './Reveal';
 import { Navigation, Globe, MapPin, Target, Scan, Wifi, ArrowRight } from 'lucide-react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Department {
   code: string;
@@ -349,14 +350,14 @@ export const Coverage: React.FC = () => {
             {/* Conteneur principal avec bordure style écran de contrôle */}
             <div className="w-full h-full relative border border-white/20 bg-black rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]">
                 
-                <div ref={mapRef} className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
+                <div ref={mapRef} role="img" aria-label="Carte de la zone d’intervention d’Eagle Production en Nouvelle-Aquitaine" className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
 
                 {/* --- OVERLAY HUD / DRONE SCANNER --- */}
                 <div className="absolute inset-0 pointer-events-none z-[400]">
-                    
+
                     {/* 1. La barre de scan (Laser vert/or) */}
-                    <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent shadow-[0_0_15px_#D4AF37] animate-[scanMove_4s_linear_infinite]"></div>
-                    <div className="absolute left-0 right-0 h-[50px] bg-gradient-to-b from-accent/10 to-transparent animate-[scanMove_4s_linear_infinite] transform -translate-y-full"></div>
+                    <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent shadow-[0_0_15px_#D4AF37] animate-[scanMove_4s_linear_infinite] motion-reduce:hidden"></div>
+                    <div className="absolute left-0 right-0 h-[50px] bg-gradient-to-b from-accent/10 to-transparent animate-[scanMove_4s_linear_infinite] transform -translate-y-full motion-reduce:hidden"></div>
 
                     {/* 2. Grille tactique */}
                     <div className="absolute inset-0 opacity-10" 
@@ -384,6 +385,11 @@ export const Coverage: React.FC = () => {
                     </div>
 
                     {/* Status Alert */}
+                    {error && (
+                       <div className="absolute inset-0 flex items-center justify-center bg-black/90 z-50 text-center px-6">
+                          <p className="text-white/70 text-sm">La carte n’a pas pu se charger. Nous intervenons en Charente et dans toute la Nouvelle-Aquitaine.</p>
+                       </div>
+                    )}
                     {!mapReady && !error && (
                        <div className="absolute inset-0 flex items-center justify-center bg-black/90 z-50">
                           <div className="text-accent text-lg font-mono tracking-widest animate-pulse flex flex-col items-center">
@@ -442,14 +448,17 @@ export const Coverage: React.FC = () => {
                 </div>
                 
                 {/* Grille compacte des départements */}
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                    {DEPARTMENTS.slice(0, 6).map((dep) => {
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+                    {DEPARTMENTS.map((dep) => {
                         const isActive = activeDep === dep.code;
                         return (
                             <button
                                 key={dep.code}
+                                type="button"
                                 onMouseEnter={() => setActiveDep(dep.code)}
                                 onMouseLeave={() => setActiveDep(null)}
+                                onFocus={() => setActiveDep(dep.code)}
+                                onBlur={() => setActiveDep(null)}
                                 className={`flex flex-col items-center justify-center gap-1 px-3 py-2 border rounded-xl transition-all duration-200 ${
                                     isActive 
                                     ? 'bg-accent/10 border-accent text-white' 
@@ -473,7 +482,7 @@ export const Coverage: React.FC = () => {
                     <p className="text-xs text-textSecondary">
                         <span className="text-accent">{DEPARTMENTS.length}</span> départements en Nouvelle-Aquitaine
                     </p>
-                    <p className="text-xs text-textSecondary/70 mt-1">
+                    <p className="text-xs text-textSecondary mt-1">
                         Intervention possible sur toute la France
                     </p>
                 </div>
@@ -484,7 +493,7 @@ export const Coverage: React.FC = () => {
         {/* --- CARTE MOBILE (visible uniquement sur mobile) --- */}
         <div className="lg:hidden h-[400px] w-full relative order-1 mb-8">
             <div className="w-full h-full relative border border-white/20 bg-black rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)]">
-                <div ref={mobileMapRef} className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
+                <div ref={mobileMapRef} role="img" aria-label="Carte de la zone d’intervention d’Eagle Production en Nouvelle-Aquitaine" className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
                 
                 {/* Overlay simplifié pour mobile */}
                 <div className="absolute inset-0 pointer-events-none z-[400]">

@@ -1,117 +1,62 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
-import '../index.css';
-import { Section } from '../types';
 import { findPostBySlug, getReadingTimeMinutes } from './BlogData';
+import { useSeo } from '../hooks/useSeo';
+import { SITE_URL } from '../lib/pages.mjs';
 import { Clock, Tag } from 'lucide-react';
 
 export const BlogArticlePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? findPostBySlug(slug) : undefined;
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
   const readingTime = post ? getReadingTimeMinutes(post.body) : 0;
 
+  // Ancres des titres + sommaire (ids uniques, y compris pour les titres accentués ou en double)
   const { htmlWithAnchors, toc } = React.useMemo(() => {
-    if (!post) return { htmlWithAnchors: '', toc: [] as { id: string; text: string; level: number }[] };
-    if (typeof document === 'undefined') return { htmlWithAnchors: post.body, toc: [] as { id: string; text: string; level: number }[] };
+    const empty = { htmlWithAnchors: '', toc: [] as { id: string; text: string; level: number }[] };
+    if (!post) return empty;
     const container = document.createElement('div');
     container.innerHTML = post.body;
     const headings = Array.from(container.querySelectorAll('h2, h3')) as HTMLHeadingElement[];
     const tocItems: { id: string; text: string; level: number }[] = [];
+    const used = new Set<string>();
     headings.forEach((h, idx) => {
-      const text = h.textContent || `section-${idx}`;
-      const id = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+      const text = (h.textContent || '').trim() || `Section ${idx + 1}`;
+      const base =
+        text
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[̀-ͯ]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '') || `section-${idx + 1}`;
+      let id = base;
+      for (let n = 2; used.has(id); n++) id = `${base}-${n}`;
+      used.add(id);
       h.setAttribute('id', id);
       tocItems.push({ id, text, level: h.tagName === 'H2' ? 2 : 3 });
     });
     return { htmlWithAnchors: container.innerHTML, toc: tocItems };
   }, [post]);
 
-  useEffect(() => {
-    if (!post) return;
-    const title = post.seoTitle || `${post.title} | Blog`;
-    const desc = post.seoDescription || post.excerpt || `Article: ${post.title}`;
-    const url = `https://www.eagle-prod.com/blog/${post.slug}/`;
-    const image = post.coverImage ? `https://www.eagle-prod.com${post.coverImage}` : 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp';
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'article');
-    setMeta('property', 'og:url', url);
-    setMeta('property', 'og:image', image);
-    setMeta('property', 'og:image:alt', post.title);
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-    setMeta('name', 'twitter:image', image);
-    setMeta('name', 'twitter:image:alt', post.title);
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', url);
-  }, [post]);
-
-  // Schema Article pour le SEO
-  const articleSchema = React.useMemo(() => {
-    if (!post) return null;
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: post.title,
-      description: post.seoDescription || post.excerpt,
-      image: post.coverImage ? `https://www.eagle-prod.com${post.coverImage}` : 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp',
-      datePublished: post.date,
-      dateModified: post.date,
-      author: {
-        '@type': 'Organization',
-        name: 'Eagle Production',
-        url: 'https://www.eagle-prod.com'
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: 'Eagle Production',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://www.eagle-prod.com/media/logo_beige.png'
+  // Le JSON-LD (Article + fil d'Ariane) est injecté dans le <head> au build (build.js) pour chaque article
+  useSeo(
+    post
+      ? {
+          path: `/blog/${post.slug}`,
+          title: post.seoTitle || `${post.title} | Blog`,
+          description: post.seoDescription || post.excerpt || `Article : ${post.title}`,
+          image: post.coverImage ? `${SITE_URL}${post.coverImage}` : undefined,
+          imageAlt: post.title,
+          type: 'article',
         }
-      },
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': `https://www.eagle-prod.com/blog/${post.slug}/`
-      },
-      articleSection: post.category,
-      keywords: post.tags?.join(', ') || '',
-      wordCount: post.body.split(' ').length,
-      timeRequired: `PT${readingTime}M`
-    };
-  }, [post, readingTime]);
+      : { path: '/blog', title: 'Article introuvable | Eagle Production', description: 'Cet article n’existe pas ou a été déplacé.', noindex: true }
+  );
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main className="pt-20">
+      <Navbar />
+      <main id="main-content" className="pt-20">
         {!post ? (
           <div className="max-w-4xl mx-auto px-6 py-24 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">Article introuvable</h1>
@@ -122,26 +67,6 @@ export const BlogArticlePage: React.FC = () => {
           </div>
         ) : (
           <>
-            {articleSchema && (
-              <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-              />
-            )}
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  '@context': 'https://schema.org',
-                  '@type': 'BreadcrumbList',
-                  itemListElement: [
-                    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.eagle-prod.com/' },
-                    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.eagle-prod.com/blog' },
-                    { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.eagle-prod.com/blog/${post.slug}` },
-                  ],
-                }),
-              }}
-            />
             <section className="relative overflow-hidden">
               <div className="pointer-events-none absolute inset-0">
                 <div className="absolute -top-40 -left-40 w-[640px] h-[640px] rounded-full bg-accent/5 blur-[120px]" />
@@ -166,7 +91,7 @@ export const BlogArticlePage: React.FC = () => {
             {post.coverImage && (
               <div className="max-w-5xl mx-auto px-6">
                 <div className="rounded-3xl overflow-hidden border border-white/10">
-                  <img src={post.coverImage} alt={`Article: ${post.title} - Eagle Production drone Angoulême`} className="w-full h-72 md:h-96 object-cover" loading="lazy" />
+                  <img src={post.coverImage} alt={`Article: ${post.title} - Eagle Production drone Angoulême`} width={1600} height={900} className="w-full h-72 md:h-96 object-cover" loading="eager" fetchPriority="high" />
                 </div>
               </div>
             )}
@@ -289,7 +214,6 @@ export const BlogArticlePage: React.FC = () => {
         )}
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

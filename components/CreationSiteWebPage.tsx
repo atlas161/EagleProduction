@@ -1,52 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import { Section } from '../types';
 import {
   ArrowRight, Monitor, CheckCircle2, ShieldCheck, ArrowLeft,
   Globe, Mail, Lock, Smartphone, BarChart2, Code2
 } from 'lucide-react';
-import '../index.css';
 
 export const CreationSiteWebPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'Création Site Web Angoulême - Vitrine & E-commerce | Eagle Digital';
-    const desc = 'Eagle Digital conçoit votre site web professionnel à Angoulême : site vitrine, multi-pages ou e-commerce. Rapide, optimisé SEO, RGPD conforme. Domaine, hébergement et e-mails pro inclus la 1ère année. Devis gratuit sous 24h.';
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/creation-site-web/');
-    setMeta('name', 'keywords', 'création site web Angoulême, site vitrine Charente, site e-commerce Angoulême, agence web Charente, site professionnel pas cher, Eagle Digital');
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/creation-site-web/');
-  }, []);
+  useSeo('/eagle-digital/creation-site-web');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
 
         {/* ── HERO ── */}
         <section className="max-w-5xl mx-auto px-6 lg:px-8 pt-28 pb-16">
           <Reveal>
-            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-xs font-medium mb-8 transition-colors">
+            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xs font-medium mb-8 transition-colors">
               <ArrowLeft size={14} /> Retour à Eagle Digital
             </a>
           </Reveal>
@@ -84,7 +58,7 @@ export const CreationSiteWebPage: React.FC = () => {
             <Reveal>
               <p className="text-center text-indigo-400 text-xs font-semibold tracking-[0.3em] uppercase mb-5">Nos formules</p>
               <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">Nos formules de création de site web.</h2>
-              <p className="text-center text-white/35 text-base mb-14 max-w-xl mx-auto">
+              <p className="text-center text-white/60 text-base mb-14 max-w-xl mx-auto">
                 Nom de domaine, hébergement et e-mails professionnels inclus la 1ère année sur toutes les formules. Sans frais cachés.
               </p>
             </Reveal>
@@ -146,12 +120,11 @@ export const CreationSiteWebPage: React.FC = () => {
               ].map((p, i) => (
                 <Reveal key={i} delay={i * 80}>
                   <div
-                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 cursor-pointer ${
+                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 ${
                       p.accent
                         ? 'bg-indigo-900/20 border-indigo-500/40 shadow-lg shadow-indigo-900/10 hover:border-indigo-400/60'
                         : 'bg-surfaceHighlight/15 border-indigo-500/15 hover:border-indigo-400/30'
                     }`}
-                    onClick={() => window.location.href = '/contact'}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
@@ -159,7 +132,7 @@ export const CreationSiteWebPage: React.FC = () => {
                         {p.badge && <span className="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
                       </div>
                       <div className={`text-3xl font-extrabold mt-1 ${p.accent ? 'text-indigo-300' : 'text-white'}`}>{p.price}</div>
-                      <p className="text-white/35 text-xs mt-2 leading-relaxed">{p.desc}</p>
+                      <p className="text-white/60 text-xs mt-2 leading-relaxed">{p.desc}</p>
                     </div>
                     <ul className="space-y-2.5 flex-1">
                       {p.items.map((it, j) => (
@@ -189,7 +162,7 @@ export const CreationSiteWebPage: React.FC = () => {
               <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-indigo-950/30 border border-indigo-500/20 rounded-2xl">
                 <div>
                   <div className="text-indigo-300 font-bold text-sm mb-0.5">Option - Rédaction SEO</div>
-                  <div className="text-white/40 text-xs">Textes optimisés pour le référencement, rédigés par nos soins, page par page.</div>
+                  <div className="text-white/60 text-xs">Textes optimisés pour le référencement, rédigés par nos soins, page par page.</div>
                 </div>
                 <div className="text-indigo-400 font-extrabold text-lg shrink-0">20€ / page</div>
               </div>
@@ -200,7 +173,7 @@ export const CreationSiteWebPage: React.FC = () => {
               <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-indigo-950/30 border border-indigo-500/20 rounded-2xl">
                 <div>
                   <div className="text-indigo-300 font-bold text-sm mb-0.5">Option - Hébergement</div>
-                  <div className="text-white/40 text-xs">Serveur rapide, SSL inclus, uptime 99,9%. 1er mois offert, puis 10€/mois (max 2 sites).</div>
+                  <div className="text-white/60 text-xs">Serveur rapide, SSL inclus, uptime 99,9%. 1er mois offert, puis 10€/mois (max 2 sites).</div>
                 </div>
                 <div className="text-indigo-400 font-extrabold text-lg shrink-0">10€ / mois</div>
               </div>
@@ -233,7 +206,7 @@ export const CreationSiteWebPage: React.FC = () => {
                       <div className="p-2 rounded-lg bg-indigo-500/10 shrink-0">{item.icon}</div>
                       <div className="text-white font-semibold text-sm">{item.title}</div>
                     </div>
-                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -350,7 +323,7 @@ export const CreationSiteWebPage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
               Votre site web à Angoulême,<br />prêt à attirer des clients.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">Devis gratuit sous 24h, sans engagement. On répond vite.</p>
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">Devis gratuit sous 24h, sans engagement. On répond vite.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
@@ -364,7 +337,6 @@ export const CreationSiteWebPage: React.FC = () => {
 
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

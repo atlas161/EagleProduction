@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Reveal } from './Reveal';
 import djiLogo from '../media/logo_DJI/DJI_Innovations_logo.svg.svg';
 import droneImg from '../media/Photo_DJI/drone_mavic_4.webp';
@@ -39,6 +39,11 @@ const DRONE_TARGETS: Record<string, { x: number; y: number }[]> = {
 
 export const TechSpecs: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<FeatureType>(null);
+  // Particules générées une seule fois (sinon elles « sautent » à chaque re-render)
+  const dust = useMemo(
+    () => Array.from({ length: 6 }, () => ({ y: Math.random() * 100, y2: Math.random() * 100 + 10, r: 0.5 + Math.random(), begin: Math.random() })),
+    []
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const droneRef = useRef<HTMLImageElement>(null);
   const featureRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -84,7 +89,7 @@ export const TechSpecs: React.FC = () => {
   useEffect(() => {
     calculateLines();
     window.addEventListener('resize', calculateLines);
-    window.addEventListener('scroll', calculateLines);
+    window.addEventListener('scroll', calculateLines, { passive: true });
     return () => {
       window.removeEventListener('resize', calculateLines);
       window.removeEventListener('scroll', calculateLines);
@@ -200,7 +205,10 @@ export const TechSpecs: React.FC = () => {
                <img 
                    ref={droneRef}
                    src={droneImg} 
-                   alt="DJI Mavic 4 Pro" 
+                   alt="DJI Mavic 4 Pro"
+                   width={653}
+                   height={382}
+                   loading="lazy"
                    className="w-full h-full object-contain relative z-10 transition-transform duration-700 drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]"
                />
             </div>
@@ -242,7 +250,8 @@ export const TechSpecs: React.FC = () => {
 
             {/* Effet de vitesse - Vortex et Traînées (Arrière-plan) */}
             <svg 
-              className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-700 ${isActive('security') ? 'opacity-100' : 'opacity-0'}`}
+              aria-hidden="true"
+              className={`absolute inset-0 w-full h-full pointer-events-none transition-[opacity,visibility] duration-700 ${isActive('security') ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
               style={{ zIndex: 5 }}
               viewBox="0 0 100 100" 
               preserveAspectRatio="xMidYMid meet"
@@ -301,11 +310,11 @@ export const TechSpecs: React.FC = () => {
               
               {/* --- PARTICULES DE POUSSIÈRE RAPIDES --- */}
               <g>
-                 {[...Array(6)].map((_, i) => (
-                    <circle key={i} cx="0" cy={Math.random() * 100} r={0.5 + Math.random()} fill="white" opacity="0">
-                        <animate attributeName="cx" values="0;120" dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
-                        <animate attributeName="cy" from={`${Math.random() * 100}`} to={`${Math.random() * 100 + 10}`} dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0;0.8;0" dur="0.4s" begin={`${Math.random()}s`} repeatCount="indefinite" />
+                 {dust.map((p, i) => (
+                    <circle key={i} cx="0" cy={p.y} r={p.r} fill="white" opacity="0">
+                        <animate attributeName="cx" values="0;120" dur="0.4s" begin={`${p.begin}s`} repeatCount="indefinite" />
+                        <animate attributeName="cy" from={`${p.y}`} to={`${p.y2}`} dur="0.4s" begin={`${p.begin}s`} repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;0.8;0" dur="0.4s" begin={`${p.begin}s`} repeatCount="indefinite" />
                     </circle>
                  ))}
               </g>
@@ -314,7 +323,8 @@ export const TechSpecs: React.FC = () => {
             
             {/* SONAR Effect pour Range - SOUS le drone (z-index 5, avant l'image) */}
             <svg 
-              className={`absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500 ${isActive('range') ? 'opacity-100' : 'opacity-0'}`}
+              aria-hidden="true"
+              className={`absolute inset-0 w-full h-full pointer-events-none transition-[opacity,visibility] duration-500 ${isActive('range') ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
               style={{ zIndex: 5 }}
               viewBox="0 0 100 100" 
               preserveAspectRatio="xMidYMid meet"

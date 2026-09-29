@@ -49,7 +49,7 @@ export const ConstructionTracking: React.FC = () => {
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {['Certifié DGAC', 'RC Pro', 'Orthophotos HD', 'Rapport PDF', 'Charente'].map((b) => (
-                    <span key={b} className="text-[10px] text-white/30 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
+                    <span key={b} className="text-[10px] text-white/55 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
                   ))}
                 </div>
               </Reveal>
@@ -62,10 +62,10 @@ export const ConstructionTracking: React.FC = () => {
                 <div className="bg-surfaceHighlight/25 border border-white/8 rounded-3xl p-7 backdrop-blur-sm">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                    <span className="text-white/40 text-xs tracking-wider uppercase">Suivi actif</span>
+                    <span className="text-white/60 text-xs tracking-wider uppercase">Suivi actif</span>
                   </div>
                   <div className="text-white font-bold text-xl mb-1">Résidence · Gros-œuvre</div>
-                  <div className="text-white/40 text-sm mb-5">Angoulême - Charente (16)</div>
+                  <div className="text-white/60 text-sm mb-5">Angoulême - Charente (16)</div>
                   <div className="space-y-2">
                     {[
                       { label: 'Session 1', date: 'Janv. 2025', pct: 20 },
@@ -73,7 +73,7 @@ export const ConstructionTracking: React.FC = () => {
                       { label: 'Session 7', date: 'Juil. 2025', pct: 90 },
                     ].map((s) => (
                       <div key={s.label}>
-                        <div className="flex justify-between text-xs text-white/40 mb-1">
+                        <div className="flex justify-between text-xs text-white/60 mb-1">
                           <span>{s.label}</span><span>{s.date}</span>
                         </div>
                         <div className="h-1.5 bg-white/6 rounded-full overflow-hidden">
@@ -105,7 +105,7 @@ export const ConstructionTracking: React.FC = () => {
         <section className="py-24 px-6">
           <div className="max-w-5xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/30 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
+              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
                 Ce que vous obtenez
               </p>
             </Reveal>
@@ -153,7 +153,7 @@ export const ConstructionTracking: React.FC = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 À votre rythme.
               </h2>
-              <p className="text-white/40 text-lg max-w-xl mx-auto mb-16">
+              <p className="text-white/60 text-lg max-w-xl mx-auto mb-16">
                 Un seul vol ou un suivi sur 18 mois - chaque formule est sur devis, adaptée à votre chantier.
               </p>
             </Reveal>
@@ -186,7 +186,7 @@ export const ConstructionTracking: React.FC = () => {
                   }`}>
                     <div>
                       <div className={`text-xl font-bold mb-1 ${p.highlight ? 'text-accent' : 'text-white'}`}>{p.title}</div>
-                      <div className="text-white/40 text-sm">{p.sub}</div>
+                      <div className="text-white/60 text-sm">{p.sub}</div>
                     </div>
                     <ul className="space-y-2.5 flex-1">
                       {p.points.map((pt, j) => (
@@ -255,7 +255,7 @@ export const ConstructionTracking: React.FC = () => {
             <Reveal>
               <p className="text-accent text-xs font-semibold tracking-[0.3em] uppercase mb-5">Types de projets</p>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Tous vos chantiers.</h2>
-              <p className="text-white/40 text-lg mb-16">Construction neuve, rénovation, lotissement - chaque projet mérite une documentation précise.</p>
+              <p className="text-white/60 text-lg mb-16">Construction neuve, rénovation, lotissement - chaque projet mérite une documentation précise.</p>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
@@ -269,7 +269,7 @@ export const ConstructionTracking: React.FC = () => {
                 <Reveal key={i} delay={i * 40}>
                   <div className="bg-surfaceHighlight/15 border border-white/6 rounded-2xl p-5 text-left hover:border-accent/20 hover:bg-surfaceHighlight/30 transition-all duration-300">
                     <div className="text-white font-semibold text-sm mb-1">{item.label}</div>
-                    <div className="text-white/35 text-xs">{item.sub}</div>
+                    <div className="text-white/60 text-xs">{item.sub}</div>
                   </div>
                 </Reveal>
               ))}
@@ -286,7 +286,7 @@ export const ConstructionTracking: React.FC = () => {
             <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
               Documentez votre chantier<br />comme jamais auparavant.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
               Devis gratuit sous 24h. Aucun engagement, tout adapté à votre projet.
             </p>
             <a

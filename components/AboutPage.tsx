@@ -1,57 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { About } from './About';
 import { Reveal } from './Reveal';
 import { Breadcrumbs } from './Breadcrumbs';
-import '../index.css';
-import { Section } from '../types';
 import { BadgeCheck, Camera, MapPin, ShieldCheck, Mountain, Ruler, Building2, Clapperboard, Factory, Landmark, Mail, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'À propos - Télépilote drone à Angoulême | Eagle Production';
-    const desc =
-      "Découvrez Eagle Production, télépilote drone certifié DGAC à Angoulême (Charente): vidéo aérienne 4K, photo drone, photogrammétrie, inspection technique et suivi de chantier BTP en Nouvelle-Aquitaine.";
-    document.title = title;
-
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/a-propos/');
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/a-propos/');
-  }, []);
+  useSeo('/a-propos');
 
   const aboutPageLd = {
     '@context': 'https://schema.org',
@@ -95,8 +53,8 @@ export const AboutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main className="pt-20">
+      <Navbar />
+      <main id="main-content" className="pt-20">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
 
@@ -268,7 +226,6 @@ export const AboutPage: React.FC = () => {
         </section>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

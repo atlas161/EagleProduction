@@ -1,138 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- SEO PRIMARY TAGS -->
+
+    <!-- SEO : ces valeurs sont remplacées page par page au build (build.js, depuis lib/pages.mjs) et côté client (hooks/useSeo.ts) -->
     <title>EAGLE PRODUCTION | Drone Angoulême, Vidéo & Photo | + Eagle Digital (Site Web, SEO)</title>
-    <meta name="description" content="Eagle Production : télépilote drone certifié DGAC à Angoulême (Charente). Inspection de toiture et bâtiments par drone, suivi de chantier BTP (orthophotos, comparatifs, rapports PDF), photo/vidéo immobilier, contenus réseaux sociaux (Instagram Reels, YouTube Shorts, TikTok), sport & événementiel. Eagle Digital : création de site web, SEO local et maintenance. Images 4K, montage vidéo, livrables prêts à publier en Nouvelle-Aquitaine." />
-    <meta name="keywords" content="drone Angoulême, télépilote drone Angoulême, inspection de toiture par drone, inspection bâtiment drone, suivi de chantier par drone, orthophoto chantier, rapport PDF chantier, photo immobilière drone, vidéo immobilière drone, vidéo événementielle drone, instagram reels vidéo, youtube shorts vidéo, tiktok vidéo, sport automobile vidéo, photographie aérienne Charente, création site web Angoulême, SEO local Angoulême, maintenance site web, Eagle Production Angoulême, Eagle Digital" />
+    <meta name="description" content="Eagle Production : télépilote drone certifié DGAC à Angoulême (Charente). Inspection de toiture, suivi de chantier BTP, photo/vidéo immobilier, Reels & Shorts, sport et événementiel. Eagle Digital : site web, SEO local et maintenance." />
     <meta name="geo.region" content="FR-16" />
     <meta name="geo.placename" content="Angoulême" />
     <meta name="geo.position" content="45.6484;0.1562" />
     <meta name="ICBM" content="45.6484, 0.1562" />
     <meta name="author" content="Eagle Production" />
     <meta name="robots" content="index, follow" />
-    <meta name="city" content="Angoulême" />
-    <meta name="country" content="France" />
-    <meta name="coverage" content="Charente" />
-    <meta name="distribution" content="local" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="target" content="all" />
-    <meta name="rating" content="general" />
-    <meta name="industry" content="Audiovisuel, Immobilier, Construction, Événementiel" />
-    <meta name="services" content="Vidéo aérienne, Photo drone, Inspection technique, Photogrammétrie" />
-    <meta name="specialization" content="Prise de vue aérienne, Suivi de chantier, Inspection de toiture, Événementiel" />
-    <meta name="certification" content="Télépilote certifié DGAC" />
-    <meta name="business-type" content="Service aux professionnels et particuliers" />
-    <meta name="business-area" content="Centre-ville Angoulême, Zone des Montagnes, Zone des Agriers, Magelis, Espace Carat" />
-    <meta name="landmarks" content="Cathédrale Saint-Pierre d'Angoulême, Halles centrales, Hôtel de Ville, CIBDI, Musée de la BD, Espace Franquin" />
-    <meta name="districts" content="Centre-ville, Plateau, Victor-Hugo, Saint-Ausone, Ma Campagne, Bel-Air, Grand-Font" />
-    <meta name="commercial-zones" content="Galerie du Champ de Mars, Les Halles, Centre Commercial Auchan La Couronne, Parc d'activités Ma Campagne" />
-    <meta name="local-infrastructure" content="Gare SNCF Angoulême, Aéroport Angoulême-Cognac, N10, Rocade Est, Rocade Ouest" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Favicon PNG/ICO uniquement : favicon.svg pèse 530 Ko (PNG encodés en base64), trop lourd pour une icône -->
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#111111" />
+    <meta name="color-scheme" content="dark" />
 
     <!-- OPEN GRAPH / FACEBOOK / LINKEDIN -->
-    <meta property="og:type" content="business.business" />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.eagle-prod.com/" />
     <meta property="og:title" content="EAGLE PRODUCTION | Drone Angoulême, Vidéo & Photo | + Eagle Digital (Site Web, SEO)" />
-    <meta property="og:description" content="Drone à Angoulême (Charente) : inspection toiture/bâtiments, suivi de chantier BTP (orthophotos, rapports PDF), immobilier, réseaux sociaux, sport & événementiel. Eagle Digital : site web, SEO local, maintenance. Images 4K, montage vidéo, livrables prêts à publier en Nouvelle-Aquitaine." />
-    <meta property="og:image" content="https://www.eagle-prod.com/Photo_de_paul_bardin.webp" />
+    <meta property="og:description" content="Eagle Production : télépilote drone certifié DGAC à Angoulême (Charente). Inspection de toiture, suivi de chantier BTP, photo/vidéo immobilier, Reels & Shorts, sport et événementiel. Eagle Digital : site web, SEO local et maintenance." />
+    <meta property="og:image" content="https://www.eagle-prod.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Paul Bardin - Télépilote professionnel de drone à Angoulême, fondateur d'Eagle Production" />
+    <meta property="og:image:alt" content="Paul Bardin, télépilote de drone à Angoulême, fondateur d'Eagle Production" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Eagle Production" />
 
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@eagleproduction" />
     <meta name="twitter:url" content="https://www.eagle-prod.com/" />
     <meta name="twitter:title" content="EAGLE PRODUCTION | Drone Angoulême, Vidéo & Photo | + Eagle Digital (Site Web, SEO)" />
-    <meta name="twitter:description" content="Drone à Angoulême (Charente) : inspection toiture/bâtiments, suivi de chantier BTP (orthophotos, rapports PDF), immobilier, réseaux sociaux, sport & événementiel. Eagle Digital : création de site web, SEO local, maintenance. Images 4K, montage vidéo, livrables prêts à publier en Nouvelle-Aquitaine." />
-    <meta name="twitter:image" content="https://www.eagle-prod.com/Photo_de_paul_bardin.webp" />
-    <meta name="twitter:image:alt" content="Paul Bardin - Télépilote de drone à Angoulême, expert en vidéo aérienne en Charente" />
+    <meta name="twitter:description" content="Eagle Production : télépilote drone certifié DGAC à Angoulême (Charente). Inspection de toiture, suivi de chantier BTP, photo/vidéo immobilier, Reels & Shorts, sport et événementiel. Eagle Digital : site web, SEO local et maintenance." />
+    <meta name="twitter:image" content="https://www.eagle-prod.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Paul Bardin, télépilote de drone à Angoulême, fondateur d'Eagle Production" />
 
-    <!-- STRUCTURED DATA (JSON-LD) - Injecté dynamiquement par SEOSchema.tsx -->
-    
-    <!-- CANONICAL URL -->
+    <!-- STRUCTURED DATA (JSON-LD) : injecté par SEOSchema.tsx (accueil) et par chaque page -->
+
     <link rel="canonical" href="https://www.eagle-prod.com/" />
-    
-    <!-- HREFLANG FOR INTERNATIONAL -->
     <link rel="alternate" hreflang="fr" href="https://www.eagle-prod.com/" />
     <link rel="alternate" hreflang="x-default" href="https://www.eagle-prod.com/" />
-    
-    <!-- DNS Prefetch & Preconnect for Performance - Vimeo en priorité -->
-    <link rel="preconnect" href="https://player.vimeo.com" crossorigin>
-    <link rel="preconnect" href="https://i.vimeocdn.com" crossorigin>
-    <link rel="preconnect" href="https://f.vimeocdn.com" crossorigin>
-    <link rel="preconnect" href="https://fresnel.vimeocdn.com" crossorigin>
-    <link rel="dns-prefetch" href="https://player.vimeo.com">
-    <link rel="dns-prefetch" href="https://i.vimeocdn.com">
-    <link rel="dns-prefetch" href="https://f.vimeocdn.com">
-    <link rel="dns-prefetch" href="https://fresnel.vimeocdn.com">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="/media/logo_beige.png" as="image" fetchpriority="high" />
-    <link rel="preload" href="/media/aigle_beige.png" as="image" fetchpriority="high" />
-    <link rel="preload" href="/index.tsx" as="script" fetchpriority="high" />
-    
-    <!-- Preconnect for external resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://player.vimeo.com" crossorigin>
-    <link rel="preconnect" href="https://i.vimeocdn.com" crossorigin>
-    
-    <!-- Import Inter font with display swap for faster text rendering -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Critical CSS for animation -->
-    <style>
-      @keyframes pulse-subtle {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-      }
-      .animate-pulse-subtle {
-        animation: pulse-subtle 3s ease-in-out infinite;
-      }
-      
-      /* Prevent CLS by reserving space */
-      .preloader-placeholder {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      /* Optimize LCP */
-      .critical-image {
-        aspect-ratio: 16/9;
-        background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-      }
-    </style>
-    
-</head>
-  <body class="bg-background text-textPrimary antialiased selection:bg-accent selection:text-background no-scrollbar">
+
+    <!-- Vimeo (vidéo d'accueil) : connexion anticipée. La police Inter est auto-hébergée (@fontsource-variable/inter). -->
+    <link rel="preconnect" href="https://player.vimeo.com" crossorigin />
+    <link rel="dns-prefetch" href="https://i.vimeocdn.com" />
+  </head>
+  <body class="bg-background text-textPrimary antialiased selection:bg-accent selection:text-background">
     <!-- Formulaire caché pour Netlify Forms (détection au build) -->
     <form name="contact" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="text" name="subject" />
       <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
     </form>
-    
+
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

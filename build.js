@@ -2,513 +2,265 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import { PAGES, HOME, SITE_URL, DEFAULT_OG_IMAGE, canonicalFor } from './lib/pages.mjs';
+import { parseFrontMatter } from './lib/frontmatter.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DIST = path.join(__dirname, 'dist');
 
 console.log('🚀 Build Eagle Production...');
 
-// Build Vite
+// ─── 1. Build Vite (copie aussi public/ dans dist/) ──────────────────────────
 console.log('🔨 Build Vite...');
 execSync('vite build', { stdio: 'inherit' });
 
-// Lire les articles de blog avec toutes les métadonnées SEO
+// ─── 2. Garde-fou : chaque route publique doit être déclarée dans lib/pages.mjs ─
+const routerSource = fs.readFileSync(path.join(__dirname, 'index.tsx'), 'utf-8');
+const routePaths = [...routerSource.matchAll(/<Route path="([^"]+)"/g)]
+  .map((m) => m[1])
+  .filter((p) => p !== '/' && p !== '*' && !p.includes(':'));
+const declared = PAGES.map((p) => p.path);
+const missingInRegistry = routePaths.filter((p) => !declared.includes(p));
+const missingInRouter = declared.filter((p) => !routePaths.includes(p));
+if (missingInRegistry.length || missingInRouter.length) {
+  console.error('❌ Routes (index.tsx) et pages SEO (lib/pages.mjs) désynchronisées :');
+  if (missingInRegistry.length) console.error('   Absentes de lib/pages.mjs :', missingInRegistry.join(', '));
+  if (missingInRouter.length) console.error('   Absentes de index.tsx      :', missingInRouter.join(', '));
+  process.exit(1);
+}
+
+// ─── 3. Articles de blog (Markdown + frontmatter YAML géré par Pages CMS) ────
 const readBlogPosts = () => {
   const postsDir = path.join(__dirname, 'content', 'posts');
+  if (!fs.existsSync(postsDir)) return [];
+
   const posts = [];
-  
-  if (!fs.existsSync(postsDir)) return posts;
-  
-  const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
-  
-  for (const file of files) {
-    const content = fs.readFileSync(path.join(postsDir, file), 'utf-8');
-    const frontMatter = content.match(/^---\s*\n([\s\S]*?)\n---/);
-    
-    if (frontMatter) {
-      const metadata = {};
-      frontMatter[1].split('\n').forEach(line => {
-        const match = line.match(/^(\w+):\s*(.+)$/);
-        if (match) {
-          const [, key, value] = match;
-          // Retirer les guillemets entourants
-          metadata[key.trim()] = value.trim().replace(/^["']|["']$/g, '');
-        }
-      });
-      
-      if (metadata.published !== 'false') {
-        const slug = metadata.slug || file.replace('.md', '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
-        posts.push({
-          slug,
-          title: metadata.title || '',
-          seoTitle: metadata.seoTitle || metadata.title || '',
-          seoDescription: metadata.seoDescription || metadata.excerpt || '',
-          excerpt: metadata.excerpt || '',
-          coverImage: metadata.coverImage || '',
-          date: metadata.date || new Date().toISOString().split('T')[0],
-          category: metadata.category || 'Blog',
-          tags: metadata.tags ? metadata.tags.replace(/^\[|\]$/g, '').split(',').map(t => t.trim().replace(/^["']|["']$/g, '')) : [],
-          url: `/blog/${slug}`
-        });
-      }
+  for (const file of fs.readdirSync(postsDir).filter((f) => f.endsWith('.md'))) {
+    const parsed = parseFrontMatter(fs.readFileSync(path.join(postsDir, file), 'utf-8'));
+    if (!parsed) {
+      console.warn(`  ⚠️  ${file} : frontmatter illisible, article ignoré`);
+      continue;
     }
+    const { data } = parsed;
+    if (data.published === false) continue;
+
+    const slug = String(data.slug || file.replace(/\.md$/, '').replace(/^\d{4}-\d{2}-\d{2}-/, ''));
+    const title = String(data.title || '');
+    posts.push({
+      slug,
+      title,
+      seoTitle: String(data.seoTitle || title),
+      seoDescription: String(data.seoDescription || data.excerpt || ''),
+      coverImage: data.coverImage ? String(data.coverImage) : '',
+      date: String(data.date || new Date().toISOString().split('T')[0]),
+      category: String(data.category || 'Blog'),
+      tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    });
   }
-  
   return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
 
-const postsDir = path.join(__dirname, 'content', 'posts');
-const faqsDir = path.join(__dirname, 'content', 'faqs');
-
-const postsCount = fs.existsSync(postsDir) 
-  ? fs.readdirSync(postsDir).filter(f => f.endsWith('.md')).length 
-  : 0;
-
-const faqsCount = fs.existsSync(faqsDir) 
-  ? fs.readdirSync(faqsDir).filter(f => f.endsWith('.json')).length 
-  : 0;
-
-// Lire les articles de blog pour le sitemap
 const posts = readBlogPosts();
 
-// Copier les fichiers publics (sauf index.html)
-console.log('📁 Copie fichiers publics...');
-const publicDir = path.join(__dirname, 'public');
-const distDir = path.join(__dirname, 'dist');
+// ─── 4. Sitemap ──────────────────────────────────────────────────────────────
+// Pas de <lastmod> pour les pages statiques : une date de build artificielle serait ignorée par Google.
+console.log('🗺️  Génération du sitemap...');
+const urlEntry = (loc, { priority, lastmod, changefreq } = {}) =>
+  [
+    '  <url>',
+    `    <loc>${loc}</loc>`,
+    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
+    changefreq ? `    <changefreq>${changefreq}</changefreq>` : null,
+    priority !== undefined ? `    <priority>${priority}</priority>` : null,
+    '  </url>',
+  ]
+    .filter(Boolean)
+    .join('\n');
 
-if (fs.existsSync(publicDir)) {
-  const files = fs.readdirSync(publicDir);
-  files.forEach(file => {
-    if (file !== 'index.html' && !file.startsWith('schema-')) { // Ne pas copier les schemas JSON
-      const srcPath = path.join(publicDir, file);
-      const destPath = path.join(distDir, file);
-      
-      if (fs.statSync(srcPath).isFile()) {
-        fs.copyFileSync(srcPath, destPath);
-      }
-    }
-  });
-}
+const sitemap = [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  urlEntry(canonicalFor('/'), { priority: HOME.priority }),
+  ...PAGES.map((p) => urlEntry(canonicalFor(p.path), { priority: p.priority })),
+  ...posts.map((p) => urlEntry(canonicalFor(`/blog/${p.slug}`), { priority: 0.7, lastmod: p.date, changefreq: 'monthly' })),
+  '</urlset>',
+  '',
+].join('\n');
+fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sitemap);
+console.log(`  ✅ ${PAGES.length + 1} pages + ${posts.length} articles`);
 
-// Générer sitemap complet avec pages blog individuelles
-console.log('🗺️ Génération sitemap avec articles de blog...');
-const currentDate = new Date().toISOString().split('T')[0];
+// ─── 5. Pré-rendu SEO : une copie de index.html par route, avec ses métas ─────
+const escHtml = (str) => String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.eagle-prod.com/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/blog/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/faq/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/contact/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/chantier/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-production/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/inspection/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/inspection-suivi/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/immobilier-drone/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/reels-shorts/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/sport-action/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/photo-video/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/evenementiel/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/zone/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>`;
+// Remplace le contenu d'une balise ; `replace` reçoit une fonction pour éviter l'interprétation de `$` dans les textes.
+const setContent = (html, pattern, value) => html.replace(pattern, (_, before, after) => `${before}${escHtml(value)}${after}`);
 
-sitemap += `
-  <url>
-    <loc>https://www.eagle-prod.com/a-propos/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-digital/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-digital/creation-site-web/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-digital/referencement-seo/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-digital/hebergement-mail/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.eagle-prod.com/eagle-digital/maintenance/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.7</priority>
-  </url>`;
-
-// Ajouter chaque article de blog individuellement
-posts.forEach(post => {
-  sitemap += `
-  <url>
-    <loc>https://www.eagle-prod.com${post.url}/</loc>
-    <lastmod>${post.date}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>`;
-});
-
-sitemap += '\n</urlset>';
-
-fs.writeFileSync(path.join(__dirname, 'dist', 'sitemap.xml'), sitemap);
-console.log(`  ✅ Sitemap généré avec ${posts.length} articles de blog individuels`);
-
-// ─── Helpers pour échapper les valeurs HTML ──────────────────────────────────
-const escHtml = (str) => (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-// ─── Injecte les metas SEO dans un HTML de base ───────────────────────────────
-const injectMetas = (baseHtml, { title, description, canonical, ogImage, ogType = 'website', articleSchema = null, pageSchema = null }) => {
+const injectMetas = (baseHtml, { title, description, keywords, canonical, ogImage, ogImageAlt, ogType = 'website', noindex = false, jsonLd = [], noscript = '' }) => {
   let html = baseHtml;
 
-  // title
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escHtml(title)}</title>`);
+  html = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escHtml(title)}</title>`);
+  html = setContent(html, /(<meta name="description" content=")[^"]*(")/, description);
+  html = setContent(html, /(<meta property="og:title" content=")[^"]*(")/, title);
+  html = setContent(html, /(<meta property="og:description" content=")[^"]*(")/, description);
+  html = setContent(html, /(<meta property="og:type" content=")[^"]*(")/, ogType);
+  html = setContent(html, /(<meta name="twitter:title" content=")[^"]*(")/, title);
+  html = setContent(html, /(<meta name="twitter:description" content=")[^"]*(")/, description);
 
-  // meta description
-  html = html.replace(/(<meta name="description" content=")[^"]*(")/,  `$1${escHtml(description)}$2`);
-
-  // og:title
-  html = html.replace(/(<meta property="og:title" content=")[^"]*(")/,  `$1${escHtml(title)}$2`);
-
-  // og:description
-  html = html.replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${escHtml(description)}$2`);
-
-  // og:type
-  html = html.replace(/(<meta property="og:type" content=")[^"]*(")/,  `$1${escHtml(ogType)}$2`);
-
-  // og:url
-  html = html.replace(/(<meta property="og:url" content=")[^"]*(")/,  `$1${escHtml(canonical)}$2`);
-
-  // og:image
   if (ogImage) {
-    html = html.replace(/(<meta property="og:image" content=")[^"]*(")/,  `$1${escHtml(ogImage)}$2`);
-    html = html.replace(/(<meta property="og:image:alt" content=")[^"]*(")/,  `$1${escHtml(title)}$2`);
+    html = setContent(html, /(<meta property="og:image" content=")[^"]*(")/, ogImage);
+    html = setContent(html, /(<meta name="twitter:image" content=")[^"]*(")/, ogImage);
+    html = setContent(html, /(<meta property="og:image:alt" content=")[^"]*(")/, ogImageAlt || title);
+    html = setContent(html, /(<meta name="twitter:image:alt" content=")[^"]*(")/, ogImageAlt || title);
   }
 
-  // twitter:title
-  html = html.replace(/(<meta name="twitter:title" content=")[^"]*(")/,  `$1${escHtml(title)}$2`);
-
-  // twitter:description
-  html = html.replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${escHtml(description)}$2`);
-
-  // twitter:image
-  if (ogImage) {
-    html = html.replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${escHtml(ogImage)}$2`);
-    html = html.replace(/(<meta name="twitter:image:alt" content=")[^"]*(")/,  `$1${escHtml(title)}$2`);
+  if (keywords) {
+    html = html.replace(/(<meta name="description"[^>]*>)/, (m) => `${m}\n    <meta name="keywords" content="${escHtml(keywords)}" />`);
   }
 
-  // twitter:url
-  html = html.replace(/(<meta name="twitter:url" content=")[^"]*(")/,  `$1${escHtml(canonical)}$2`);
-
-  // canonical
-  html = html.replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${escHtml(canonical)}$2`);
-
-  // hreflang (mettre l'URL de la page, pas la home)
-  html = html.replace(/(<link rel="alternate" hreflang="fr" href=")[^"]*(")/, `$1${escHtml(canonical)}$2`);
-  html = html.replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/, `$1${escHtml(canonical)}$2`);
-
-  // Injecter schema JSON-LD avant </head>
-  const schemas = [];
-  if (articleSchema) schemas.push(`<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>`);
-  if (pageSchema)    schemas.push(`<script type="application/ld+json">${JSON.stringify(pageSchema)}</script>`);
-  if (schemas.length) {
-    html = html.replace('</head>', schemas.join('\n') + '\n</head>');
+  if (noindex) {
+    html = html.replace(/<meta name="robots" content="[^"]*" \/>/, '<meta name="robots" content="noindex, follow" />');
+    html = html.replace(/\s*<link rel="canonical"[^>]*>/, '');
+    html = html.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');
+    html = html.replace(/\s*<meta (?:property="og:url"|name="twitter:url") [^>]*>/g, '');
+  } else {
+    html = setContent(html, /(<meta property="og:url" content=")[^"]*(")/, canonical);
+    html = setContent(html, /(<meta name="twitter:url" content=")[^"]*(")/, canonical);
+    html = setContent(html, /(<link rel="canonical" href=")[^"]*(")/, canonical);
+    html = setContent(html, /(<link rel="alternate" hreflang="fr" href=")[^"]*(")/, canonical);
+    html = setContent(html, /(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/, canonical);
   }
 
+  if (jsonLd.length) {
+    const scripts = jsonLd.map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, '\\u003c')}</script>`).join('\n    ');
+    html = html.replace('</head>', () => `    ${scripts}\n  </head>`);
+  }
+
+  if (noscript) html = html.replace('</body>', () => `${noscript}\n  </body>`);
   return html;
 };
 
-// ─── Génère les pages HTML statiques pour le pré-rendu ───────────────────────
-const generateStaticPages = (posts, baseHtml) => {
-  console.log('🏗️  Génération pages HTML statiques (pré-rendu SEO)...');
-  const BASE = 'https://www.eagle-prod.com';
+// Contenu de secours sans JavaScript (robots limités, lecteurs sans JS) : titre, résumé et maillage interne
+const shortTitle = (t) => t.split(' | ')[0];
+const buildNoscript = (title, description) => `<noscript>
+      <div style="max-width:760px;margin:0 auto;padding:96px 24px;font-family:system-ui,sans-serif;line-height:1.6;color:#FFFCF2">
+        <h1>${escHtml(title)}</h1>
+        <p>${escHtml(description)}</p>
+        <p>Ce site utilise JavaScript pour l’affichage complet des pages.</p>
+        <p><a style="color:#D4AF37" href="/contact/">Demander un devis gratuit</a> · <a style="color:#D4AF37" href="tel:+33699361715">06 99 36 17 15</a></p>
+        <ul>
+${PAGES.map((p) => `          <li><a style="color:#D4AF37" href="${canonicalFor(p.path)}">${escHtml(shortTitle(p.title))}</a></li>`).join('\n')}
+        </ul>
+      </div>
+    </noscript>`;
 
-  // --- Pages statiques connues ---
-  const staticPages = [
-    {
-      path: 'blog',
-      title: 'Blog Drone, Vidéo & Digital | Eagle Production Angoulême',
-      description: 'Articles sur la captation drone, le montage vidéo professionnel et la présence digitale locale à Angoulême et en Nouvelle-Aquitaine.',
-      canonical: `${BASE}/blog/`,
-    },
-    {
-      path: 'faq',
-      title: 'FAQ Drone & Vidéo Angoulême | Questions Fréquentes | Eagle Production',
-      description: 'Toutes les réponses sur nos prestations drone, vidéo et digital à Angoulême : réglementation DGAC, qualité 4K, tarifs, délais, livrables. Télépilote certifié en Charente et Nouvelle-Aquitaine.',
-      canonical: `${BASE}/faq/`,
-    },
-    {
-      path: 'contact',
-      title: 'Contact & Devis Gratuit | Eagle Production Angoulême - Drone & Vidéo',
-      description: 'Contactez Eagle Production pour un devis gratuit : captation drone, montage vidéo, suivi de chantier ou inspection à Angoulême et en Nouvelle-Aquitaine. Réponse sous 24h.',
-      canonical: `${BASE}/contact/`,
-    },
-    {
-      path: 'chantier',
-      title: 'Suivi de Chantier par Drone Angoulême | Eagle Production',
-      description: 'Suivi de chantier BTP par drone à Angoulême et en Charente. Photos 4K, orthophoto, comparatifs, rapport PDF. Télépilote certifié DGAC.',
-      canonical: `${BASE}/chantier/`,
-    },
-    {
-      path: 'eagle-production',
-      title: 'Eagle Production | Drone Angoulême : inspection toiture, suivi chantier, immobilier & vidéos',
-      description: 'Eagle Production à Angoulême (Charente) : inspection de toiture/bâtiments, suivi de chantier BTP (orthophotos, comparatifs, rapports PDF), immobilier, réseaux sociaux, sport & événementiel. Images 4K, livrables propres, devis gratuit.',
-      canonical: `${BASE}/eagle-production/`,
-    },
-    {
-      path: 'inspection',
-      title: 'Inspection de Bâtiments par Drone Angoulême | Eagle Production',
-      description: 'Eagle Production inspecte vos toitures, façades et structures par drone à Angoulême et en Charente. Vues 4K, rapport illustré PDF, télépilote certifié DGAC. Devis gratuit.',
-      canonical: `${BASE}/inspection/`,
-    },
-    {
-      path: 'inspection-suivi',
-      title: 'Inspection toiture & suivi de chantier par drone | Angoulême (Charente) | Eagle Production',
-      description: 'Inspection de toiture/bâtiments et suivi de chantier par drone à Angoulême : vues 4K, orthophotos, comparatifs T-1/T, rapport PDF illustré. Télépilote certifié DGAC. Devis gratuit.',
-      canonical: `${BASE}/inspection-suivi/`,
-    },
-    {
-      path: 'immobilier-drone',
-      title: 'Drone Immobilier Angoulême | Photos & Vidéos (vente/location) | Eagle Production',
-      description: 'Immobilier à Angoulême : photos et vidéos immobilières par drone (4K). Mise en valeur de biens vente/location, formats annonces + Reels/Shorts. Télépilote certifié DGAC.',
-      canonical: `${BASE}/immobilier-drone/`,
-    },
-    {
-      path: 'reels-shorts',
-      title: 'Reels Instagram & YouTube Shorts | Vidéos courtes à Angoulême | Eagle Production',
-      description: 'Création de Reels/Shorts à Angoulême : tournage drone + au sol, montage vertical 9:16, sous-titres, déclinaisons TikTok/Facebook. Vidéos prêtes à publier.',
-      canonical: `${BASE}/reels-shorts/`,
-    },
-    {
-      path: 'sport-action',
-      title: 'Vidéo Sport & Action (drone + au sol) | Angoulême | Eagle Production',
-      description: 'Sport automobile et événements sportifs : vidéo drone + caméra au sol, montage rythmé, plans d’action et formats Reels/Shorts. Télépilote certifié DGAC.',
-      canonical: `${BASE}/sport-action/`,
-    },
-    {
-      path: 'photo-video',
-      title: 'Photo & vidéo artistique par drone | Angoulême (Charente) | Eagle Production',
-      description: 'Vidéo de paysages et photographie aérienne à Angoulême : plans drone 4K, montage cinématique, étalonnage, livrables premium. Charente et Nouvelle-Aquitaine.',
-      canonical: `${BASE}/photo-video/`,
-    },
-    {
-      path: 'evenementiel',
-      title: 'Vidéos événementielles à Angoulême | Soirées d’entreprise & souvenirs | Eagle Production',
-      description: 'Événementiel à Angoulême : vidéos pour soirées d’entreprise et souvenirs familiaux. Drone + au sol, montage, teaser, Reels/Shorts. Livrables prêts à publier.',
-      canonical: `${BASE}/evenementiel/`,
-    },
-    {
-      path: 'zone',
-      title: 'Zone d\'Intervention Drone Nouvelle-Aquitaine | Eagle Production Angoulême',
-      description: 'Eagle Production intervient dans toute la Nouvelle-Aquitaine : Angoulême, Cognac, Bordeaux, La Rochelle, Poitiers, Périgueux, Niort, Saintes, Royan. Télépilote drone certifié DGAC.',
-      canonical: `${BASE}/zone/`,
-    },
-    {
-      path: 'a-propos',
-      title: 'À Propos | Eagle Production Angoulême',
-      description: 'Découvrez Eagle Production : télépilote drone certifié DGAC à Angoulême, vision, méthode de travail et engagements qualité en Charente et Nouvelle-Aquitaine.',
-      canonical: `${BASE}/a-propos/`,
-    },
-    {
-      path: 'eagle-digital',
-      title: 'Eagle Digital | Sites Web, SEO & Informatique | Angoulême',
-      description: 'Eagle Digital : création de sites web, SEO local, hébergement mail et maintenance à Angoulême. Une approche simple, performante et orientée résultats.',
-      canonical: `${BASE}/eagle-digital/`,
-    },
-    {
-      path: path.join('eagle-digital', 'creation-site-web'),
-      title: 'Création de Site Web à Angoulême | Eagle Digital',
-      description: 'Sites vitrines, multi-pages et e-commerce rapides, modernes et optimisés SEO. Nom de domaine, hébergement sécurisé, e-mails pro et conformité RGPD.',
-      canonical: `${BASE}/eagle-digital/creation-site-web/`,
-    },
-    {
-      path: path.join('eagle-digital', 'referencement-seo'),
-      title: 'Référencement SEO Local à Angoulême | Eagle Digital',
-      description: 'Audit SEO technique, optimisation Google Business Profile et contenus. Objectif : gagner en visibilité quand vos clients cherchent vos services à Angoulême et en Charente.',
-      canonical: `${BASE}/eagle-digital/referencement-seo/`,
-    },
-    {
-      path: path.join('eagle-digital', 'hebergement-mail'),
-      title: 'Hébergement Mail Pro | Eagle Digital Angoulême',
-      description: 'E-mails professionnels (ex: prenom@votre-domaine.fr), sécurité, délivrabilité, configuration et support. Un service mail fiable pour votre entreprise.',
-      canonical: `${BASE}/eagle-digital/hebergement-mail/`,
-    },
-    {
-      path: path.join('eagle-digital', 'maintenance'),
-      title: 'Maintenance de Site Web | Eagle Digital Angoulême',
-      description: 'Mises à jour, sauvegardes, sécurité, performances et support. Gardez un site fiable, rapide et sécurisé en continu.',
-      canonical: `${BASE}/eagle-digital/maintenance/`,
-    },
-  ];
+const generatePages = (baseHtml) => {
+  console.log('🏗️  Pré-rendu SEO (metas statiques par page)...');
 
-  staticPages.forEach(({ path: pagePath, title, description, canonical }) => {
-    const dir = path.join(__dirname, 'dist', pagePath);
+  // Accueil : métas déjà dans index.html, on y ajoute le contenu de secours sans JavaScript
+  fs.writeFileSync(
+    path.join(DIST, 'index.html'),
+    injectMetas(baseHtml, {
+      title: HOME.title,
+      description: HOME.description,
+      canonical: canonicalFor('/'),
+      noscript: buildNoscript(HOME.title, HOME.description),
+    }),
+    'utf-8'
+  );
+
+  // Pages statiques
+  for (const page of PAGES) {
+    const dir = path.join(DIST, ...page.path.split('/').filter(Boolean));
     fs.mkdirSync(dir, { recursive: true });
-    const html = injectMetas(baseHtml, { title, description, canonical });
+    const html = injectMetas(baseHtml, {
+      title: page.title,
+      description: page.description,
+      keywords: page.keywords,
+      canonical: canonicalFor(page.path),
+      noscript: buildNoscript(page.title, page.description),
+    });
     fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf-8');
-  });
-  console.log(`  ✅ ${staticPages.length} pages statiques générées`);
+  }
+  console.log(`  ✅ ${PAGES.length} pages statiques`);
 
-  // --- Pages d'articles de blog ---
-  let count = 0;
-  posts.forEach(post => {
-    const canonical = `${BASE}/blog/${post.slug}/`;
-    const ogImage = post.coverImage
-      ? (post.coverImage.startsWith('http') ? post.coverImage : `${BASE}${post.coverImage}`)
-      : `${BASE}/Photo_de_paul_bardin.webp`;
-
+  // Articles de blog
+  for (const post of posts) {
+    const canonical = canonicalFor(`/blog/${post.slug}`);
+    const ogImage = post.coverImage ? (post.coverImage.startsWith('http') ? post.coverImage : `${SITE_URL}${post.coverImage}`) : DEFAULT_OG_IMAGE;
     const articleSchema = {
       '@context': 'https://schema.org',
       '@type': 'Article',
-      headline: post.seoTitle || post.title,
-      description: post.seoDescription || post.excerpt,
+      headline: post.seoTitle,
+      description: post.seoDescription,
       image: ogImage,
       datePublished: post.date,
       dateModified: post.date,
-      author: { '@type': 'Organization', name: 'Eagle Production', url: BASE },
+      author: { '@type': 'Organization', name: 'Eagle Production', url: SITE_URL },
       publisher: {
         '@type': 'Organization',
         name: 'Eagle Production',
-        logo: { '@type': 'ImageObject', url: `${BASE}/media/logo_beige.png` }
+        logo: { '@type': 'ImageObject', url: `${SITE_URL}/media/logo_beige.png` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
       articleSection: post.category,
       keywords: post.tags.join(', '),
     };
-
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${BASE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog/` },
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: canonicalFor('/blog') },
         { '@type': 'ListItem', position: 3, name: post.title, item: canonical },
       ],
     };
 
     const html = injectMetas(baseHtml, {
-      title: post.seoTitle || post.title,
-      description: post.seoDescription || post.excerpt,
+      title: post.seoTitle,
+      description: post.seoDescription,
       canonical,
       ogImage,
+      ogImageAlt: post.title,
       ogType: 'article',
-      articleSchema,
-      pageSchema: breadcrumbSchema,
+      jsonLd: [articleSchema, breadcrumbSchema],
+      noscript: buildNoscript(post.seoTitle, post.seoDescription),
     });
-
-    const dir = path.join(__dirname, 'dist', 'blog', post.slug);
+    const dir = path.join(DIST, 'blog', post.slug);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf-8');
-    count++;
+  }
+  console.log(`  ✅ ${posts.length} articles (avec JSON-LD Article + fil d'Ariane)`);
+
+  // Page 404 : Netlify la sert avec le statut 404 pour toute URL inconnue (pas de fallback SPA dans netlify.toml).
+  // L'application démarre dessus et affiche NotFoundPage (route « * »).
+  const notFound = injectMetas(baseHtml, {
+    title: 'Page introuvable | Eagle Production',
+    description: 'La page demandée n’existe pas ou a été déplacée.',
+    canonical: '',
+    noindex: true,
   });
-  console.log(`  ✅ ${count} pages d'articles générées avec metas SEO statiques`);
+  fs.writeFileSync(path.join(DIST, '404.html'), notFound, 'utf-8');
+  console.log('  ✅ 404.html');
 };
 
-// ─── Générer schemas microdata dans index.html ────────────────────────────────
-const injectMicrodataSchemas = (posts) => {
-  console.log('📋 Injection schemas microdata dans index.html...');
+// ─── 6. Page légale statique : feuille de style compilée du site à la place du CDN Tailwind ───
+const stylePages = ['mentions-legales.html'];
+const builtIndex = fs.readFileSync(path.join(DIST, 'index.html'), 'utf-8');
+const cssHref = builtIndex.match(/<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"/)?.[1];
+for (const file of stylePages) {
+  const target = path.join(DIST, file);
+  if (!fs.existsSync(target)) continue;
+  if (!cssHref) {
+    console.warn(`  ⚠️  ${file} : feuille de style introuvable dans dist/index.html, CDN Tailwind conservé`);
+    continue;
+  }
+  const html = fs.readFileSync(target, 'utf-8');
+  const next = html.replace(/<!-- build:styles[\s\S]*?<!-- endbuild -->/, () => `<link rel="stylesheet" href="${cssHref}" />`);
+  if (next === html) console.warn(`  ⚠️  ${file} : bloc « build:styles » introuvable`);
+  fs.writeFileSync(target, next, 'utf-8');
+}
 
-  const businessSchema = `
-  <div itemscope itemtype="https://schema.org/LocalBusiness" style="display:none">
-    <meta itemprop="name" content="Eagle Production">
-    <meta itemprop="description" content="Télépilote professionnel de drone certifié DGAC à Angoulême. Vidéo aérienne 4K, photographie immobilière, photogrammétrie, suivi de chantier.">
-    <meta itemprop="url" content="https://www.eagle-prod.com">
-    <meta itemprop="telephone" content="+33699361715">
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <meta itemprop="addressLocality" content="Angoulême">
-      <meta itemprop="addressRegion" content="Charente">
-      <meta itemprop="postalCode" content="16000">
-      <meta itemprop="addressCountry" content="FR">
-    </div>
-    <div itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
-      <meta itemprop="latitude" content="45.6484">
-      <meta itemprop="longitude" content="0.1562">
-    </div>
-    <meta itemprop="openingHours" content="Mo-Fr 09:00-18:00">
-    <meta itemprop="priceRange" content="€€">
-    <meta itemprop="image" content="https://www.eagle-prod.com/Photo_de_paul_bardin.webp">
-    <meta itemprop="logo" content="https://www.eagle-prod.com/media/logo_beige.png">
-    <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
-      <meta itemprop="name" content="Paul Bardin">
-      <meta itemprop="jobTitle" content="Télépilote de drone certifié DGAC">
-    </div>
-  </div>`;
-
-  const indexPath = path.join(__dirname, 'dist', 'index.html');
-  let html = fs.readFileSync(indexPath, 'utf-8');
-  html = html.replace('</body>', businessSchema + '\n</body>');
-  fs.writeFileSync(indexPath, html, 'utf-8');
-  console.log(`  ✅ Microdata injectées dans index.html`);
-};
-
-// ─── Lecture du index.html buildé AVANT de générer les pages statiques ────────
-const distIndexPath = path.join(__dirname, 'dist', 'index.html');
-const baseHtml = fs.readFileSync(distIndexPath, 'utf-8');
-
-// ─── Lancer les générations ───────────────────────────────────────────────────
-generateStaticPages(posts, baseHtml);
-injectMicrodataSchemas(posts);
+generatePages(builtIndex);
 
 console.log('✅ Build terminé !');
-console.log(`📊 SEO : ${posts.length} articles pré-rendus, sitemap à jour, metas statiques injectées`);
+console.log(`📊 SEO : ${PAGES.length + 1} pages, ${posts.length} articles pré-rendus, sitemap et 404 générés`);

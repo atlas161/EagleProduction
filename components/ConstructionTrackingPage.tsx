@@ -1,50 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { ConstructionTracking } from './ConstructionTracking';
-import '../index.css';
-import { Section } from '../types';
 
 export const ConstructionTrackingPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
-  useEffect(() => {
-    const title = 'Suivi de chantier par drone | Eagle Production Angoulême';
-    const desc = "Suivi de chantier BTP par drone: orthophotos, vues comparatives, rapports PDF et conformité DGAC. Intervention en Charente et Nouvelle-Aquitaine.";
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/chantier/');
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-    setMeta('name', 'keywords', 'suivi de chantier par drone, drone BTP Angoulême, orthophoto chantier, comparatif T-1 T, rapport PDF chantier, télépilote drone certifié DGAC, Charente, Nouvelle-Aquitaine');
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/chantier/');
-  }, []);
+  useSeo('/chantier');
   const serviceLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -81,14 +42,13 @@ export const ConstructionTrackingPage: React.FC = () => {
   };
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
         <ConstructionTracking />
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

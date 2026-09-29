@@ -8,12 +8,16 @@
  * - SERVICES_COMPLEMENTAIRES → Schema Offers
  */
 
-import React from 'react';
-import { FAQ_ITEMS, PRICING, SERVICES_COMPLEMENTAIRES, CONTACT } from '../config/siteConfig';
+import React, { useMemo } from 'react';
+import { CONTACT, DIGITAL_RATES, RATES } from '../config/siteConfig';
+import { HOME_FAQ_COUNT, loadAllFaqItems, stripHtml } from './CmsContent';
 
 export const SEOSchema: React.FC = () => {
   // Génération du schéma complet
-  const schema = {
+  const schema = useMemo(() => {
+  // FAQ : mêmes questions que celles affichées sur l'accueil (ReviewsAndFaq)
+  const faqItems = loadAllFaqItems().slice(0, HOME_FAQ_COUNT);
+  return {
     "@context": "https://schema.org",
     "@graph": [
       // ─────────────────────────────────────────────────────────────────────
@@ -115,6 +119,9 @@ export const SEOSchema: React.FC = () => {
         "@type": "LocalBusiness",
         "@id": "https://www.eagle-prod.com/#localbusiness",
         "name": "Eagle Production",
+        "url": "https://www.eagle-prod.com",
+        "email": CONTACT.email,
+        "sameAs": Object.values(CONTACT.socialLinks),
         "image": "https://www.eagle-prod.com/Photo_de_paul_bardin.webp",
         "description": "Eagle Production, télépilote drone certifié DGAC à Angoulême (Charente), réalise des prestations drone & vidéo : inspection de toiture/bâtiments, suivi de chantier BTP (orthophotos, rapports PDF), photo/vidéo immobilier, contenus réseaux sociaux (Instagram Reels, YouTube Shorts, TikTok), sport & événementiel. Images 4K, montage vidéo, livrables prêts à publier en Nouvelle-Aquitaine.",
         "makesOffer": [
@@ -172,8 +179,8 @@ export const SEOSchema: React.FC = () => {
           "@type": "PostalAddress",
           "addressLocality": "Angoulême",
           "addressRegion": "Nouvelle-Aquitaine",
-          "addressCountry": "FR",
-          "streetAddress": "Centre-ville d'Angoulême"
+          "postalCode": CONTACT.postalCode,
+          "addressCountry": "FR"
         },
         "serviceArea": {
           "@type": "GeoCircle",
@@ -211,83 +218,71 @@ export const SEOSchema: React.FC = () => {
           "@type": "OfferCatalog",
           "name": "Services de Drone et Production",
           "itemListElement": [
-            // Formule Essentiel
+            // Tarifs identiques à ceux affichés sur l'accueil (config/siteConfig.ts)
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": `Formule ${PRICING.essentiel.name}`,
-                "description": PRICING.essentiel.description
+                "name": `${RATES.tournage.name} drone & vidéo`,
+                "description": "Prises de vue aériennes et tournage au sol, démarches DGAC et assurance RC Pro incluses. Facturation à l'heure, minimum 1 heure."
               },
-              "price": PRICING.essentiel.prices[0].price.toString(),
               "priceCurrency": "EUR",
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
-                "price": PRICING.essentiel.prices[0].price.toString(),
+                "price": RATES.tournage.pricePerHour.toString(),
                 "priceCurrency": "EUR",
                 "unitText": "heure"
               }
             },
-            // Formule Altitude
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": `Formule ${PRICING.altitude.name}`,
-                "description": PRICING.altitude.description
+                "name": RATES.montage.name,
+                "description": "Montage clé en main : dérushage, colorimétrie, mixage audio."
               },
-              "price": PRICING.altitude.prices[0].price.toString(),
-              "priceCurrency": "EUR"
-            },
-            // Formule Horizon
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": `Formule ${PRICING.horizon.name}`,
-                "description": PRICING.horizon.description
-              },
-              "price": PRICING.horizon.prices[0].price.toString(),
-              "priceCurrency": "EUR"
-            },
-            // Montage vidéo
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": SERVICES_COMPLEMENTAIRES.montageVideo.name,
-                "description": SERVICES_COMPLEMENTAIRES.montageVideo.description
-              },
-              "price": SERVICES_COMPLEMENTAIRES.montageVideo.pricePerHour.toString(),
               "priceCurrency": "EUR",
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
-                "price": SERVICES_COMPLEMENTAIRES.montageVideo.pricePerHour.toString(),
+                "price": RATES.montage.pricePerHour.toString(),
                 "priceCurrency": "EUR",
                 "unitText": "heure"
               }
             },
-            // Création de logo
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "Création de logo",
-                "description": "Logo sur-mesure pour votre identité visuelle"
+                "name": DIGITAL_RATES.siteWeb.name,
+                "description": "Site vitrine, multi-pages ou e-commerce (à partir de)."
               },
-              "price": SERVICES_COMPLEMENTAIRES.identiteVisuelle.items[0].price.toString(),
-              "priceCurrency": "EUR"
+              "priceCurrency": "EUR",
+              "priceSpecification": { "@type": "PriceSpecification", "minPrice": DIGITAL_RATES.siteWeb.from.toString(), "priceCurrency": "EUR" }
             },
-            // Site internet
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "Site internet vitrine",
-                "description": "Création de site web professionnel clé en main"
+                "name": DIGITAL_RATES.seo.name,
+                "description": "Audit SEO, fiche Google Business, contenus (à partir de)."
               },
-              "price": SERVICES_COMPLEMENTAIRES.presenceDigital.items[0].price.toString(),
-              "priceCurrency": "EUR"
+              "priceCurrency": "EUR",
+              "priceSpecification": { "@type": "PriceSpecification", "minPrice": DIGITAL_RATES.seo.from.toString(), "priceCurrency": "EUR" }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": DIGITAL_RATES.maintenance.name,
+                "description": "Sauvegardes, sécurité, mises à jour et support (à partir de, par mois)."
+              },
+              "priceCurrency": "EUR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "minPrice": DIGITAL_RATES.maintenance.fromPerMonth.toString(),
+                "priceCurrency": "EUR",
+                "unitText": "mois"
+              }
             }
           ]
         }
@@ -327,22 +322,25 @@ export const SEOSchema: React.FC = () => {
       },
 
       // ─────────────────────────────────────────────────────────────────────
-      // FAQ PAGE - DYNAMIQUE depuis siteConfig
+      // FAQ PAGE - mêmes questions que celles affichées sur l'accueil (contenu Pages CMS)
       // ─────────────────────────────────────────────────────────────────────
-      {
-        "@type": "FAQPage",
-        "@id": "https://www.eagle-prod.com/#faq",
-        "mainEntity": FAQ_ITEMS.map(item => ({
-          "@type": "Question",
-          "name": item.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": item.answer.replace(/\n/g, ' ') // Nettoie les sauts de ligne pour le schema
-          }
-        }))
-      }
+      ...(faqItems.length
+        ? [{
+            "@type": "FAQPage",
+            "@id": "https://www.eagle-prod.com/#faq",
+            "mainEntity": faqItems.map(item => ({
+              "@type": "Question",
+              "name": item.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": stripHtml(item.answer)
+              }
+            }))
+          }]
+        : [])
     ]
   };
+  }, []);
 
   return (
     <script

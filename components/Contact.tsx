@@ -57,16 +57,21 @@ const isValidEmail = (email: string): boolean => {
  * Vérifie le rate limiting (localStorage)
  */
 const checkRateLimit = (): { allowed: boolean; remainingSeconds: number } => {
-  const lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
+  let lastSubmit: string | null = null;
+  try {
+    lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
+  } catch {
+    /* stockage indisponible (navigation privée, cookies bloqués) : pas de limite côté client */
+  }
   if (!lastSubmit) return { allowed: true, remainingSeconds: 0 };
-  
+
   const elapsed = Date.now() - parseInt(lastSubmit, 10);
   const remaining = RATE_LIMIT_DELAY - elapsed;
-  
+
   if (remaining > 0) {
     return { allowed: false, remainingSeconds: Math.ceil(remaining / 1000) };
   }
-  
+
   return { allowed: true, remainingSeconds: 0 };
 };
 
@@ -74,7 +79,20 @@ const checkRateLimit = (): { allowed: boolean; remainingSeconds: number } => {
  * Enregistre le timestamp de soumission
  */
 const recordSubmission = () => {
-  localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+  try {
+    localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+  } catch {
+    /* stockage indisponible : sans conséquence */
+  }
+};
+
+const STATUS_MESSAGES: Partial<Record<FormStatus, string>> = {
+  submitting: 'Envoi en cours…',
+  success: 'Votre message a bien été envoyé. Nous vous répondons sous 24 heures.',
+  error: 'Une erreur est survenue, veuillez réessayer ou nous appeler.',
+  rate_limited: 'Merci de patienter avant un nouvel envoi.',
+  invalid_email: 'Adresse e-mail invalide.',
+  captcha_required: 'Veuillez valider le captcha avant d’envoyer.',
 };
 
 export const Contact: React.FC = () => {
@@ -94,6 +112,7 @@ export const Contact: React.FC = () => {
   // Chargement du captcha Turnstile (thème sombre)
   useEffect(() => {
     let cancelled = false;
+    let scriptRef: HTMLScriptElement | null = null;
     const render = () => {
       const ts = (window as any).turnstile;
       if (cancelled || !ts || !captchaRef.current || widgetId.current !== null) return;
@@ -118,8 +137,10 @@ export const Contact: React.FC = () => {
         document.head.appendChild(script);
       }
       script.addEventListener('load', render);
+      scriptRef = script;
     }
     return () => {
+      scriptRef?.removeEventListener('load', render);
       cancelled = true;
       const ts = (window as any).turnstile;
       if (ts && widgetId.current !== null) ts.remove(widgetId.current);
@@ -220,7 +241,7 @@ export const Contact: React.FC = () => {
         <div className="flex flex-col justify-center">
             <Reveal>
                 <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Contact</span>
-                <h2 id="contact-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-6">Parlons de votre projet</h2>
+                <h1 id="contact-title" className="scroll-mt-20 text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-6">Parlons de votre projet</h1>
                 <p className="text-textSecondary text-lg mb-12 leading-relaxed">
                     Une idée ? Un besoin spécifique ? <br/>
                     Nous sommes joignables directement par téléphone ou via le formulaire.
@@ -311,10 +332,11 @@ export const Contact: React.FC = () => {
                                 type="text"
                                 id="name"
                                 name="name"
+                                autoComplete="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
+                                className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent focus-visible:ring-1 focus-visible:ring-accent transition-colors placeholder:text-white/60"
                                 placeholder="Votre Nom"
                             />
                         </div>
@@ -324,29 +346,32 @@ export const Contact: React.FC = () => {
                                 type="email"
                                 id="email"
                                 name="email"
+                                autoComplete="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
+                                aria-invalid={emailError ? true : undefined}
+                                aria-describedby={emailError ? 'email-error' : undefined}
                                 className={clsx(
-                                  "w-full bg-surface border rounded-xl px-4 py-3 text-white focus:outline-none transition-colors placeholder:text-white/20",
-                                  emailError ? "border-red-500 focus:border-red-500" : "border-white/10 focus:border-accent"
+                                  "w-full bg-surface border rounded-xl px-4 py-3 text-white focus:outline-none focus-visible:ring-1 transition-colors placeholder:text-white/60",
+                                  emailError ? "border-red-500 focus:border-red-500 focus-visible:ring-red-500" : "border-white/10 focus:border-accent focus-visible:ring-accent"
                                 )}
                                 placeholder="votre@email.com"
                             />
                             {emailError && (
-                              <p className="text-red-400 text-xs mt-1 ml-2">{emailError}</p>
+                              <p id="email-error" className="text-red-400 text-xs mt-1 ml-2">{emailError}</p>
                             )}
                         </div>
                     </div>
                     
                      <div className="space-y-2">
-                        <label className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Sujet</label>
+                        <label id="subject-label" className="text-xs font-semibold text-textSecondary tracking-wider ml-2">Sujet</label>
                         {/* Input caché pour envoyer le sujet à Netlify */}
                         <input type="hidden" name="subject" value={selectedSubject.name} />
                         <div className="relative z-20">
                              <Listbox value={selectedSubject} onChange={setSelectedSubject}>
                                 <div className="relative mt-1">
-                                  <Listbox.Button className="relative w-full cursor-pointer bg-surface border border-white/10 rounded-xl py-3 pl-4 pr-10 text-left text-white focus:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm transition-colors">
+                                  <Listbox.Button aria-labelledby="subject-label" className="relative w-full cursor-pointer bg-surface border border-white/10 rounded-xl py-3 pl-4 pr-10 text-left text-white focus:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/60 sm:text-sm transition-colors">
                                     <span className="block truncate">{selectedSubject.name}</span>
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                       <ChevronDown
@@ -406,13 +431,16 @@ export const Contact: React.FC = () => {
                             value={formData.message}
                             onChange={handleChange}
                             required
-                            className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors resize-none placeholder:text-white/20"
+                            className="w-full bg-surface border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent focus-visible:ring-1 focus-visible:ring-accent transition-colors resize-none placeholder:text-white/60"
                             placeholder="Détails de votre mission..."
                         ></textarea>
                     </div>
 
                     {/* Captcha Cloudflare Turnstile (thème sombre) */}
                     <div ref={captchaRef} className="min-h-[65px]" />
+
+                    {/* Annonce vocale de l'état du formulaire (lecteurs d'écran) */}
+                    <p role="status" aria-live="polite" className="sr-only">{STATUS_MESSAGES[formStatus] ?? ''}</p>
 
                     {/* Bouton avec états */}
                     <button 

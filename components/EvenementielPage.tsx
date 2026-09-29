@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { ArrowRight, Users, Film, Camera, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import '../index.css';
-import { Section } from '../types';
 
 export const EvenementielPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   const canonical = 'https://www.eagle-prod.com/evenementiel/';
 
@@ -58,46 +49,12 @@ export const EvenementielPage: React.FC = () => {
     ],
   };
 
-  useEffect(() => {
-    const title = 'Vidéos événementielles à Angoulême | Soirées d’entreprise & souvenirs | Eagle Production';
-    const desc =
-      'Événementiel à Angoulême : vidéos pour soirées d’entreprise et souvenirs familiaux. Drone + au sol, montage, teaser, Reels/Shorts. Livrables prêts à publier. Devis gratuit.';
-    document.title = title;
-
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-
-    setMeta('name', 'description', desc);
-    setMeta('name', 'keywords', 'video evenementiel angouleme, soiree entreprise video, aftermovie, video souvenir familial, drone evenementiel, montage video, teaser evenement, reels evenement, charente');
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', canonical);
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-
-    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonicalEl) {
-      canonicalEl = document.createElement('link');
-      canonicalEl.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalEl);
-    }
-    canonicalEl.setAttribute('href', canonical);
-  }, []);
+  useSeo('/evenementiel');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -135,7 +92,7 @@ export const EvenementielPage: React.FC = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/30 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Format</p>
+              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Format</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
@@ -246,7 +203,6 @@ export const EvenementielPage: React.FC = () => {
         </section>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

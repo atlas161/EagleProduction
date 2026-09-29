@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Breadcrumbs } from './Breadcrumbs';
-import '../index.css';
-import { Section } from '../types';
 import { loadAllFaqItems, CmsFaqItem } from './CmsContent';
 import { ChevronDown, HelpCircle, Search, X, ArrowRight, MessageCircle, Film, Globe, ShieldCheck } from 'lucide-react';
 
@@ -47,11 +45,14 @@ const FaqItem: React.FC<{
     }`}
   >
     <button
+      type="button"
       onClick={() => onToggle(f.slug)}
+      aria-expanded={isOpen}
+      aria-controls={`faq-answer-${f.slug}`}
       className="w-full flex items-center gap-4 p-5 md:p-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-2xl"
     >
       <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-        isOpen ? 'bg-accent text-background' : 'bg-white/5 text-white/40 group-hover:bg-white/10'
+        isOpen ? 'bg-accent text-background' : 'bg-white/5 text-white/60 group-hover:bg-white/10'
       }`}>
         {String(idx + 1).padStart(2, '0')}
       </span>
@@ -61,31 +62,31 @@ const FaqItem: React.FC<{
         </div>
       </div>
       <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-        isOpen ? 'bg-accent/20 text-accent rotate-180' : 'bg-white/5 text-white/40 group-hover:bg-white/10'
+        isOpen ? 'bg-accent/20 text-accent rotate-180' : 'bg-white/5 text-white/60 group-hover:bg-white/10'
       }`}>
         <ChevronDown size={16} />
       </div>
     </button>
-    <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'}`}>
-      <div className="px-5 md:px-6 pb-6 pl-[4.25rem]">
-        <div className="h-px bg-gradient-to-r from-accent/20 via-white/5 to-transparent mb-5" />
-        <div
-          className="text-textSecondary text-sm leading-[1.85] blog-content [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:text-white/90 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1"
-          dangerouslySetInnerHTML={{ __html: f.answer }}
-        />
+    {/* grid-rows 0fr → 1fr : la hauteur suit le contenu (pas de coupure des longues réponses) ; `invisible` retire le contenu fermé du parcours clavier */}
+    <div
+      id={`faq-answer-${f.slug}`}
+      role="region"
+      className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 invisible'}`}
+    >
+      <div className="overflow-hidden">
+        <div className="px-5 md:px-6 pb-6 pl-[4.25rem]">
+          <div className="h-px bg-gradient-to-r from-accent/20 via-white/5 to-transparent mb-5" />
+          <div
+            className="text-textSecondary text-sm leading-[1.85] blog-content [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:text-white/90 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1"
+            dangerouslySetInnerHTML={{ __html: f.answer }}
+          />
+        </div>
       </div>
     </div>
   </div>
 );
 
 export const FaqPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   const items = loadAllFaqItems();
   const categories = useMemo(() => ['Toutes', ...Array.from(new Set(items.map((i) => i.category)))], [items]);
@@ -163,28 +164,7 @@ export const FaqPage: React.FC = () => {
   const countFor = (cat: string) =>
     cat === 'Toutes' ? items.length : items.filter((i) => i.category === cat).length;
 
-  useEffect(() => {
-    const title = 'FAQ Drone & Vidéo Angoulême | Questions Fréquentes | Eagle Production';
-    const desc = "Toutes les réponses sur nos prestations drone, vidéo et digital à Angoulême : réglementation DGAC, qualité 4K, tarifs, délais, livrables. Télépilote certifié en Charente et Nouvelle-Aquitaine.";
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/faq/');
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/faq/');
-  }, []);
+  useSeo('/faq');
 
   const faqLd = useMemo(() => ({
     '@context': 'https://schema.org',
@@ -209,10 +189,10 @@ export const FaqPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
+      <Navbar />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <main className="pt-20">
+      <main id="main-content" className="pt-20">
 
         {/* ── HERO ── */}
         <section className="relative overflow-hidden pb-2">
@@ -256,7 +236,7 @@ export const FaqPage: React.FC = () => {
                     <span className={`${meta?.color ?? 'text-white/50'}`}>{meta?.icon}</span>
                     <div className="text-left">
                       <div className="text-white font-bold text-sm leading-none">{countFor(cat)}</div>
-                      <div className="text-white/40 text-[10px] leading-tight mt-0.5 max-w-[90px] truncate">{cat}</div>
+                      <div className="text-white/60 text-[10px] leading-tight mt-0.5 max-w-[90px] truncate">{cat}</div>
                     </div>
                   </button>
                 );
@@ -265,7 +245,7 @@ export const FaqPage: React.FC = () => {
 
             {/* Barre de recherche */}
             <div className="relative max-w-xl">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/55 pointer-events-none" />
               <input
                 ref={searchRef}
                 type="text"
@@ -275,7 +255,7 @@ export const FaqPage: React.FC = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-11 pr-10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-accent/40 focus:bg-white/8 transition-all"
               />
               {search && (
-                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors">
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/55 hover:text-white/70 transition-colors">
                   <X size={15} />
                 </button>
               )}
@@ -370,10 +350,10 @@ export const FaqPage: React.FC = () => {
                 <div key={cat}>
                   {/* Header de catégorie */}
                   <div className="flex items-center gap-3 mb-5">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 border border-white/8 ${CATEGORY_META[cat]?.color ?? 'text-white/40'}`}>{CATEGORY_META[cat]?.icon}</span>
+                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 border border-white/8 ${CATEGORY_META[cat]?.color ?? 'text-white/60'}`}>{CATEGORY_META[cat]?.icon}</span>
                     <div>
                       <h2 className="text-white font-bold text-lg leading-tight">{cat}</h2>
-                      <p className="text-white/40 text-xs">{catItems.length} question{catItems.length !== 1 ? 's' : ''}</p>
+                      <p className="text-white/60 text-xs">{catItems.length} question{catItems.length !== 1 ? 's' : ''}</p>
                     </div>
                     <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent ml-2" />
                     <button
@@ -415,7 +395,6 @@ export const FaqPage: React.FC = () => {
       </main>
 
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

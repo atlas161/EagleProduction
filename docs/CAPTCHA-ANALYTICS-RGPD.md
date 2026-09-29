@@ -37,6 +37,16 @@ Le formulaire caché pour la détection Netlify reste dans `index.html` ; le hon
 - Section cookies détaillant Google, Clarity, Cloudflare Turnstile (sécurité, intérêt légitime), et le retrait du consentement. Section RGPD mise à jour (bases légales, destinataires).
 - **Non indexée** : `<meta robots noindex, follow>` + en-tête `X-Robots-Tag` dans `netlify.toml` + retrait du sitemap (`build.js` et `public/sitemap.xml`). Ne pas ajouter de `Disallow` dans `robots.txt` (le noindex ne serait plus lu).
 
+## 4. Services tiers chargés sans consentement (à connaître)
+
+Déclarés dans la section « Cookies et traceurs » des mentions légales :
+- **Vimeo** (vidéo d'accueil) : paramètre `dnt=1` activé (`HERO_VIDEO.embedUrl`).
+- **Elfsight** (fil Instagram, page d'accueil) : script chargé uniquement quand la section approche de l'écran (`LazyMount` + `Gallery.tsx`).
+- **CARTO / OpenStreetMap** (tuiles de la carte de la zone d'intervention).
+- La police **Inter est auto-hébergée** (`@fontsource-variable/inter`) : plus aucun appel à Google Fonts.
+
+Ces services reçoivent l'adresse IP du visiteur. Si un conseil juridique impose un consentement préalable, l'étape suivante est de les charger derrière le même choix que la mesure d'audience (`CookieBanner.tsx`).
+
 ## Points de vigilance
 
 - L'annuaire officiel indique l'entreprise individuelle comme **cessée le 25/07/2026** (radiée du RNE). Les mentions légales doivent être mises à jour si l'activité continue sous une nouvelle immatriculation. Aucun numéro de TVA n'est affiché (non publié par l'annuaire).

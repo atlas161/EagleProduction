@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { ArrowRight, Building2, MapPinned, FileText, ShieldCheck, Camera, Scan, Layers, CheckCircle2 } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import '../index.css';
-import { Section } from '../types';
 
 export const InspectionSuiviPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   const canonical = 'https://www.eagle-prod.com/inspection-suivi/';
 
@@ -86,46 +77,12 @@ export const InspectionSuiviPage: React.FC = () => {
     ],
   };
 
-  useEffect(() => {
-    const title = 'Inspection toiture & suivi de chantier par drone | Angoulême (Charente) | Eagle Production';
-    const desc =
-      'Inspection de toiture/bâtiments et suivi de chantier par drone à Angoulême : vues 4K, orthophotos, comparatifs T-1/T, rapport PDF illustré. Télépilote certifié DGAC. Devis gratuit.';
-    document.title = title;
-
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-
-    setMeta('name', 'description', desc);
-    setMeta('name', 'keywords', 'inspection toiture drone, suivi de chantier drone, drone BTP Angoulême, orthophoto chantier, rapport PDF inspection, télépilote drone certifié DGAC, Charente, Nouvelle-Aquitaine');
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', canonical);
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-
-    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonicalEl) {
-      canonicalEl = document.createElement('link');
-      canonicalEl.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalEl);
-    }
-    canonicalEl.setAttribute('href', canonical);
-  }, []);
+  useSeo('/inspection-suivi');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -162,7 +119,7 @@ export const InspectionSuiviPage: React.FC = () => {
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
                 {['Certifié DGAC', 'RC Pro', '4K', 'Orthophoto', 'Rapport PDF'].map((b) => (
-                  <span key={b} className="text-[10px] text-white/30 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
+                  <span key={b} className="text-[10px] text-white/55 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
                 ))}
               </div>
             </Reveal>
@@ -207,7 +164,7 @@ export const InspectionSuiviPage: React.FC = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/30 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Ce que vous obtenez</p>
+              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Ce que vous obtenez</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 rounded-3xl overflow-hidden">
               {[
@@ -327,7 +284,6 @@ export const InspectionSuiviPage: React.FC = () => {
         </section>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

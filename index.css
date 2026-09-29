@@ -2,20 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar, html::-webkit-scrollbar, body::-webkit-scrollbar {
+/* Utilitaire : masque la barre de défilement d'un bloc (ex. avis) */
+.no-scrollbar::-webkit-scrollbar {
 display: none;
 }
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar, html, body {
--ms-overflow-style: none;  /* IE and Edge */
-scrollbar-width: none;  /* Firefox */
+.no-scrollbar {
+-ms-overflow-style: none;
+scrollbar-width: none;
 }
 
-/* Optional: fine-tune font rendering for that crisp Apple look */
+/* Barre de défilement de la page : visible (repère de position, saisie à la souris), discrète et sombre */
+html {
+scrollbar-width: thin;
+scrollbar-color: #3a3a3a #111111;
+}
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-track { background: #111111; }
+html::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 8px; border: 2px solid #111111; }
+html::-webkit-scrollbar-thumb:hover { background: #555555; }
+
+/* Fine-tune font rendering for that crisp Apple look */
 body {
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus clavier visible partout (les composants peuvent surcharger avec leur propre focus-visible) */
+@layer base {
+  :focus-visible {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+  }
+}
+
+/* Respect de « réduire les animations » : défilement, transitions et animations quasi instantanés */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Leaflet Customization for Dark Theme */
@@ -163,17 +191,21 @@ background-color: #222 !important;
   background: rgba(255, 255, 255, 0.04);
 }
 
-.line-clamp-2,
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* Les ancres du sommaire ne passent pas sous la navbar fixe */
+.blog-content h2,
+.blog-content h3 {
+  scroll-margin-top: 6rem;
 }
 
-.line-clamp-2 {
-  -webkit-line-clamp: 2;
+/* Images des articles : jamais plus larges que la colonne */
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
 }
 
-.line-clamp-3 {
-  -webkit-line-clamp: 3;
+/* Tableaux larges : défilement horizontal sur mobile plutôt que débordement de page */
+.blog-content table {
+  display: block;
+  overflow-x: auto;
 }

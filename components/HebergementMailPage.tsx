@@ -1,52 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import { Section } from '../types';
 import {
   ArrowRight, Mail, CheckCircle2, ShieldCheck, ArrowLeft,
   Globe, Lock, Server, Inbox, Zap
 } from 'lucide-react';
-import '../index.css';
 
 export const HebergementMailPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'Hébergement Web & E-mails Professionnels à Angoulême | Eagle Digital';
-    const desc = 'Eagle Digital gère votre hébergement web, nom de domaine et e-mails professionnels à Angoulême. SSL inclus, uptime 99,9%, migration offerte, adresses @votreentreprise.fr configurées. Devis gratuit sous 24h.';
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail/');
-    setMeta('name', 'keywords', 'hébergement web Angoulême, nom de domaine Charente, e-mail professionnel entreprise, adresse e-mail personnalisée, Eagle Digital, SSL, migration domaine');
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/hebergement-mail/');
-  }, []);
+  useSeo('/eagle-digital/hebergement-mail');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
 
         {/* ── HERO ── */}
         <section className="max-w-5xl mx-auto px-6 lg:px-8 pt-28 pb-16">
           <Reveal>
-            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-xs font-medium mb-8 transition-colors">
+            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xs font-medium mb-8 transition-colors">
               <ArrowLeft size={14} /> Retour à Eagle Digital
             </a>
           </Reveal>
@@ -84,7 +58,7 @@ export const HebergementMailPage: React.FC = () => {
             <Reveal>
               <p className="text-center text-sky-400 text-xs font-semibold tracking-[0.3em] uppercase mb-5">Nos prestations</p>
               <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">Domaine, hébergement & e-mails pro.</h2>
-              <p className="text-center text-white/35 text-base mb-14 max-w-xl mx-auto">
+              <p className="text-center text-white/60 text-base mb-14 max-w-xl mx-auto">
                 Gestion complète incluse. Un seul interlocuteur basé à Angoulême pour toute votre infrastructure numérique.
               </p>
             </Reveal>
@@ -166,7 +140,7 @@ export const HebergementMailPage: React.FC = () => {
                         <div className="text-sky-400 font-extrabold text-lg">{p.price}</div>
                       </div>
                     </div>
-                    <p className="text-white/40 text-sm leading-relaxed">{p.desc}</p>
+                    <p className="text-white/60 text-sm leading-relaxed">{p.desc}</p>
                     <ul className="space-y-2 flex-1">
                       {p.items.map((it, j) => (
                         <li key={j} className="flex items-start gap-2 text-xs text-white/55">
@@ -202,7 +176,7 @@ export const HebergementMailPage: React.FC = () => {
                   <div className="bg-surfaceHighlight/15 border border-sky-500/10 rounded-2xl p-6 hover:border-sky-400/25 transition-all h-full">
                     <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 w-fit mb-4">{item.icon}</div>
                     <div className="text-white font-bold text-sm mb-2">{item.title}</div>
-                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -316,7 +290,7 @@ export const HebergementMailPage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
               Votre domaine et vos e-mails pro,<br />à Angoulême, gérés pour vous.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">Devis gratuit sous 24h. Migration offerte, zéro engagement.</p>
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">Devis gratuit sous 24h. Migration offerte, zéro engagement.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
@@ -330,7 +304,6 @@ export const HebergementMailPage: React.FC = () => {
 
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

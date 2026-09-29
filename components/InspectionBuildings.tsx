@@ -49,7 +49,7 @@ export const InspectionBuildings: React.FC = () => {
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {['Certifié DGAC', 'RC Pro', 'Sans échafaudage', 'Rapport 48h', 'Charente'].map((b) => (
-                    <span key={b} className="text-[10px] text-white/30 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
+                    <span key={b} className="text-[10px] text-white/55 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
                   ))}
                 </div>
               </Reveal>
@@ -62,10 +62,10 @@ export const InspectionBuildings: React.FC = () => {
                 <div className="bg-surfaceHighlight/25 border border-white/8 rounded-3xl p-7 backdrop-blur-sm">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-2.5 h-2.5 rounded-full bg-accent" />
-                    <span className="text-white/40 text-xs tracking-wider uppercase">Mission en cours</span>
+                    <span className="text-white/60 text-xs tracking-wider uppercase">Mission en cours</span>
                   </div>
                   <div className="text-white font-bold text-xl mb-1">Toiture · Copropriété</div>
-                  <div className="text-white/40 text-sm mb-5">Angoulême - Charente (16)</div>
+                  <div className="text-white/60 text-sm mb-5">Angoulême - Charente (16)</div>
                   <div className="grid grid-cols-3 gap-3">
                     {['Étanchéité', 'Fissures', 'Végétation'].map((tag) => (
                       <div key={tag} className="bg-white/5 border border-white/8 rounded-xl px-3 py-2 text-center">
@@ -96,7 +96,7 @@ export const InspectionBuildings: React.FC = () => {
         <section className="py-24 px-6">
           <div className="max-w-5xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/30 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
+              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
                 Ce que vous obtenez
               </p>
             </Reveal>
@@ -163,7 +163,7 @@ export const InspectionBuildings: React.FC = () => {
                       <CheckCircle2 size={15} className="text-accent mt-0.5 flex-shrink-0" />
                       <div>
                         <div className="text-white font-semibold text-sm">{item.label}</div>
-                        <div className="text-white/35 text-xs mt-0.5">{item.sub}</div>
+                        <div className="text-white/60 text-xs mt-0.5">{item.sub}</div>
                       </div>
                     </div>
                   </div>
@@ -218,7 +218,7 @@ export const InspectionBuildings: React.FC = () => {
             <Reveal>
               <p className="text-accent text-xs font-semibold tracking-[0.3em] uppercase mb-5">Secteurs couverts</p>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Pour tous vos bâtiments.</h2>
-              <p className="text-white/40 text-lg mb-16">Résidentiel, industriel, patrimoine ou ERP - chaque contexte, une approche adaptée.</p>
+              <p className="text-white/60 text-lg mb-16">Résidentiel, industriel, patrimoine ou ERP - chaque contexte, une approche adaptée.</p>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -234,7 +234,7 @@ export const InspectionBuildings: React.FC = () => {
                 <Reveal key={i} delay={i * 30}>
                   <div className="bg-surfaceHighlight/15 border border-white/6 rounded-2xl p-5 text-left hover:border-accent/20 hover:bg-surfaceHighlight/30 transition-all duration-300">
                     <div className="text-white font-semibold text-sm mb-1">{item.label}</div>
-                    <div className="text-white/35 text-xs">{item.sub}</div>
+                    <div className="text-white/60 text-xs">{item.sub}</div>
                   </div>
                 </Reveal>
               ))}
@@ -251,7 +251,7 @@ export const InspectionBuildings: React.FC = () => {
             <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
               Votre bâtiment mérite<br />d'être inspecté correctement.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
               Devis gratuit, réponse sous 24h. Aucun engagement.
             </p>
             <a

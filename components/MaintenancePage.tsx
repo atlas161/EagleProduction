@@ -1,43 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import { Section } from '../types';
 import {
   ArrowRight, ArrowLeft, CheckCircle2, ShieldCheck,
   LifeBuoy, Rocket, RefreshCw, Lock, Zap, BarChart2,
   Mail, Search, Clock, HeartHandshake
 } from 'lucide-react';
-import '../index.css';
 
 export const MaintenancePage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'Contrat Maintenance Site Web Angoulême - Tout-inclus | Eagle Digital';
-    const desc = 'Eagle Digital propose des contrats de maintenance site web à Angoulême dès 49€/mois : sécurité, sauvegardes, SEO mensuel, e-mails pro, support informatique. Un seul interlocuteur, zéro gestion. Devis gratuit sous 24h.';
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/maintenance/');
-    setMeta('name', 'keywords', 'contrat maintenance site web Angoulême, maintenance informatique Charente, SEO mensuel, sauvegardes site web, support informatique TPE PME, Eagle Digital');
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/maintenance/');
-  }, []);
+  useSeo('/eagle-digital/maintenance');
 
   const plans = [
     {
@@ -127,13 +101,13 @@ export const MaintenancePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
 
         {/* ── HERO ── */}
         <section className="max-w-5xl mx-auto px-6 lg:px-8 pt-28 pb-16">
           <Reveal>
-            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-xs font-medium mb-8 transition-colors">
+            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xs font-medium mb-8 transition-colors">
               <ArrowLeft size={14} /> Retour à Eagle Digital
             </a>
           </Reveal>
@@ -175,7 +149,7 @@ export const MaintenancePage: React.FC = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 Nos forfaits de maintenance.
               </h2>
-              <p className="text-white/40 text-base max-w-2xl mb-14">
+              <p className="text-white/60 text-base max-w-2xl mb-14">
                 Sans engagement de durée. Résiliable à tout moment. Tous les prix sont TTC, facture mensuelle.
               </p>
             </Reveal>
@@ -183,12 +157,11 @@ export const MaintenancePage: React.FC = () => {
               {plans.map((p, i) => (
                 <Reveal key={i} delay={i * 80}>
                   <div
-                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 cursor-pointer ${
+                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 ${
                       p.accent
                         ? 'bg-rose-900/15 border-rose-500/30 shadow-lg shadow-rose-900/10 hover:border-rose-400/50'
                         : 'bg-surfaceHighlight/15 border-white/[0.06] hover:border-rose-400/20'
                     }`}
-                    onClick={() => window.location.href = '/contact'}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
@@ -199,9 +172,9 @@ export const MaintenancePage: React.FC = () => {
                       </div>
                       <div className="flex items-end gap-1 mt-1">
                         <span className={`text-3xl font-extrabold ${p.accent ? 'text-rose-400' : 'text-white'}`}>{p.price}</span>
-                        <span className="text-white/35 text-sm mb-0.5">{p.sub}</span>
+                        <span className="text-white/60 text-sm mb-0.5">{p.sub}</span>
                       </div>
-                      <p className="text-white/35 text-xs mt-2 leading-relaxed">{p.desc}</p>
+                      <p className="text-white/60 text-xs mt-2 leading-relaxed">{p.desc}</p>
                     </div>
                     <ul className="space-y-2.5 flex-1">
                       {p.items.map((it, j) => (
@@ -233,7 +206,7 @@ export const MaintenancePage: React.FC = () => {
                   <ShieldCheck size={16} className="text-rose-400 shrink-0" />
                   <div>
                     <div className="text-rose-300 font-bold text-sm mb-0.5">Sans engagement de durée</div>
-                    <div className="text-white/40 text-xs">Résiliable à tout moment avec un préavis d'un mois. Aucune pénalité.</div>
+                    <div className="text-white/60 text-xs">Résiliable à tout moment avec un préavis d'un mois. Aucune pénalité.</div>
                   </div>
                 </div>
                 <a href="/contact" className="text-rose-400 text-xs font-semibold hover:text-rose-300 transition-colors shrink-0">
@@ -250,7 +223,7 @@ export const MaintenancePage: React.FC = () => {
             <Reveal>
               <p className="text-center text-accent text-xs font-semibold tracking-[0.3em] uppercase mb-5">Ce que vous gagnez</p>
               <h2 className="text-center text-4xl font-bold text-white mb-4">Tout ce qu'on gère à votre place.</h2>
-              <p className="text-center text-white/35 text-sm max-w-xl mx-auto mb-14">
+              <p className="text-center text-white/60 text-sm max-w-xl mx-auto mb-14">
                 Concentrez-vous sur votre métier. On s'occupe de tout le reste.
               </p>
             </Reveal>
@@ -262,7 +235,7 @@ export const MaintenancePage: React.FC = () => {
                       <div className="p-2 rounded-lg bg-rose-500/10 shrink-0">{item.icon}</div>
                       <div className="text-white font-semibold text-sm">{item.title}</div>
                     </div>
-                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -299,7 +272,7 @@ export const MaintenancePage: React.FC = () => {
                   <div className="bg-surfaceHighlight/15 border border-rose-500/10 rounded-2xl p-6 hover:border-rose-400/25 transition-all h-full">
                     <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 w-fit mb-4">{item.icon}</div>
                     <div className="text-white font-bold text-sm mb-2">{item.title}</div>
-                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -347,7 +320,7 @@ export const MaintenancePage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
               Votre site maintenu,<br />sécurisé et visible à Angoulême.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">Audit gratuit de votre site, devis sous 24h. Sans engagement.</p>
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">Audit gratuit de votre site, devis sous 24h. Sans engagement.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
@@ -361,7 +334,6 @@ export const MaintenancePage: React.FC = () => {
 
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

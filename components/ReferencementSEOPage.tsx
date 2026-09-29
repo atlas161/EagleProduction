@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import { Section } from '../types';
 import {
   ArrowRight, Search, CheckCircle2, ShieldCheck, ArrowLeft,
   MapPin, Mail, Target, TrendingUp
 } from 'lucide-react';
-import '../index.css';
 
 // Composant pour choisir le forfait de campagnes e-mailing
 const EmailCampaignsCalculator: React.FC = () => {
@@ -23,7 +21,7 @@ const EmailCampaignsCalculator: React.FC = () => {
       {/* Header */}
       <div className="text-center mb-8">
         <h3 className="text-white font-bold text-xl mb-2">Campagnes E-mailing Mensuelles</h3>
-        <p className="text-white/40 text-sm">
+        <p className="text-white/60 text-sm">
           Conception, design, envoi et suivi de vos campagnes. Infrastructure Infomaniak incluse.
         </p>
       </div>
@@ -45,12 +43,12 @@ const EmailCampaignsCalculator: React.FC = () => {
                 Populaire
               </span>
             )}
-            <div className="text-white/40 text-sm mb-1">{plan.campaigns} campagne{plan.campaigns > 1 ? 's' : ''} / mois</div>
+            <div className="text-white/60 text-sm mb-1">{plan.campaigns} campagne{plan.campaigns > 1 ? 's' : ''} / mois</div>
             <div className="flex items-baseline gap-1 mb-3">
               <span className={`text-4xl font-extrabold ${plan.popular ? 'text-teal-300' : 'text-white'}`}>{plan.price}</span>
               <span className={`font-bold text-xl ${plan.popular ? 'text-teal-300' : 'text-white'}`}>€</span>
             </div>
-            <div className="text-white/30 text-xs">/ mois</div>
+            <div className="text-white/55 text-xs">/ mois</div>
           </a>
         ))}
       </div>
@@ -69,42 +67,18 @@ const EmailCampaignsCalculator: React.FC = () => {
 };
 
 export const ReferencementSEOPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'SEO Local Angoulême - Référencement Google & Visibilité | Eagle Digital';
-    const desc = 'Eagle Digital améliore votre référencement Google à Angoulême : audit SEO, fiche Google Business Profile, e-mailing professionnel et campagnes mensuelles. Apparaissez en 1ère position sur les recherches locales. Devis gratuit sous 24h.';
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-digital/referencement-seo/');
-    setMeta('name', 'keywords', 'SEO Angoulême, référencement local Charente, Google Business Profile, audit SEO, e-mailing pro, Eagle Digital, visibilité locale');
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-digital/referencement-seo/');
-  }, []);
+  useSeo('/eagle-digital/referencement-seo');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
 
         {/* ── HERO ── */}
         <section className="max-w-5xl mx-auto px-6 lg:px-8 pt-28 pb-16">
           <Reveal>
-            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-xs font-medium mb-8 transition-colors">
+            <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xs font-medium mb-8 transition-colors">
               <ArrowLeft size={14} /> Retour à Eagle Digital
             </a>
           </Reveal>
@@ -142,7 +116,7 @@ export const ReferencementSEOPage: React.FC = () => {
             <Reveal>
               <p className="text-center text-teal-400 text-xs font-semibold tracking-[0.3em] uppercase mb-5">Nos prestations</p>
               <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">Nos prestations SEO & e-mailing.</h2>
-              <p className="text-center text-white/35 text-base mb-14 max-w-xl mx-auto">
+              <p className="text-center text-white/60 text-base mb-14 max-w-xl mx-auto">
                 Chaque prestation est disponible seule ou incluse dans un contrat de maintenance mensuel.
               </p>
             </Reveal>
@@ -178,12 +152,11 @@ export const ReferencementSEOPage: React.FC = () => {
               ].map((p, i) => (
                 <Reveal key={i} delay={i * 70}>
                   <div
-                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 cursor-pointer ${
+                    className={`rounded-3xl p-7 flex flex-col gap-5 h-full border transition-all duration-300 ${
                       p.badge
                         ? 'bg-teal-900/20 border-teal-500/40 shadow-lg shadow-teal-900/10 hover:border-teal-400/60'
                         : 'bg-surfaceHighlight/15 border-teal-500/15 hover:border-teal-400/30'
                     }`}
-                    onClick={() => window.location.href = '/contact'}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
@@ -191,7 +164,7 @@ export const ReferencementSEOPage: React.FC = () => {
                         {p.badge && <span className="text-[10px] uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
                       </div>
                       <div className={`text-3xl font-extrabold mt-1 ${p.badge ? 'text-teal-300' : 'text-white'}`}>{p.price}</div>
-                      <p className="text-white/35 text-xs mt-2 leading-relaxed">{p.desc}</p>
+                      <p className="text-white/60 text-xs mt-2 leading-relaxed">{p.desc}</p>
                     </div>
                     <ul className="space-y-2.5 flex-1">
                       {p.items.map((it, j) => (
@@ -240,7 +213,7 @@ export const ReferencementSEOPage: React.FC = () => {
                   <div className="bg-surfaceHighlight/15 border border-teal-500/10 rounded-2xl p-6 hover:border-teal-400/25 transition-all h-full">
                     <div className="p-2.5 rounded-xl bg-teal-500/10 border border-teal-500/20 w-fit mb-4">{item.icon}</div>
                     <div className="text-white font-bold text-sm mb-2">{item.title}</div>
-                    <div className="text-white/40 text-xs leading-relaxed">{item.desc}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -324,7 +297,7 @@ export const ReferencementSEOPage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
               Audit SEO gratuit à Angoulême<br />on analyse, vous progressez.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">On fait le point sur votre visibilité Google actuelle. Gratuit, sans engagement, réponse sous 24h.</p>
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">On fait le point sur votre visibilité Google actuelle. Gratuit, sans engagement, réponse sous 24h.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander l'audit gratuit <ArrowRight size={16} />
@@ -338,7 +311,6 @@ export const ReferencementSEOPage: React.FC = () => {
 
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

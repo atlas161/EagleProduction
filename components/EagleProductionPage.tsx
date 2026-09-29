@@ -1,23 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { ArrowRight, FileDown, FileText, MapPinned, ShieldCheck, Building2, Clock, Scan, Camera, Layers, CheckCircle2, Sparkles, Home, Smartphone, Activity, Mountain, Users } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
 import chantierImg from '../media/images_formules/IMG_3658.webp';
 import inspectionImg from '../media/images_formules/IMG_4258.webp';
 import droneImg from '../media/Photo_DJI/drone_mavic_4.webp';
-import '../index.css';
-import { Section } from '../types';
 
 export const EagleProductionPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   const serviceLd = {
     '@context': 'https://schema.org',
@@ -56,41 +47,7 @@ export const EagleProductionPage: React.FC = () => {
     },
   };
 
-  useEffect(() => {
-    const title = 'Eagle Production | Drone Angoulême : inspection toiture, suivi chantier, immobilier & vidéos';
-    const desc =
-      "Eagle Production à Angoulême (Charente) : inspection de toiture et bâtiments par drone, suivi de chantier BTP (orthophotos, comparatifs, rapports PDF), photo/vidéo immobilier, contenus réseaux sociaux (Reels, Shorts, TikTok), sport & événementiel. Images 4K, livrables propres, devis gratuit.";
-    document.title = title;
-
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/eagle-production/');
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-    setMeta('name', 'keywords', 'drone Angoulême, inspection de toiture par drone, inspection bâtiment drone, suivi de chantier par drone, photo immobilière drone, vidéo immobilière drone, Instagram Reels vidéo, YouTube Shorts vidéo, TikTok vidéo, sport automobile vidéo, événementiel drone, Charente, Nouvelle-Aquitaine');
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/eagle-production/');
-  }, []);
+  useSeo('/eagle-production');
 
   const services = [
     {
@@ -190,9 +147,9 @@ export const EagleProductionPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
+      <Navbar />
 
-      <main>
+      <main id="main-content">
         <section className="relative overflow-hidden pt-24 md:pt-28 pb-16 md:pb-20 px-6">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-40 -left-40 w-[720px] h-[720px] rounded-full bg-accent/8 blur-[140px]" />
@@ -434,7 +391,7 @@ export const EagleProductionPage: React.FC = () => {
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-5 bg-gradient-to-r from-accent/10 to-transparent border border-accent/20 rounded-2xl px-7 py-6">
                 <div>
                   <div className="text-white font-bold text-lg mb-1">Vous hésitez ?</div>
-                  <div className="text-white/40 text-sm">Dites-nous votre objectif, on vous propose la meilleure approche et les bons livrables.</div>
+                  <div className="text-white/60 text-sm">Dites-nous votre objectif, on vous propose la meilleure approche et les bons livrables.</div>
                 </div>
                 <a
                   href="/contact"
@@ -592,7 +549,6 @@ export const EagleProductionPage: React.FC = () => {
       </main>
 
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

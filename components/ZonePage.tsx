@@ -1,54 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Coverage } from './Coverage';
-import '../index.css';
-import { Section } from '../types';
 import { Reveal } from './Reveal';
 import { Breadcrumbs } from './Breadcrumbs';
 import { ArrowRight, BadgeCheck, Building2, Clock, MapPin, Navigation, ShieldCheck, Target } from 'lucide-react';
 
 export const ZonePage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
-  useEffect(() => {
-    const title = 'Zone d’intervention drone à Angoulême (16) | Eagle Production Charente';
-    const desc =
-      "Zone d’intervention drone à Angoulême et en Charente (16). Télépilote certifié DGAC pour photo/vidéo 4K, inspection et suivi de chantier. Déplacements en Nouvelle-Aquitaine selon mission.";
-    document.title = title;
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-    setMeta('name', 'description', desc);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', 'https://www.eagle-prod.com/zone/');
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', 'https://www.eagle-prod.com/zone/');
-  }, []);
+  useSeo('/zone');
 
   const departments = [
     {
@@ -150,8 +111,8 @@ export const ZonePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main className="pt-20">
+      <Navbar />
+      <main id="main-content" className="pt-20">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
@@ -222,7 +183,7 @@ export const ZonePage: React.FC = () => {
                   <div key={d.code} className="rounded-2xl border border-white/10 bg-black/20 p-5">
                     <div className="flex items-center justify-between gap-3">
                       <div className="text-white font-extrabold text-lg">
-                        {d.name} <span className="text-white/40">({d.code})</span>
+                        {d.name} <span className="text-white/60">({d.code})</span>
                       </div>
                       <span className={`text-[11px] px-2.5 py-1 rounded-full border ${d.code === '16' ? 'bg-accent/10 text-accent border-accent/25' : 'bg-white/5 text-white/70 border-white/10'}`}>
                         {d.code === '16' ? 'Prioritaire' : 'Selon mission'}
@@ -369,7 +330,6 @@ export const ZonePage: React.FC = () => {
         </section>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

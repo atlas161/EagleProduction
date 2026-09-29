@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { ArrowRight, Mountain, Camera, Film, Palette, CheckCircle2, Sparkles } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Reveal } from './Reveal';
-import '../index.css';
-import { Section } from '../types';
 
 export const PhotoVideoPage: React.FC = () => {
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   const canonical = 'https://www.eagle-prod.com/photo-video/';
 
@@ -57,46 +48,12 @@ export const PhotoVideoPage: React.FC = () => {
     ],
   };
 
-  useEffect(() => {
-    const title = 'Photo & vidéo artistique par drone | Angoulême (Charente) | Eagle Production';
-    const desc =
-      'Vidéo de paysages et photographie aérienne à Angoulême : plans drone 4K, montage cinématique, étalonnage, livrables premium. Charente et Nouvelle-Aquitaine. Devis gratuit.';
-    document.title = title;
-
-    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', value);
-    };
-
-    setMeta('name', 'description', desc);
-    setMeta('name', 'keywords', 'photographie aerienne angouleme, photo drone charente, video paysages drone, video cinematique 4k, etalonnage video, contenu artistique drone, tourisme, patrimoine, nouvelle aquitaine');
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', desc);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', canonical);
-    setMeta('property', 'og:image', 'https://www.eagle-prod.com/Photo_de_paul_bardin.webp');
-    setMeta('name', 'twitter:card', 'summary_large_image');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', desc);
-
-    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonicalEl) {
-      canonicalEl = document.createElement('link');
-      canonicalEl.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalEl);
-    }
-    canonicalEl.setAttribute('href', canonical);
-  }, []);
+  useSeo('/photo-video');
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
-      <main>
+      <Navbar />
+      <main id="main-content">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -134,7 +91,7 @@ export const PhotoVideoPage: React.FC = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/30 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Approche</p>
+              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Approche</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
@@ -235,7 +192,6 @@ export const PhotoVideoPage: React.FC = () => {
         </section>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

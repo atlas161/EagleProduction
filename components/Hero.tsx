@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Play, X, Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Player from '@vimeo/player';
-import { HERO_VIDEO } from '../config/siteConfig';
+import { GOOGLE_RATING, HERO_VIDEO } from '../config/siteConfig';
 
 interface HeroProps {
   onScrollDown: () => void;
@@ -61,24 +61,35 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
     };
   }, [isVideoOpen]);
 
-  // Timer d'immersion automatique
+  // Échap ferme le mode immersif
   useEffect(() => {
+    if (!isVideoOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleCloseVideo();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isVideoOpen]);
+
+  // Timer d'immersion automatique (sans le son : le visiteur n'a rien demandé)
+  useEffect(() => {
+    if (!HERO_VIDEO.autoOpenDelay) return;
     const timer = setTimeout(() => {
         if (!userInteractedRef.current && !isVideoOpen && window.scrollY < 20) {
-            handleOpenVideo();
+            handleOpenVideo(false);
         }
-    }, HERO_VIDEO.autoOpenDelay); 
+    }, HERO_VIDEO.autoOpenDelay);
     return () => clearTimeout(timer);
   }, [isVideoOpen]);
 
-  const handleOpenVideo = () => {
+  const handleOpenVideo = (withSound = true) => {
     userInteractedRef.current = true;
     setIsVideoOpen(true);
-    setIsMuted(false); 
+    setIsMuted(!withSound);
     setIsPlaying(true);
-    
+
     if (vimeoPlayerRef.current) {
-        vimeoPlayerRef.current.setVolume(1);
+        vimeoPlayerRef.current.setVolume(withSound ? 1 : 0);
         vimeoPlayerRef.current.play();
     }
   };
@@ -129,8 +140,8 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
   };
 
   return (
-    <div className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-      
+    <div className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-24">
+
       {/* Video Container with Shared Layout Transition */}
       <motion.div
         layout
@@ -138,7 +149,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
         className={`absolute inset-0 z-0 overflow-hidden ${
             isVideoOpen ? 'fixed z-[100] bg-black' : 'absolute z-0 cursor-pointer group'
         }`}
-        onClick={!isVideoOpen ? handleOpenVideo : undefined}
+        onClick={!isVideoOpen ? () => handleOpenVideo() : undefined}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
          {/* Vimeo Iframe Wrapper with Force Cover CSS */}
@@ -206,10 +217,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
                     {/* Control Buttons */}
                     <div className="flex items-center justify-between text-white">
                         <div className="flex items-center gap-6">
-                            <button onClick={togglePlay} className="hover:text-accent transition-colors">
+                            <button onClick={togglePlay} aria-label={isPlaying ? 'Mettre la vidéo en pause' : 'Lire la vidéo'} className="hover:text-accent transition-colors focus:outline-none focus-visible:text-accent">
                                 {isPlaying ? <div className="w-4 h-4 border-l-2 border-r-2 border-current" /> : <Play size={24} fill="currentColor" />}
                             </button>
-                            <button onClick={toggleMute} className="hover:text-accent transition-colors">
+                            <button onClick={toggleMute} aria-label={isMuted ? 'Activer le son' : 'Couper le son'} className="hover:text-accent transition-colors focus:outline-none focus-visible:text-accent">
                                 {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
                             </button>
                         </div>
@@ -221,13 +232,17 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
             )}
         </AnimatePresence>
 
-        {/* Overlay Gradient - Hidden in Fullscreen */}
+        {/* Overlays - masqués en plein écran : fondu bas + voile sombre pour garder le texte lisible sur une vidéo claire */}
         {!isVideoOpen && (
-             <motion.div 
-                initial={{ opacity: 0.9 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none"
-             />
+             <>
+               <motion.div
+                  initial={{ opacity: 0.9 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none"
+               />
+               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10 pointer-events-none" />
+               <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
+             </>
         )}
 
         {/* Close Button (Fullscreen only) */}
@@ -239,6 +254,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ delay: 0.5 }}
                     onClick={handleCloseVideo}
+                    aria-label="Fermer la vidéo"
                     className="absolute top-6 right-6 z-[110] bg-black/50 backdrop-blur-md p-3 rounded-full text-white hover:bg-white hover:text-black transition-all"
                 >
                     <X size={24} />
@@ -249,72 +265,77 @@ export const Hero: React.FC<HeroProps> = ({ onScrollDown }) => {
 
       {/* Content - Masqué quand la vidéo est en plein écran */}
       <motion.div 
-        className="relative z-10 text-left px-0 max-w-none"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 text-left"
         animate={{ opacity: isVideoOpen ? 0 : 1, y: isVideoOpen ? 50 : 0, pointerEvents: isVideoOpen ? 'none' : 'auto' }}
         transition={{ duration: 0.5 }}
       >
-            <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(212,175,55,0.15)]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-accent">
+            <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full bg-black/30 border border-white/15 backdrop-blur-sm shadow-[0_0_15px_rgba(212,175,55,0.15)]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-accent" aria-hidden="true">
                 <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.401 8.168L12 18.896l-7.335 3.87 1.401-8.168L.132 9.211l8.2-1.193z"/>
               </svg>
-              <span className="text-xs text-white/90 tracking-wide">5/5</span>
+              <span className="text-xs text-white/90 tracking-wide">{GOOGLE_RATING.score}</span>
               <span className="text-xs text-white/85">Avis Google</span>
-              <span className="text-xs text-white/60">•</span>
-              <span className="text-xs text-white/75">37+</span>
+              <span className="text-xs text-white/60" aria-hidden="true">•</span>
+              <span className="text-xs text-white/75">{GOOGLE_RATING.count}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-textPrimary to-textPrimary/70 mb-6 drop-shadow-2xl px-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-textPrimary mb-6 drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]">
             Votre projet mérite<br />une prise de vue au drone
             </h1>
-            <p className="text-lg md:text-xl text-textSecondary font-light max-w-2xl mb-10 drop-shadow-md px-4">
+            <p className="text-lg md:text-xl text-white/85 font-light max-w-2xl mb-10 drop-shadow-md">
             Prises de vue drone précises et accompagnement créatif pour sublimer vos projets. Télépilote certifié DGAC à Angoulême, intervention en Charente et Nouvelle-Aquitaine.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-start px-4">
-            <button 
+            <div className="flex flex-col sm:flex-row gap-4 justify-start">
+            <button
+                type="button"
                 onClick={(e) => {
                     e.stopPropagation();
                     const el = document.getElementById('services-title');
                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
                 }}
-                className="bg-accent text-background px-8 py-3 rounded-full font-semibold shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:bg-white hover:text-background transition-all active:scale-95"
+                className="bg-accent text-background px-8 py-3 rounded-full font-semibold shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:bg-white hover:text-background transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
                 Voir nos formules
             </button>
-            <button 
+            <button
+                type="button"
                 onClick={(e) => {
                     e.stopPropagation();
                     handleOpenVideo();
                 }}
-                className="px-8 py-3 rounded-full font-semibold border border-white/20 bg-white/5 text-white hover:bg-white/10 transition-all active:scale-95 flex items-center justify-center gap-2 backdrop-blur-md"
+                className="px-8 py-3 rounded-full font-semibold border border-white/25 bg-black/30 text-white hover:bg-white/10 transition-all active:scale-95 flex items-center justify-center gap-2 backdrop-blur-md focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
                 <Play size={18} className="text-accent" /> Voir le showreel
             </button>
             </div>
 
-            <div className="mt-4 px-4">
-            <button 
+            <div className="mt-4">
+            <button
+                type="button"
                 onClick={(e) => {
                     e.stopPropagation();
                     const el = document.getElementById('studio');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="text-accent hover:text-accent/80 font-medium px-4 py-2 transition-colors drop-shadow-md"
+                className="text-accent hover:text-white font-medium py-2 transition-colors drop-shadow-md focus:outline-none focus-visible:underline"
             >
-                Services complémentaires
+                Eagle Digital : site web &amp; SEO →
             </button>
             </div>
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.button
+        type="button"
         animate={{ opacity: isVideoOpen ? 0 : 1 }}
         onClick={(e) => {
             e.stopPropagation();
             onScrollDown();
         }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-textSecondary/50 cursor-pointer hover:text-textPrimary transition-colors z-10"
+        aria-label="Faire défiler vers la suite"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce motion-reduce:animate-none text-white/60 cursor-pointer hover:text-textPrimary transition-colors z-10 focus:outline-none focus-visible:text-accent"
       >
         <ChevronDown size={32} />
-      </motion.div>
+      </motion.button>
     </div>
   );
 };

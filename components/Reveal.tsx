@@ -9,42 +9,35 @@ interface RevealProps {
 export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, className = '' }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const hasRevealed = useRef(false);
 
   useEffect(() => {
-    // Si déjà révélé, ne pas relancer l'observation (protection contre re-render)
-    if (hasRevealed.current) return;
+    const el = ref.current;
+    // Sans IntersectionObserver ou avec « réduire les animations » : contenu affiché tout de suite
+    if (!el || typeof IntersectionObserver === 'undefined' || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setIsVisible(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          hasRevealed.current = true;
           observer.disconnect();
         }
       },
-      { 
-        threshold: 0.1, 
-        rootMargin: "0px 0px -10px 0px"
-      }
+      { threshold: 0.1, rootMargin: '0px 0px -10px 0px' }
     );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div
       ref={ref}
-      className={`${className} transition-all duration-700 cubic-bezier(0.17, 0.55, 0.55, 1) transform ${
+      className={`${className} transition-all duration-700 transform ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
-      style={{ transitionDelay: `${delay}ms`, willChange: 'opacity, transform' }}
+      style={{ transitionDelay: `${delay}ms`, willChange: isVisible ? 'auto' : 'opacity, transform' }}
     >
       {children}
     </div>

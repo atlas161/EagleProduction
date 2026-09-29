@@ -6,7 +6,13 @@
     <title>Mentions légales, confidentialité & cookies | Eagle Production</title>
     <meta name="description" content="Mentions légales et informations RGPD du site Eagle Production : éditeur, hébergement, propriété intellectuelle, confidentialité, cookies, droits des personnes, contact." />
     <meta name="robots" content="noindex, follow" />
-    <link rel="icon" type="image/svg+xml" href="/media/favicon/favicon.svg" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#111111" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- build:styles
+         Au build (build.js), ce bloc est remplacé par la feuille de style compilée du site (les classes de cette page sont
+         incluses via tailwind.config.js). En `npm run dev`, le CDN Tailwind ci-dessous sert de repli. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -24,6 +30,7 @@
         }
       };
     </script>
+    <!-- endbuild -->
   </head>
   <body class="bg-background text-textPrimary font-sans">
     <main class="relative overflow-hidden">
@@ -200,6 +207,10 @@
               <div class="mt-4 rounded-2xl border border-white/[0.08] bg-black/20 p-4 text-sm text-white/70">
                 <div class="text-white font-semibold">Sécurité du formulaire — Cloudflare Turnstile (strictement nécessaire)</div>
                 <div class="mt-1">Le formulaire de contact est protégé contre les robots et les abus par le service Turnstile de Cloudflare, Inc. Ce dispositif de sécurité repose sur l’intérêt légitime de l’éditeur et est chargé uniquement sur les pages comportant le formulaire ; il analyse des données techniques (adresse IP, informations sur le navigateur) pour distinguer un humain d’un robot. Il ne sert pas à de la publicité ni du suivi. <a class="text-accent hover:text-white transition-colors" href="https://www.cloudflare.com/fr-fr/privacypolicy/" target="_blank" rel="noreferrer">Politique de confidentialité Cloudflare</a>.</div>
+              </div>
+              <div class="mt-4 rounded-2xl border border-white/[0.08] bg-black/20 p-4 text-sm text-white/70">
+                <div class="text-white font-semibold">Contenus intégrés de services tiers</div>
+                <div class="mt-1">Certaines pages affichent des contenus fournis par des tiers : vidéo de présentation (Vimeo, avec l’option « Do Not Track » activée), fil Instagram (Elfsight) et fonds de carte (CARTO / OpenStreetMap). Pour délivrer ces contenus, ces services reçoivent votre adresse IP et des informations techniques sur votre navigateur ; leurs propres politiques de confidentialité s’appliquent. La police de caractères du site est hébergée par nos soins (aucun appel à Google Fonts).</div>
               </div>
               <div class="mt-4 rounded-2xl border border-white/[0.08] bg-black/20 p-4 text-sm text-white/70">
                 <div class="text-white font-semibold">Gérer ou retirer votre consentement</div>

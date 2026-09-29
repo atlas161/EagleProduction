@@ -132,7 +132,7 @@ export const CookieBanner: React.FC = () => {
     <div
       role="dialog"
       aria-label="Gestion des cookies"
-      className={`fixed bottom-6 right-6 z-50 max-w-[340px] bg-black/60 text-white border border-white/10 backdrop-blur-xl rounded-xl shadow-lg transition-all duration-300 ${isClosing ? 'opacity-0 translate-y-4 scale-95' : 'opacity-100 translate-y-0 scale-100'}`}
+      className={`fixed bottom-3 left-3 right-3 sm:left-auto sm:bottom-6 sm:right-6 z-[60] sm:max-w-[340px] bg-black/80 text-white border border-white/10 backdrop-blur-xl rounded-xl shadow-lg transition-all duration-300 ${isClosing ? 'opacity-0 translate-y-4 scale-95' : 'opacity-100 translate-y-0 scale-100'}`}
     >
       <div className="px-4 py-3 flex flex-col gap-3">
         <div className="text-[12px] leading-snug text-white/80">
@@ -141,8 +141,9 @@ export const CookieBanner: React.FC = () => {
           modifier à tout moment via « Gérer mes cookies » en bas de page.
           <a href="/mentions-legales.html#cookies" className="text-accent font-semibold ml-1 hover:underline">En savoir plus</a>
         </div>
-        <div className="flex-shrink-0 flex flex-col gap-2">
+        <div className="flex-shrink-0 flex flex-row sm:flex-col gap-2">
           <button
+            type="button"
             onClick={() => handleClose(true)}
             className="bg-accent text-background text-[12px] font-bold px-3 py-2 rounded-full hover:bg-white transition-colors w-full"
             aria-label="Accepter les cookies"
@@ -150,6 +151,7 @@ export const CookieBanner: React.FC = () => {
             Accepter
           </button>
           <button
+            type="button"
             onClick={() => handleClose(false)}
             className="bg-white/10 text-white text-[12px] font-bold px-3 py-2 rounded-full hover:bg-white/20 transition-colors w-full"
             aria-label="Refuser les cookies"

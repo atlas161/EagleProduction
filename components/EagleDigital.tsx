@@ -56,7 +56,7 @@ export const EagleDigital: React.FC = () => {
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {['Basé à Angoulême', 'Devis sous 24h', 'Hébergement inclus an 1', 'RGPD inclus'].map((b) => (
-                    <span key={b} className="text-[10px] text-white/30 border border-white/[0.06] px-2.5 py-1 rounded-full">{b}</span>
+                    <span key={b} className="text-[10px] text-white/55 border border-white/[0.06] px-2.5 py-1 rounded-full">{b}</span>
                   ))}
                 </div>
               </Reveal>
@@ -71,7 +71,7 @@ export const EagleDigital: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-white font-bold text-sm">Création de site web</div>
-                    <div className="text-white/40 text-xs mt-0.5">Vitrine, multi-pages ou e-commerce - dès 1 200€</div>
+                    <div className="text-white/60 text-xs mt-0.5">Vitrine, multi-pages ou e-commerce - dès 1 200€</div>
                   </div>
                   <ArrowRight size={14} className="text-indigo-400/60 group-hover:text-indigo-400 transition-colors flex-shrink-0" />
                 </a>
@@ -81,7 +81,7 @@ export const EagleDigital: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-white font-bold text-sm">SEO & Visibilité locale</div>
-                    <div className="text-white/40 text-xs mt-0.5">Google Business, audit SEO, e-mailing - dès 150€</div>
+                    <div className="text-white/60 text-xs mt-0.5">Google Business, audit SEO, e-mailing - dès 150€</div>
                   </div>
                   <ArrowRight size={14} className="text-teal-400/60 group-hover:text-teal-400 transition-colors flex-shrink-0" />
                 </a>
@@ -91,7 +91,7 @@ export const EagleDigital: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-white font-bold text-sm">Hébergement & E-mails pro</div>
-                    <div className="text-white/40 text-xs mt-0.5">Domaine, hébergement SSL, adresses @votreentreprise - dès 10€/mois</div>
+                    <div className="text-white/60 text-xs mt-0.5">Domaine, hébergement SSL, adresses @votreentreprise - dès 10€/mois</div>
                   </div>
                   <ArrowRight size={14} className="text-sky-400/60 group-hover:text-sky-400 transition-colors flex-shrink-0" />
                 </a>
@@ -101,7 +101,7 @@ export const EagleDigital: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-white font-bold text-sm">Contrat de maintenance</div>
-                    <div className="text-white/40 text-xs mt-0.5">Sécurité, SEO mensuel, support informatique - dès 49€/mois</div>
+                    <div className="text-white/60 text-xs mt-0.5">Sécurité, SEO mensuel, support informatique - dès 49€/mois</div>
                   </div>
                   <ArrowRight size={14} className="text-rose-400/60 group-hover:text-rose-400 transition-colors flex-shrink-0" />
                 </a>
@@ -127,7 +127,7 @@ export const EagleDigital: React.FC = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 Le contrat maintenance tout-inclus.
               </h2>
-              <p className="text-white/40 text-lg max-w-2xl mb-12">
+              <p className="text-white/60 text-lg max-w-2xl mb-12">
                 Un seul forfait mensuel pour votre site web, votre SEO local, vos e-mails professionnels et votre support informatique. Zéro gestion, un seul interlocuteur basé à Angoulême.
               </p>
             </Reveal>
@@ -193,7 +193,7 @@ export const EagleDigital: React.FC = () => {
                       </div>
                       <div className="flex items-end gap-1">
                         <span className={`text-3xl font-extrabold ${p.accent ? 'text-rose-400' : 'text-white'}`}>{p.price}</span>
-                        <span className="text-white/35 text-sm mb-0.5">{p.sub}</span>
+                        <span className="text-white/60 text-sm mb-0.5">{p.sub}</span>
                       </div>
                     </div>
                     <ul className="space-y-2.5 flex-1">
@@ -243,7 +243,7 @@ export const EagleDigital: React.FC = () => {
               <h2 className="text-center text-4xl md:text-5xl font-bold text-white mb-4">
                 Tarifs clairs, sans surprise.
               </h2>
-              <p className="text-center text-white/35 text-base mb-16 max-w-xl mx-auto">
+              <p className="text-center text-white/60 text-base mb-16 max-w-xl mx-auto">
                 Chaque service est disponible à la carte ou inclus dans un contrat de maintenance mensuel.
               </p>
             </Reveal>
@@ -258,7 +258,7 @@ export const EagleDigital: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-white font-bold">Création de Sites Web</div>
-                      <div className="text-white/35 text-xs">Nom de domaine, hébergement & e-mails pro inclus an 1</div>
+                      <div className="text-white/60 text-xs">Nom de domaine, hébergement & e-mails pro inclus an 1</div>
                     </div>
                   </div>
                   <a href="/eagle-digital/creation-site-web" className="inline-flex items-center gap-1.5 text-indigo-400 text-xs font-semibold hover:text-indigo-300 transition-colors shrink-0">
@@ -286,7 +286,7 @@ export const EagleDigital: React.FC = () => {
                         {item.icon}
                         <div className={`text-sm font-semibold ${item.accent ? 'text-indigo-300' : 'text-white'}`}>{item.label}</div>
                       </div>
-                      <div className="text-white/35 text-xs leading-relaxed mb-3">{item.sub}</div>
+                      <div className="text-white/60 text-xs leading-relaxed mb-3">{item.sub}</div>
                       <div className={`text-base font-extrabold ${item.accent ? 'text-indigo-400' : 'text-white/80'}`}>{item.price}</div>
                     </div>
                   ))}
@@ -304,7 +304,7 @@ export const EagleDigital: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-white font-bold">SEO, Visibilité & E-mailing</div>
-                      <div className="text-white/35 text-xs">Être trouvé localement, fidéliser vos clients</div>
+                      <div className="text-white/60 text-xs">Être trouvé localement, fidéliser vos clients</div>
                     </div>
                   </div>
                   <a href="/eagle-digital/referencement-seo" className="inline-flex items-center gap-1.5 text-teal-400 text-xs font-semibold hover:text-teal-300 transition-colors shrink-0">
@@ -327,7 +327,7 @@ export const EagleDigital: React.FC = () => {
                         <span className={`absolute top-4 right-4 text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full ${
                           item.accent === 'teal'
                             ? 'text-teal-300 bg-teal-500/20 border border-teal-500/30'
-                            : 'text-white/30 bg-white/5 border border-white/[0.06]'
+                            : 'text-white/55 bg-white/5 border border-white/[0.06]'
                         }`}>
                           {item.tag}
                         </span>
@@ -336,7 +336,7 @@ export const EagleDigital: React.FC = () => {
                         {item.icon}
                         <div className={`text-sm font-semibold ${item.accent === 'teal' ? 'text-teal-300' : 'text-white'}`}>{item.label}</div>
                       </div>
-                      <div className="text-white/35 text-xs leading-relaxed mb-3">{item.sub}</div>
+                      <div className="text-white/60 text-xs leading-relaxed mb-3">{item.sub}</div>
                       <div className={`text-base font-extrabold ${item.accent === 'teal' ? 'text-teal-400' : 'text-white/80'}`}>{item.price}</div>
                     </div>
                   ))}
@@ -354,7 +354,7 @@ export const EagleDigital: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-white font-bold">Noms de domaine & E-mails pro</div>
-                      <div className="text-white/35 text-xs">Gestion complète, hébergement et e-mails pro inclus</div>
+                      <div className="text-white/60 text-xs">Gestion complète, hébergement et e-mails pro inclus</div>
                     </div>
                   </div>
                   <a href="/eagle-digital/hebergement-mail" className="inline-flex items-center gap-1.5 text-sky-400 text-xs font-semibold hover:text-sky-300 transition-colors shrink-0">
@@ -377,7 +377,7 @@ export const EagleDigital: React.FC = () => {
                         {item.icon}
                         <div className={`text-sm font-semibold ${item.accent ? 'text-sky-300' : 'text-white'}`}>{item.label}</div>
                       </div>
-                      <div className="text-white/35 text-xs leading-relaxed mb-3">{item.sub}</div>
+                      <div className="text-white/60 text-xs leading-relaxed mb-3">{item.sub}</div>
                       <div className={`text-base font-extrabold ${item.accent ? 'text-sky-400' : 'text-white/80'}`}>{item.price}</div>
                     </div>
                   ))}
@@ -451,7 +451,7 @@ export const EagleDigital: React.FC = () => {
                       {item.icon}
                       <div className="text-white font-semibold text-sm leading-tight">{item.label}</div>
                     </div>
-                    <div className="text-white/35 text-xs leading-relaxed">{item.sub}</div>
+                    <div className="text-white/60 text-xs leading-relaxed">{item.sub}</div>
                   </div>
                 </Reveal>
               ))}
@@ -468,7 +468,7 @@ export const EagleDigital: React.FC = () => {
             <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
               Votre site web professionnel<br />à Angoulême prêt en quelques semaines.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-10">
+            <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
               Audit gratuit de votre présence en ligne, devis sous 24h. Zéro engagement.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">

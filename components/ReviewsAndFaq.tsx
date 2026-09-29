@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Reveal } from './Reveal';
 import { Star, ChevronDown, ChevronLeft, ChevronRight, Quote, MessageSquare, HelpCircle } from 'lucide-react';
-import { FAQ_ITEMS, GOOGLE_REVIEW_LINK, REVIEWS } from '../config/siteConfig';
-import { loadAllFaqItems, loadAllReviews } from './CmsContent';
+import { GOOGLE_REVIEW_LINK } from '../config/siteConfig';
+import { HOME_FAQ_COUNT, loadAllFaqItems, loadAllReviews } from './CmsContent';
 
 export const ReviewsAndFaq: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
-  const cmsReviews = loadAllReviews();
-  const cmsFaq = loadAllFaqItems();
-  const reviews = cmsReviews.length ? cmsReviews.map((r, idx) => ({ id: idx + 1, name: r.name, role: r.project, content: r.content, stars: Math.min(5, Math.max(1, Math.round(r.rating))) })) : REVIEWS;
-  const faqItems = cmsFaq.length ? cmsFaq.map((f) => ({ question: f.question, answer: f.answer })) : FAQ_ITEMS;
-  const faqPreview = faqItems.slice(0, 4);
+  // Contenu géré via Pages CMS (content/reviews et content/faqs)
+  const reviews = loadAllReviews().map((r, idx) => ({ id: idx + 1, name: r.name, role: r.project, content: r.content, stars: Math.min(5, Math.max(1, Math.round(r.rating))) }));
+  const faqPreview = loadAllFaqItems().slice(0, HOME_FAQ_COUNT).map((f) => ({ question: f.question, answer: f.answer }));
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -27,6 +25,8 @@ export const ReviewsAndFaq: React.FC = () => {
   };
 
   const activeReview = reviews[currentReviewIndex];
+
+  if (!activeReview) return null;
 
   return (
     <div className="py-24 bg-background relative overflow-hidden">
@@ -64,16 +64,17 @@ export const ReviewsAndFaq: React.FC = () => {
                             <div className="relative z-10 flex flex-col h-full">
                                 {/* Stars */}
                                 <div className="flex gap-1.5 mb-4 flex-shrink-0">
+                                    <span className="sr-only">{activeReview.stars} étoiles sur 5</span>
                                     {[...Array(activeReview.stars)].map((_, i) => (
-                                        <Star key={i} size={16} className="fill-accent text-accent drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+                                        <Star key={i} size={16} aria-hidden="true" className="fill-accent text-accent drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
                                     ))}
                                 </div>
                                 
                                 {/* Review Content - Fixed height container with scroll if needed */}
                                 <div className="flex-1 min-h-0 overflow-y-auto pr-2 mb-4 no-scrollbar">
-                                    <div key={activeReview.id} className="animate-fade-in">
+                                    <div key={activeReview.id} className="animate-fade-in" aria-live="polite">
                                         <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light italic tracking-wide font-serif">
-                                            "{activeReview.content}"
+                                            «&nbsp;{activeReview.content}&nbsp;»
                                         </p>
                                     </div>
                                 </div>
@@ -164,8 +165,12 @@ export const ReviewsAndFaq: React.FC = () => {
                             : 'bg-surfaceHighlight/20 border-white/5 hover:bg-surfaceHighlight/40'
                         }`}>
                         <button
+                            type="button"
                             onClick={() => toggleFaq(index)}
-                            className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
+                            aria-expanded={openIndex === index}
+                            aria-controls={`faq-panel-${index}`}
+                            id={`faq-button-${index}`}
+                            className="w-full flex items-center justify-between p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-2xl"
                         >
                             <span className={`font-semibold pr-4 transition-colors [text-wrap:balance] ${
                             openIndex === index ? 'text-accent' : 'text-white'
@@ -178,12 +183,17 @@ export const ReviewsAndFaq: React.FC = () => {
                             <ChevronDown size={18} />
                             </div>
                         </button>
-                        
-                        <div 
-                            className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                            openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+
+                        {/* grid-rows 0fr → 1fr : la hauteur s'adapte au contenu (plus de coupure des longues réponses) */}
+                        <div
+                            id={`faq-panel-${index}`}
+                            role="region"
+                            aria-labelledby={`faq-button-${index}`}
+                            className={`grid transition-all duration-500 ease-in-out ${
+                            openIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 invisible'
                             }`}
                         >
+                          <div className="overflow-hidden">
                             <div className="p-5 pt-0 text-textSecondary text-sm leading-relaxed border-t border-white/5 mt-2">
                               {typeof item.answer === 'string' && item.answer.trim().startsWith('<') ? (
                                 <div className="blog-content" dangerouslySetInnerHTML={{ __html: item.answer }} />
@@ -191,6 +201,7 @@ export const ReviewsAndFaq: React.FC = () => {
                                 <div className="whitespace-pre-line">{item.answer as any}</div>
                               )}
                             </div>
+                          </div>
                         </div>
                         </div>
                     </Reveal>

@@ -1,10 +1,8 @@
 import React, { useMemo, useState } from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CookieBanner } from './CookieBanner';
 import { Breadcrumbs } from './Breadcrumbs';
-import '../index.css';
-import { Section } from '../types';
 import { getReadingTimeMinutes, loadAllPosts } from './BlogData';
 import { ArrowRight, Tag, BookOpen, Clock, CalendarDays, Film, Globe, MessageCircle } from 'lucide-react';
 
@@ -32,6 +30,7 @@ const formatDate = (d: string) =>
   new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export const BlogListPage: React.FC = () => {
+  useSeo('/blog');
   const posts = loadAllPosts();
   const [category, setCategory] = useState<string>('Tous');
   const [sort, setSort] = useState<'recent' | 'ancien' | 'titre'>('recent');
@@ -53,19 +52,12 @@ export const BlogListPage: React.FC = () => {
   }, [posts, category, sort]);
 
   const countFor = (cat: string) => cat === 'Tous' ? posts.length : posts.filter(p => p.category === cat).length;
-  const goToHomeSection = (section: Section) => {
-    try {
-      sessionStorage.setItem('scrollToSection', section);
-    } catch {
-    }
-    window.location.href = '/';
-  };
 
   return (
     <div className="min-h-screen bg-background text-textPrimary font-sans">
-      <Navbar activeSection={null} scrollToSection={goToHomeSection} />
+      <Navbar />
 
-      <main className="pt-20">
+      <main id="main-content" className="pt-20">
 
         {/* ── HERO ── */}
         <section className="relative overflow-hidden pb-2">
@@ -102,7 +94,7 @@ export const BlogListPage: React.FC = () => {
                     <span className={meta?.color ?? 'text-white/50'}>{CAT_ICONS[cat]}</span>
                     <div className="text-left">
                       <div className="text-white font-bold text-sm leading-none">{countFor(cat)}</div>
-                      <div className="text-white/40 text-[10px] mt-0.5">{cat}</div>
+                      <div className="text-white/60 text-[10px] mt-0.5">{cat}</div>
                     </div>
                   </button>
                 );
@@ -182,7 +174,7 @@ export const BlogListPage: React.FC = () => {
                     {/* Contenu */}
                     <div className="flex flex-col flex-1 p-5">
                       {/* Date */}
-                      <div className="flex items-center gap-1.5 text-white/35 text-[11px] mb-3">
+                      <div className="flex items-center gap-1.5 text-white/60 text-[11px] mb-3">
                         <CalendarDays size={11} />
                         {p.date ? formatDate(p.date) : ''}
                       </div>
@@ -215,7 +207,7 @@ export const BlogListPage: React.FC = () => {
               <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center">
                 <BookOpen size={22} className="text-white/20" />
               </div>
-              <p className="text-white/40 text-sm">Aucun article dans cette catégorie.</p>
+              <p className="text-white/60 text-sm">Aucun article dans cette catégorie.</p>
               <button onClick={() => setCategory('Tous')} className="text-accent text-sm underline underline-offset-2">Voir tous les articles</button>
             </div>
           )}
@@ -241,7 +233,6 @@ export const BlogListPage: React.FC = () => {
       </main>
 
       <Footer />
-      <CookieBanner />
     </div>
   );
 };

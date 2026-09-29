@@ -83,13 +83,7 @@ seoDescription: "Eagle Production réalise vos montages vidéo professionnels à
 
 <h2>Combien coûte un montage vidéo professionnel à Angoulême ?</h2>
 <p>Le tarif d'un <strong>montage vidéo professionnel en Charente</strong> dépend principalement de la durée du film final et de la complexité du projet (nombre de rushs, animations graphiques, voix-off, sous-titres, déclinaisons formats).</p>
-<p>Chez Eagle Production, nos tarifs de montage démarrent à <strong>50 € / heure</strong> pour un montage à la carte. Pour les projets complets (captation drone + montage + étalonnage + sound design), nous proposons des formules packagées :</p>
-<ul>
-<li><strong>Formule Altitude Classique</strong> (0–3 min) : 150 € tout compris.</li>
-<li><strong>Formule Altitude+</strong> (3–5 min) : 250 € tout compris.</li>
-<li><strong>Formule Horizon</strong> (5–10 min) : 500 € - scénarisation, tournage drone, montage, étalonnage couleur pro, sound design immersif.</li>
-</ul>
-<p>Ces tarifs incluent la captation drone lorsqu'elle est nécessaire. Pour un montage seul à partir de vos propres rushs, contactez-nous pour un devis personnalisé.</p>
+<p>Chez Eagle Production, notre montage vidéo est facturé <strong>60 € HT / heure</strong>. Pour les projets complets (captation drone + montage + étalonnage + sound design), le tournage est facturé <strong>160 € HT / heure</strong> (minimum une heure), en plus du montage. Pour un montage seul à partir de vos propres rushs, contactez-nous pour un devis personnalisé.</p>
 
 <h2>Pourquoi choisir Eagle Production pour votre montage vidéo en Nouvelle-Aquitaine ?</h2>
 <p>Eagle Production n'est pas une agence vidéo généraliste. Nous sommes une équipe spécialisée, basée à <strong>Angoulême en Charente</strong>, qui cumule compétences en captation aérienne (télépilote certifié DGAC) et en post-production professionnelle. Cela signifie que lorsque nous montons vos images de drone, nous savons exactement ce qui a été filmé et pourquoi - ce qui se traduit par un montage plus juste, plus efficace, et livré plus vite.</p>
