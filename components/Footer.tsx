@@ -53,9 +53,9 @@ export const Footer: React.FC = () => {
                 <h4 className="text-white font-bold mb-6">Contact</h4>
                 <ul className="space-y-4">
                     <li>
-                        <a href="mailto:contact@eagle-prod.com" className="flex items-center gap-3 text-textSecondary hover:text-accent transition-colors">
+                        <a href="https://angelo-pro.fr" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-textSecondary hover:text-accent transition-colors">
                             <Mail size={16} />
-                            contact@eagle-prod.com
+                            angelo-pro.fr
                         </a>
                     </li>
                     <li>
