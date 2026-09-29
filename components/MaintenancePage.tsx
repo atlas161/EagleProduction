@@ -123,7 +123,7 @@ export const MaintenancePage: React.FC = () => {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="text-base text-white/50 leading-relaxed max-w-2xl mb-8">
+            <p className="text-base text-white/65 leading-relaxed max-w-2xl mb-8">
               Eagle Digital prend en charge la maintenance complète de votre site web à Angoulême : sécurité, sauvegardes, SEO mensuel, e-mails professionnels, support informatique et gestion Google Business. Un seul forfait mensuel, un seul interlocuteur, zéro gestion de votre côté.
             </p>
           </Reveal>
@@ -132,7 +132,7 @@ export const MaintenancePage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                 Devis gratuit <ArrowRight size={15} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-rose-400/40 hover:text-white transition-all duration-200 text-sm">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-rose-400/40 hover:text-white transition-all duration-200 text-sm">
                 Voir tous les services
               </a>
             </div>
@@ -167,7 +167,7 @@ export const MaintenancePage: React.FC = () => {
                       <div className="flex items-center justify-between mb-1">
                         <div className={`font-bold text-lg ${p.accent ? 'text-rose-300' : 'text-white'}`}>{p.name}</div>
                         {p.badge && (
-                          <span className="text-[10px] uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>
+                          <span className="text-xs uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>
                         )}
                       </div>
                       <div className="flex items-end gap-1 mt-1">
@@ -325,7 +325,7 @@ export const MaintenancePage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
                 Voir tous les services Eagle Digital
               </a>
             </div>

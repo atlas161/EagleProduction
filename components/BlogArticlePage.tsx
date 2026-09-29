@@ -73,7 +73,7 @@ export const BlogArticlePage: React.FC = () => {
                 <div className="absolute -bottom-40 -right-40 w-[520px] h-[520px] rounded-full bg-white/5 blur-[120px]" />
               </div>
               <div className="max-w-5xl mx-auto px-6 pt-10 pb-6 relative z-10">
-                <div className="text-[11px] uppercase tracking-widest text-accent mb-2">{post.category}</div>
+                <div className="text-xs uppercase tracking-widest text-accent mb-2">{post.category}</div>
                 <h1 className="text-4xl md:text-5xl font-extrabold leading-[1.1] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
                   {post.title}
                 </h1>
@@ -102,7 +102,7 @@ export const BlogArticlePage: React.FC = () => {
                 {post.tags?.length ? (
                   <div className="mt-8 flex flex-wrap gap-2">
                     {post.tags.map((t) => (
-                      <span key={t} className="text-[10px] uppercase tracking-wider bg-white/5 border border-white/10 px-2 py-1 rounded-full text-white/75 inline-flex items-center gap-1">
+                      <span key={t} className="text-xs uppercase tracking-wider bg-white/5 border border-white/10 px-2 py-1 rounded-full text-white/75 inline-flex items-center gap-1">
                         <Tag size={12} className="text-accent" />
                         {t}
                       </span>
@@ -163,7 +163,7 @@ export const BlogArticlePage: React.FC = () => {
                 <div className="mt-10 rounded-[2rem] border border-accent/30 bg-gradient-to-br from-accent/15 via-accent/5 to-transparent p-6 md:p-8 shadow-[0_0_40px_rgba(212,175,55,0.15)]">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                      <div className="text-[11px] uppercase tracking-widest text-accent mb-2">Contact</div>
+                      <div className="text-xs uppercase tracking-widest text-accent mb-2">Contact</div>
                       <div className="text-xl md:text-2xl font-extrabold text-white">Besoin d’un devis ou d’un conseil ?</div>
                       <div className="text-white/80 mt-1">Expliquez votre besoin, on vous répond rapidement.</div>
                     </div>
@@ -180,7 +180,7 @@ export const BlogArticlePage: React.FC = () => {
                 <div className="sticky top-28 space-y-4">
                   {toc.length > 0 && (
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                      <div className="text-[11px] uppercase tracking-widest text-accent mb-2">Plan</div>
+                      <div className="text-xs uppercase tracking-widest text-accent mb-2">Plan</div>
                       <ul className="space-y-1">
                         {toc.map((item, index) => (
                           <React.Fragment key={item.id}>

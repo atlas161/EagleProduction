@@ -170,7 +170,7 @@ export const ZonePage: React.FC = () => {
             <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3 text-accent mb-3">
                 <MapPin size={18} />
-                <span className="tracking-[0.2em] text-[11px] font-bold uppercase">Départements couverts</span>
+                <span className="tracking-[0.2em] text-xs font-bold uppercase">Départements couverts</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white">Zone d’intervention drone en Nouvelle-Aquitaine</h2>
               <p className="text-textSecondary leading-relaxed mt-3">
@@ -185,14 +185,14 @@ export const ZonePage: React.FC = () => {
                       <div className="text-white font-extrabold text-lg">
                         {d.name} <span className="text-white/60">({d.code})</span>
                       </div>
-                      <span className={`text-[11px] px-2.5 py-1 rounded-full border ${d.code === '16' ? 'bg-accent/10 text-accent border-accent/25' : 'bg-white/5 text-white/70 border-white/10'}`}>
+                      <span className={`text-xs px-2.5 py-1 rounded-full border ${d.code === '16' ? 'bg-accent/10 text-accent border-accent/25' : 'bg-white/5 text-white/70 border-white/10'}`}>
                         {d.code === '16' ? 'Prioritaire' : 'Selon mission'}
                       </span>
                     </div>
                     <div className="mt-2 text-sm text-white/65">{d.focus}</div>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {d.cities.map((c) => (
-                        <span key={c} className="text-[11px] text-white/70 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
+                        <span key={c} className="text-xs text-white/70 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
                           {c}
                         </span>
                       ))}
@@ -205,7 +205,7 @@ export const ZonePage: React.FC = () => {
             <div className="rounded-3xl border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3 text-accent mb-3">
                 <Building2 size={18} />
-                <span className="tracking-[0.2em] text-[11px] font-bold uppercase">Missions locales</span>
+                <span className="tracking-[0.2em] text-xs font-bold uppercase">Missions locales</span>
               </div>
               <h3 className="text-xl font-extrabold text-white">Missions fréquentes autour d’Angoulême</h3>
               <p className="text-sm text-white/65 leading-relaxed mt-2">
@@ -263,7 +263,7 @@ export const ZonePage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
               <div>
-                <div className="text-[11px] uppercase tracking-widest text-accent mb-2">Carte</div>
+                <div className="text-xs uppercase tracking-widest text-accent mb-2">Carte</div>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-white">Visualiser la zone d’intervention</h2>
                 <p className="text-textSecondary mt-3 max-w-3xl leading-relaxed">
                   La carte met en évidence le cœur d’intervention et les départements desservis. Pour chaque mission, on ajuste en fonction de la météo, des contraintes aériennes et du planning.
@@ -271,7 +271,7 @@ export const ZonePage: React.FC = () => {
               </div>
               <div className="flex flex-wrap gap-2">
                 {['Angoulême', 'Charente (16)', 'Nouvelle-Aquitaine', 'Drone 4K', 'Inspection', 'Suivi de chantier'].map((k) => (
-                  <span key={k} className="text-[11px] text-white/55 border border-white/10 bg-white/5 px-3 py-1.5 rounded-full">
+                  <span key={k} className="text-xs text-white/65 border border-white/10 bg-white/5 px-3 py-1.5 rounded-full">
                     {k}
                   </span>
                 ))}
@@ -284,7 +284,7 @@ export const ZonePage: React.FC = () => {
         <section className="max-w-7xl mx-auto px-6 py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-7">
-              <div className="text-[11px] uppercase tracking-widest text-accent mb-2">FAQ locale</div>
+              <div className="text-xs uppercase tracking-widest text-accent mb-2">FAQ locale</div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white">Zone d’intervention: questions fréquentes</h2>
               <div className="mt-6 space-y-3">
                 {localFaq.map((f) => (
@@ -297,7 +297,7 @@ export const ZonePage: React.FC = () => {
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-white/5 p-7">
-              <div className="text-[11px] uppercase tracking-widest text-accent mb-2">Déroulé</div>
+              <div className="text-xs uppercase tracking-widest text-accent mb-2">Déroulé</div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white">Comment se passe une intervention drone</h2>
               <p className="text-textSecondary leading-relaxed mt-3">
                 On valide la ville et le lieu, le type de mission, puis on planifie selon la météo et les contraintes aériennes. Sur place, on sécurise la zone, on réalise la captation et on vous livre des fichiers propres.

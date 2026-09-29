@@ -233,10 +233,10 @@ export const FaqPage: React.FC = () => {
                     onClick={() => setCategory(cat)}
                     className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/4 border border-white/8 hover:bg-white/8 hover:border-white/15 transition-all group"
                   >
-                    <span className={`${meta?.color ?? 'text-white/50'}`}>{meta?.icon}</span>
+                    <span className={`${meta?.color ?? 'text-white/65'}`}>{meta?.icon}</span>
                     <div className="text-left">
                       <div className="text-white font-bold text-sm leading-none">{countFor(cat)}</div>
-                      <div className="text-white/60 text-[10px] leading-tight mt-0.5 max-w-[90px] truncate">{cat}</div>
+                      <div className="text-white/60 text-xs leading-tight mt-0.5 max-w-[90px] truncate">{cat}</div>
                     </div>
                   </button>
                 );
@@ -245,7 +245,7 @@ export const FaqPage: React.FC = () => {
 
             {/* Barre de recherche */}
             <div className="relative max-w-xl">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/55 pointer-events-none" />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/65 pointer-events-none" />
               <input
                 ref={searchRef}
                 type="text"
@@ -255,7 +255,7 @@ export const FaqPage: React.FC = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-11 pr-10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-accent/40 focus:bg-white/8 transition-all"
               />
               {search && (
-                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/55 hover:text-white/70 transition-colors">
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/65 hover:text-white/70 transition-colors">
                   <X size={15} />
                 </button>
               )}
@@ -283,7 +283,7 @@ export const FaqPage: React.FC = () => {
                 >
                   {meta && <span className={active ? 'text-background' : meta.color}>{meta.icon}</span>}
                   <span>{cat}</span>
-                  <span className={`text-xs rounded-full px-1.5 py-0.5 font-bold ${active ? 'bg-background/20 text-background' : 'bg-white/10 text-white/50'}`}>
+                  <span className={`text-xs rounded-full px-1.5 py-0.5 font-bold ${active ? 'bg-background/20 text-background' : 'bg-white/10 text-white/65'}`}>
                     {countFor(cat)}
                   </span>
                 </button>
@@ -293,7 +293,7 @@ export const FaqPage: React.FC = () => {
             <button
               onClick={() => setExpandAll((v) => !v)}
               className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
-                expandAll ? 'bg-accent/10 text-accent border-accent/30' : 'bg-white/5 text-white/50 border-white/8 hover:bg-white/10 hover:text-white'
+                expandAll ? 'bg-accent/10 text-accent border-accent/30' : 'bg-white/5 text-white/65 border-white/8 hover:bg-white/10 hover:text-white'
               }`}
             >
               {expandAll ? 'Tout replier' : 'Tout déplier'}
@@ -321,7 +321,7 @@ export const FaqPage: React.FC = () => {
 
           {/* Résultats de recherche */}
           {search.trim() && (
-            <div className="mb-6 flex items-center gap-2 text-sm text-white/50">
+            <div className="mb-6 flex items-center gap-2 text-sm text-white/65">
               <Search size={13} />
               <span><span className="text-accent font-semibold">{filtered.length}</span> résultat{filtered.length !== 1 ? 's' : ''} pour « {search} »</span>
             </div>
@@ -337,7 +337,7 @@ export const FaqPage: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center gap-4 py-20 text-center">
                 <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-2xl">🔍</div>
-                <p className="text-white/50 text-sm">Aucune question trouvée pour « {search} »</p>
+                <p className="text-white/65 text-sm">Aucune question trouvée pour « {search} »</p>
                 <button onClick={() => setSearch('')} className="text-accent text-sm underline underline-offset-2">Effacer la recherche</button>
               </div>
             )

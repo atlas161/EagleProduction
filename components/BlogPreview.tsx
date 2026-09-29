@@ -32,8 +32,8 @@ export const BlogPreview: React.FC = () => {
               </div>
               <div className="p-6">
                 <div className="flex items-center justify-between gap-3 mb-1">
-                  <div className="text-[11px] uppercase tracking-widest text-accent">{p.category}</div>
-                  <div className="text-[11px] uppercase tracking-widest text-white/50">{getReadingTimeMinutes(p.body)} min</div>
+                  <div className="text-xs uppercase tracking-widest text-accent">{p.category}</div>
+                  <div className="text-xs uppercase tracking-widest text-white/65">{getReadingTimeMinutes(p.body)} min</div>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-accent transition-colors line-clamp-2">{p.title}</h3>
                 <p className="text-xs text-textSecondary mt-2 line-clamp-3">{p.excerpt}</p>

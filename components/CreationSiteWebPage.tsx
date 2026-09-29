@@ -36,7 +36,7 @@ export const CreationSiteWebPage: React.FC = () => {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="text-base text-white/50 leading-relaxed max-w-2xl mb-8">
+            <p className="text-base text-white/65 leading-relaxed max-w-2xl mb-8">
               Agence web basée à Angoulême, Eagle Digital conçoit des sites vitrine, multi-pages et e-commerce rapides, modernes et optimisés SEO dès la mise en ligne. Nom de domaine, hébergement sécurisé, e-mails professionnels et conformité RGPD inclus la 1ère année. Vous n'avez rien à configurer.
             </p>
           </Reveal>
@@ -45,7 +45,7 @@ export const CreationSiteWebPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                 Devis gratuit <ArrowRight size={15} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-indigo-400/40 hover:text-white transition-all duration-200 text-sm">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-indigo-400/40 hover:text-white transition-all duration-200 text-sm">
                 Voir tous les services
               </a>
             </div>
@@ -129,7 +129,7 @@ export const CreationSiteWebPage: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <div className="text-white font-bold text-lg">{p.name}</div>
-                        {p.badge && <span className="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
+                        {p.badge && <span className="text-xs uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
                       </div>
                       <div className={`text-3xl font-extrabold mt-1 ${p.accent ? 'text-indigo-300' : 'text-white'}`}>{p.price}</div>
                       <p className="text-white/60 text-xs mt-2 leading-relaxed">{p.desc}</p>
@@ -260,7 +260,7 @@ export const CreationSiteWebPage: React.FC = () => {
                       <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center shrink-0">
                         <ShieldCheck size={18} className="text-indigo-300" />
                       </div>
-                      <div className="tracking-[0.25em] text-[11px] font-bold uppercase">Recommandation</div>
+                      <div className="tracking-[0.25em] text-xs font-bold uppercase">Recommandation</div>
                     </div>
 
                     <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
@@ -305,7 +305,7 @@ export const CreationSiteWebPage: React.FC = () => {
                           Demander un devis <ArrowRight size={14} />
                         </a>
                       </div>
-                      <div className="mt-4 text-[11px] text-white/45 leading-relaxed">
+                      <div className="mt-4 text-xs text-white/45 leading-relaxed">
                         Conseil: maintenance recommandée dès la mise en ligne, surtout si le site sert à générer des leads.
                       </div>
                     </div>
@@ -328,7 +328,7 @@ export const CreationSiteWebPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
                 Voir tous les services Eagle Digital
               </a>
             </div>

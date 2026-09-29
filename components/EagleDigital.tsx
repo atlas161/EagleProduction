@@ -41,7 +41,7 @@ export const EagleDigital: React.FC = () => {
                 </h1>
               </Reveal>
               <Reveal delay={160}>
-                <p className="mt-5 text-base text-white/50 leading-relaxed max-w-md">
+                <p className="mt-5 text-base text-white/65 leading-relaxed max-w-md">
                   Eagle Digital crée votre site vitrine ou e-commerce, optimise votre référencement Google et gère votre hébergement, vos e-mails professionnels et votre présence locale, le tout depuis Angoulême, avec un seul interlocuteur.
                 </p>
               </Reveal>
@@ -50,13 +50,13 @@ export const EagleDigital: React.FC = () => {
                   <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                     Devis gratuit <ArrowRight size={15} />
                   </a>
-                  <a href="/faq" className="inline-flex items-center gap-2 text-white/55 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-indigo-400/40 hover:text-white transition-all duration-200 text-sm">
+                  <a href="/faq" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-indigo-400/40 hover:text-white transition-all duration-200 text-sm">
                     Questions fréquentes <ChevronRight size={14} />
                   </a>
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {['Basé à Angoulême', 'Devis sous 24h', 'Hébergement inclus an 1', 'RGPD inclus'].map((b) => (
-                    <span key={b} className="text-[10px] text-white/55 border border-white/[0.06] px-2.5 py-1 rounded-full">{b}</span>
+                    <span key={b} className="text-xs text-white/65 border border-white/[0.06] px-2.5 py-1 rounded-full">{b}</span>
                   ))}
                 </div>
               </Reveal>
@@ -188,7 +188,7 @@ export const EagleDigital: React.FC = () => {
                       <div className="flex items-center justify-between mb-1">
                         <div className={`font-bold text-lg ${p.accent ? 'text-rose-300' : 'text-white'}`}>{p.name}</div>
                         {p.badge && (
-                          <span className="text-[10px] uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>
+                          <span className="text-xs uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>
                         )}
                       </div>
                       <div className="flex items-end gap-1">
@@ -278,7 +278,7 @@ export const EagleDigital: React.FC = () => {
                         : 'bg-white/[0.03] border-indigo-500/10 hover:border-indigo-400/25 hover:bg-indigo-950/20'
                     }`}>
                       {item.tag && (
-                        <span className="absolute top-4 right-4 text-[9px] uppercase tracking-widest font-bold text-indigo-400 bg-indigo-500/15 border border-indigo-500/25 px-2 py-0.5 rounded-full">
+                        <span className="absolute top-4 right-4 text-xs uppercase tracking-widest font-bold text-indigo-400 bg-indigo-500/15 border border-indigo-500/25 px-2 py-0.5 rounded-full">
                           {item.tag}
                         </span>
                       )}
@@ -324,10 +324,10 @@ export const EagleDigital: React.FC = () => {
                         : 'bg-white/[0.03] border-teal-500/10 hover:border-teal-400/25 hover:bg-teal-950/20'
                     }`}>
                       {item.tag && (
-                        <span className={`absolute top-4 right-4 text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full ${
+                        <span className={`absolute top-4 right-4 text-xs uppercase tracking-widest font-bold px-2 py-0.5 rounded-full ${
                           item.accent === 'teal'
                             ? 'text-teal-300 bg-teal-500/20 border border-teal-500/30'
-                            : 'text-white/55 bg-white/5 border border-white/[0.06]'
+                            : 'text-white/65 bg-white/5 border border-white/[0.06]'
                         }`}>
                           {item.tag}
                         </span>
@@ -480,7 +480,7 @@ export const EagleDigital: React.FC = () => {
               </a>
               <a
                 href="tel:+33699361715"
-                className="inline-flex items-center gap-2 text-white/50 font-medium px-6 py-5 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base"
+                className="inline-flex items-center gap-2 text-white/65 font-medium px-6 py-5 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base"
               >
                 +33 6 99 36 17 15
               </a>

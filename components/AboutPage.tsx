@@ -87,13 +87,13 @@ export const AboutPage: React.FC = () => {
             </Reveal>
             <Reveal delay={240}>
               <div className="mt-7 flex flex-wrap gap-3">
-                <span className="text-[11px] uppercase tracking-widest bg-accent/20 border border-accent/30 text-accent px-3 py-1.5 rounded-full">
+                <span className="text-xs uppercase tracking-widest bg-accent/20 border border-accent/30 text-accent px-3 py-1.5 rounded-full">
                   Certifié DGAC
                 </span>
-                <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                <span className="text-xs uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
                   Assurance RC Pro
                 </span>
-                <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                <span className="text-xs uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
                   Autorisations gérées
                 </span>
               </div>
@@ -108,7 +108,7 @@ export const AboutPage: React.FC = () => {
             <div className="space-y-6">
               <div className="flex items-center gap-3 text-accent">
                 <Camera size={18} />
-                <span className="tracking-[0.2em] text-[11px] font-bold uppercase">Drone & audiovisuel</span>
+                <span className="tracking-[0.2em] text-xs font-bold uppercase">Drone & audiovisuel</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 leading-tight">
                 Une approche terrain, pensée pour la lisibilité et la décision
@@ -150,7 +150,7 @@ export const AboutPage: React.FC = () => {
               <div className="lg:col-span-1">
                 <div className="flex items-center gap-3 text-accent mb-3">
                   <MapPin size={18} />
-                  <span className="tracking-[0.2em] text-[11px] font-bold uppercase">Local SEO</span>
+                  <span className="tracking-[0.2em] text-xs font-bold uppercase">Local SEO</span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">Angoulême, Charente, Nouvelle-Aquitaine</h2>
                 <p className="text-textSecondary mt-3 leading-relaxed">

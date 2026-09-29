@@ -72,7 +72,7 @@ export const SportActionPage: React.FC = () => {
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="mt-6 max-w-3xl text-lg text-white/55 leading-relaxed">
+              <p className="mt-6 max-w-3xl text-lg text-white/65 leading-relaxed">
                 Plans d’action, dynamisme, sécurité : on capture l’intensité et on livre des vidéos prêtes à publier (teaser, reportage, Reels/Shorts).
               </p>
             </Reveal>
@@ -81,7 +81,7 @@ export const SportActionPage: React.FC = () => {
                 <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                   Devis gratuit <ArrowRight size={15} />
                 </a>
-                <a href="/eagle-production" className="inline-flex items-center gap-2 text-white/55 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
+                <a href="/eagle-production" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
                   Production vidéo <ArrowRight size={15} />
                 </a>
               </div>
@@ -92,7 +92,7 @@ export const SportActionPage: React.FC = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Points clés</p>
+              <p className="text-center text-white/65 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Points clés</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[

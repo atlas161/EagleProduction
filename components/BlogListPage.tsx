@@ -91,10 +91,10 @@ export const BlogListPage: React.FC = () => {
                   <button key={cat} onClick={() => setCategory(cat)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${meta?.bg ?? 'bg-white/5 border-white/10'} hover:opacity-80`}
                   >
-                    <span className={meta?.color ?? 'text-white/50'}>{CAT_ICONS[cat]}</span>
+                    <span className={meta?.color ?? 'text-white/65'}>{CAT_ICONS[cat]}</span>
                     <div className="text-left">
                       <div className="text-white font-bold text-sm leading-none">{countFor(cat)}</div>
-                      <div className="text-white/60 text-[10px] mt-0.5">{cat}</div>
+                      <div className="text-white/60 text-xs mt-0.5">{cat}</div>
                     </div>
                   </button>
                 );
@@ -120,7 +120,7 @@ export const BlogListPage: React.FC = () => {
                 >
                   {meta && <span className={active ? 'text-background' : meta.color}>{CAT_ICONS[cat]}</span>}
                   <span>{cat}</span>
-                  <span className={`text-xs rounded-full px-1.5 py-0.5 font-bold ${active ? 'bg-background/20 text-background' : 'bg-white/10 text-white/50'}`}>
+                  <span className={`text-xs rounded-full px-1.5 py-0.5 font-bold ${active ? 'bg-background/20 text-background' : 'bg-white/10 text-white/65'}`}>
                     {countFor(cat)}
                   </span>
                 </button>
@@ -131,7 +131,7 @@ export const BlogListPage: React.FC = () => {
             <div className="flex items-center gap-1 bg-white/5 border border-white/8 rounded-full p-1">
               {([['recent','Récents'],['ancien','Anciens'],['titre','A–Z']] as const).map(([id, label]) => (
                 <button key={id} onClick={() => setSort(id)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${sort === id ? 'bg-accent text-background' : 'text-white/50 hover:text-white'}`}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${sort === id ? 'bg-accent text-background' : 'text-white/65 hover:text-white'}`}
                 >{label}</button>
               ))}
             </div>
@@ -160,12 +160,12 @@ export const BlogListPage: React.FC = () => {
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
                       {/* Badge catégorie sur l'image */}
-                      <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${meta?.bg ?? 'bg-white/10 border-white/10'} ${meta?.color ?? 'text-white'} backdrop-blur-sm`}>
+                      <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${meta?.bg ?? 'bg-white/10 border-white/10'} ${meta?.color ?? 'text-white'} backdrop-blur-sm`}>
                         {CAT_ICONS[p.category]}
                         {p.category}
                       </div>
                       {/* Temps de lecture */}
-                      <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 text-[10px] text-white/70">
+                      <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 text-xs text-white/70">
                         <Clock size={9} />
                         {getReadingTimeMinutes(p.body)} min
                       </div>
@@ -174,7 +174,7 @@ export const BlogListPage: React.FC = () => {
                     {/* Contenu */}
                     <div className="flex flex-col flex-1 p-5">
                       {/* Date */}
-                      <div className="flex items-center gap-1.5 text-white/60 text-[11px] mb-3">
+                      <div className="flex items-center gap-1.5 text-white/60 text-xs mb-3">
                         <CalendarDays size={11} />
                         {p.date ? formatDate(p.date) : ''}
                       </div>
@@ -188,7 +188,7 @@ export const BlogListPage: React.FC = () => {
                       {p.tags && p.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mb-4">
                           {p.tags.slice(0, 3).map((t) => (
-                            <span key={t} className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider bg-white/4 border border-white/8 px-2 py-0.5 rounded-full text-white/50">
+                            <span key={t} className="inline-flex items-center gap-1 text-xs uppercase tracking-wider bg-white/4 border border-white/8 px-2 py-0.5 rounded-full text-white/65">
                               <Tag size={9} />{t}
                             </span>
                           ))}

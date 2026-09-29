@@ -100,7 +100,7 @@ export const InspectionSuiviPage: React.FC = () => {
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="mt-6 max-w-3xl text-lg text-white/55 leading-relaxed">
+              <p className="mt-6 max-w-3xl text-lg text-white/65 leading-relaxed">
                 Pour le BTP, l’immobilier et la maintenance : on capture des images <span className="text-white">utiles</span> (détails toiture, zones sensibles, points fixes) et on livre des formats <span className="text-white">exploitables</span>
                 (comparatifs, orthophotos, rapport PDF illustré). Idéal pour diagnostiquer, documenter, suivre et communiquer.
               </p>
@@ -110,16 +110,16 @@ export const InspectionSuiviPage: React.FC = () => {
                 <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                   Devis gratuit <ArrowRight size={15} />
                 </a>
-                <a href="/inspection" className="inline-flex items-center gap-2 text-white/55 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
+                <a href="/inspection" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
                   Inspection toiture <ArrowRight size={15} />
                 </a>
-                <a href="/chantier" className="inline-flex items-center gap-2 text-white/55 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
+                <a href="/chantier" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
                   Suivi de chantier <ArrowRight size={15} />
                 </a>
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
                 {['Certifié DGAC', 'RC Pro', '4K', 'Orthophoto', 'Rapport PDF'].map((b) => (
-                  <span key={b} className="text-[10px] text-white/55 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
+                  <span key={b} className="text-xs text-white/65 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
                 ))}
               </div>
             </Reveal>
@@ -164,7 +164,7 @@ export const InspectionSuiviPage: React.FC = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Ce que vous obtenez</p>
+              <p className="text-center text-white/65 text-xs font-semibold tracking-[0.3em] uppercase mb-16">Ce que vous obtenez</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 rounded-3xl overflow-hidden">
               {[
@@ -177,7 +177,7 @@ export const InspectionSuiviPage: React.FC = () => {
                     <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">{item.icon}</div>
                     <div>
                       <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                      <p className="text-white/65 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 </Reveal>

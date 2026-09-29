@@ -36,7 +36,7 @@ export const HebergementMailPage: React.FC = () => {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="text-base text-white/50 leading-relaxed max-w-2xl mb-8">
+            <p className="text-base text-white/65 leading-relaxed max-w-2xl mb-8">
               Eagle Digital enregistre et gère votre nom de domaine, héberge votre site sur un serveur rapide et sécurisé (SSL inclus), et configure vos adresses e-mail professionnelles @votreentreprise.fr. Migration depuis votre ancien prestataire offerte, zéro interruption de service.
             </p>
           </Reveal>
@@ -45,7 +45,7 @@ export const HebergementMailPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                 Devis gratuit <ArrowRight size={15} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-sky-400/40 hover:text-white transition-all duration-200 text-sm">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-sky-400/40 hover:text-white transition-all duration-200 text-sm">
                 Voir tous les services
               </a>
             </div>
@@ -135,7 +135,7 @@ export const HebergementMailPage: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <div className="text-white font-bold text-base">{p.title}</div>
-                          {p.badge && <span className="text-[10px] uppercase tracking-wider bg-sky-500/15 text-sky-300 border border-sky-500/25 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
+                          {p.badge && <span className="text-xs uppercase tracking-wider bg-sky-500/15 text-sky-300 border border-sky-500/25 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
                         </div>
                         <div className="text-sky-400 font-extrabold text-lg">{p.price}</div>
                       </div>
@@ -143,7 +143,7 @@ export const HebergementMailPage: React.FC = () => {
                     <p className="text-white/60 text-sm leading-relaxed">{p.desc}</p>
                     <ul className="space-y-2 flex-1">
                       {p.items.map((it, j) => (
-                        <li key={j} className="flex items-start gap-2 text-xs text-white/55">
+                        <li key={j} className="flex items-start gap-2 text-xs text-white/65">
                           <CheckCircle2 size={13} className="flex-shrink-0 mt-0.5 text-sky-400" />
                           <span>{it}</span>
                         </li>
@@ -227,7 +227,7 @@ export const HebergementMailPage: React.FC = () => {
                       <div className="w-10 h-10 rounded-2xl bg-sky-500/15 border border-sky-500/25 flex items-center justify-center shrink-0">
                         <ShieldCheck size={18} className="text-sky-300" />
                       </div>
-                      <div className="tracking-[0.25em] text-[11px] font-bold uppercase">Recommandation</div>
+                      <div className="tracking-[0.25em] text-xs font-bold uppercase">Recommandation</div>
                     </div>
 
                     <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
@@ -272,7 +272,7 @@ export const HebergementMailPage: React.FC = () => {
                           Demander un devis <ArrowRight size={14} />
                         </a>
                       </div>
-                      <div className="mt-4 text-[11px] text-white/45 leading-relaxed">
+                      <div className="mt-4 text-xs text-white/45 leading-relaxed">
                         Objectif: éviter les “petits problèmes” qui coûtent cher quand ils arrivent au mauvais moment.
                       </div>
                     </div>
@@ -295,7 +295,7 @@ export const HebergementMailPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander un devis gratuit <ArrowRight size={16} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
                 Voir tous les services Eagle Digital
               </a>
             </div>

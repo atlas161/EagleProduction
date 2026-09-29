@@ -376,10 +376,10 @@ export const Coverage: React.FC = () => {
                     
                     {/* Top Info */}
                     <div className="absolute top-6 left-1/2 -translate-x-1/2 flex gap-8">
-                        <div className="bg-black/80 px-2 py-1 border border-accent/30 text-[10px] font-mono text-accent">
+                        <div className="bg-black/80 px-2 py-1 border border-accent/30 text-xs font-mono text-accent">
                             REC ● 00:04:23
                         </div>
-                        <div className="bg-black/80 px-2 py-1 border border-white/20 text-[10px] font-mono text-white/70">
+                        <div className="bg-black/80 px-2 py-1 border border-white/20 text-xs font-mono text-white/70">
                             GPS: 45.6484° N
                         </div>
                     </div>
@@ -467,7 +467,7 @@ export const Coverage: React.FC = () => {
                                         : 'bg-transparent border-white/10 text-textSecondary hover:bg-white/5 hover:border-white/30'
                                 }`}
                             >
-                                <span className="font-mono text-[10px] opacity-70">{dep.code}</span>
+                                <span className="font-mono text-xs opacity-70">{dep.code}</span>
                                 <span className="text-xs font-medium text-center leading-tight">
                                     {dep.name.replace(' (QG)', '').replace('-', ' ')}
                                 </span>

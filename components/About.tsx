@@ -36,7 +36,7 @@ export const About: React.FC = () => {
             <Reveal delay={200}>
                 <div className="flex items-center gap-3 mb-3 md:mb-4 justify-center lg:justify-start">
                     <span className="h-px w-8 md:w-12 bg-accent"></span>
-                    <span className="text-accent font-bold uppercase tracking-widest text-[10px] md:text-xs">{ABOUT.sectionLabel}</span>
+                    <span className="text-accent font-bold uppercase tracking-widest text-xs md:text-xs">{ABOUT.sectionLabel}</span>
                 </div>
                 <h2 id="about-title" className="scroll-mt-16 text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 leading-tight text-center lg:text-left">
                     {ABOUT.title} <br/>
@@ -69,7 +69,7 @@ export const About: React.FC = () => {
                             </div>
                             <div>
                                 <div className="text-white font-bold text-xs md:text-sm">{ABOUT.badge.title}</div>
-                                <div className="text-textSecondary text-[10px] md:text-xs">{ABOUT.badge.subtitle}</div>
+                                <div className="text-textSecondary text-xs md:text-xs">{ABOUT.badge.subtitle}</div>
                             </div>
                         </div>
                     </Reveal>

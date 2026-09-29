@@ -39,7 +39,7 @@ const EmailCampaignsCalculator: React.FC = () => {
             }`}
           >
             {plan.popular && (
-              <span className="inline-block text-[10px] uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold mb-3">
+              <span className="inline-block text-xs uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold mb-3">
                 Populaire
               </span>
             )}
@@ -48,7 +48,7 @@ const EmailCampaignsCalculator: React.FC = () => {
               <span className={`text-4xl font-extrabold ${plan.popular ? 'text-teal-300' : 'text-white'}`}>{plan.price}</span>
               <span className={`font-bold text-xl ${plan.popular ? 'text-teal-300' : 'text-white'}`}>€</span>
             </div>
-            <div className="text-white/55 text-xs">/ mois</div>
+            <div className="text-white/65 text-xs">/ mois</div>
           </a>
         ))}
       </div>
@@ -94,7 +94,7 @@ export const ReferencementSEOPage: React.FC = () => {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="text-base text-white/50 leading-relaxed max-w-2xl mb-8">
+            <p className="text-base text-white/65 leading-relaxed max-w-2xl mb-8">
               Eagle Digital améliore votre positionnement sur Google grâce à un audit SEO technique, une fiche Google Business Profile optimisée et des campagnes e-mailing mensuelles. Résultat : votre entreprise apparaît quand vos clients tapent votre activité + « Angoulême » ou « Charente ».
             </p>
           </Reveal>
@@ -103,7 +103,7 @@ export const ReferencementSEOPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                 Audit gratuit <ArrowRight size={15} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-teal-400/40 hover:text-white transition-all duration-200 text-sm">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/[0.08] hover:border-teal-400/40 hover:text-white transition-all duration-200 text-sm">
                 Voir tous les services
               </a>
             </div>
@@ -161,7 +161,7 @@ export const ReferencementSEOPage: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <div className="text-white font-bold text-lg">{p.title}</div>
-                        {p.badge && <span className="text-[10px] uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
+                        {p.badge && <span className="text-xs uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold">{p.badge}</span>}
                       </div>
                       <div className={`text-3xl font-extrabold mt-1 ${p.badge ? 'text-teal-300' : 'text-white'}`}>{p.price}</div>
                       <p className="text-white/60 text-xs mt-2 leading-relaxed">{p.desc}</p>
@@ -234,7 +234,7 @@ export const ReferencementSEOPage: React.FC = () => {
                       <div className="w-10 h-10 rounded-2xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center shrink-0">
                         <ShieldCheck size={18} className="text-teal-300" />
                       </div>
-                      <div className="tracking-[0.25em] text-[11px] font-bold uppercase">Recommandation</div>
+                      <div className="tracking-[0.25em] text-xs font-bold uppercase">Recommandation</div>
                     </div>
 
                     <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
@@ -279,7 +279,7 @@ export const ReferencementSEOPage: React.FC = () => {
                           Demander un devis <ArrowRight size={14} />
                         </a>
                       </div>
-                      <div className="mt-4 text-[11px] text-white/45 leading-relaxed">
+                      <div className="mt-4 text-xs text-white/45 leading-relaxed">
                         Objectif: garder la dynamique, éviter les régressions, et rester stable sur Google.
                       </div>
                     </div>
@@ -302,7 +302,7 @@ export const ReferencementSEOPage: React.FC = () => {
               <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-10 py-4 rounded-full hover:bg-white transition-all duration-200 text-base shadow-xl shadow-accent/20">
                 Demander l'audit gratuit <ArrowRight size={16} />
               </a>
-              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/50 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
+              <a href="/eagle-digital" className="inline-flex items-center gap-2 text-white/65 font-medium px-6 py-4 rounded-full border border-white/[0.08] hover:border-accent/30 hover:text-white transition-all duration-200 text-base">
                 Voir tous les services Eagle Digital
               </a>
             </div>

@@ -33,7 +33,7 @@ export const InspectionBuildings: React.FC = () => {
                 </h1>
               </Reveal>
               <Reveal delay={160}>
-                <p className="mt-5 text-base text-white/50 leading-relaxed max-w-md">
+                <p className="mt-5 text-base text-white/65 leading-relaxed max-w-md">
                   Toitures, façades, structures - inspectés en 4K HDR, sans nacelle ni risque.
                   Rapport PDF illustré livré sous 48h.
                 </p>
@@ -43,13 +43,13 @@ export const InspectionBuildings: React.FC = () => {
                   <a href="/contact" className="inline-flex items-center gap-2 bg-accent text-background font-bold px-6 py-3 rounded-full hover:bg-white transition-all duration-200 text-sm shadow-lg shadow-accent/20">
                     Devis gratuit <ArrowRight size={15} />
                   </a>
-                  <a href="/faq" className="inline-flex items-center gap-2 text-white/55 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
+                  <a href="/faq" className="inline-flex items-center gap-2 text-white/65 font-medium px-5 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200 text-sm">
                     Questions fréquentes <ChevronRight size={14} />
                   </a>
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {['Certifié DGAC', 'RC Pro', 'Sans échafaudage', 'Rapport 48h', 'Charente'].map((b) => (
-                    <span key={b} className="text-[10px] text-white/55 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
+                    <span key={b} className="text-xs text-white/65 border border-white/8 px-2.5 py-1 rounded-full">{b}</span>
                   ))}
                 </div>
               </Reveal>
@@ -69,7 +69,7 @@ export const InspectionBuildings: React.FC = () => {
                   <div className="grid grid-cols-3 gap-3">
                     {['Étanchéité', 'Fissures', 'Végétation'].map((tag) => (
                       <div key={tag} className="bg-white/5 border border-white/8 rounded-xl px-3 py-2 text-center">
-                        <div className="text-accent text-[10px] font-semibold">{tag}</div>
+                        <div className="text-accent text-xs font-semibold">{tag}</div>
                       </div>
                     ))}
                   </div>
@@ -78,11 +78,11 @@ export const InspectionBuildings: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-accent/8 border border-accent/20 rounded-2xl p-5">
                     <div className="text-accent font-extrabold text-2xl">4K</div>
-                    <div className="text-white/50 text-xs mt-1">Images HDR</div>
+                    <div className="text-white/65 text-xs mt-1">Images HDR</div>
                   </div>
                   <div className="bg-surfaceHighlight/20 border border-white/8 rounded-2xl p-5">
                     <div className="text-white font-extrabold text-2xl">48h</div>
-                    <div className="text-white/50 text-xs mt-1">Rapport livré</div>
+                    <div className="text-white/65 text-xs mt-1">Rapport livré</div>
                   </div>
                 </div>
               </div>
@@ -96,7 +96,7 @@ export const InspectionBuildings: React.FC = () => {
         <section className="py-24 px-6">
           <div className="max-w-5xl mx-auto">
             <Reveal>
-              <p className="text-center text-white/55 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
+              <p className="text-center text-white/65 text-xs font-semibold tracking-[0.3em] uppercase mb-16">
                 Ce que vous obtenez
               </p>
             </Reveal>
@@ -125,7 +125,7 @@ export const InspectionBuildings: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                      <p className="text-white/65 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 </Reveal>

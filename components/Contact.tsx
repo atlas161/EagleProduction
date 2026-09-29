@@ -247,13 +247,13 @@ export const Contact: React.FC = () => {
                     Nous sommes joignables directement par téléphone ou via le formulaire.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-12">
-                  <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                  <span className="text-xs uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
                     Devis gratuit
                   </span>
-                  <span className="text-[11px] uppercase tracking-widest bg-accent/20 border border-accent/30 text-accent px-3 py-1.5 rounded-full">
+                  <span className="text-xs uppercase tracking-widest bg-accent/20 border border-accent/30 text-accent px-3 py-1.5 rounded-full">
                     Réponse rapide
                   </span>
-                  <span className="text-[11px] uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
+                  <span className="text-xs uppercase tracking-widest bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-full">
                     Certifié DGAC
                   </span>
                 </div>

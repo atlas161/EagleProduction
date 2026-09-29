@@ -374,7 +374,7 @@ export const TechSpecs: React.FC = () => {
 
             {/* Indicateur technique discret */}
             <div className={`absolute bottom-5 right-5 z-40 transition-all duration-300 ${activeFeature ? 'opacity-100' : 'opacity-50'}`}>
-                <div className="flex items-center gap-2 text-[10px] font-mono tracking-wider text-white/70">
+                <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-white/70">
                     <span className={`inline-block w-1.5 h-1.5 rounded-full transition-colors duration-200 ${activeFeature ? 'bg-accent' : 'bg-white/40'}`}></span>
                     <span className="transition-all duration-200">
                         {isActive('camera') ? 'CAMERA' : 
@@ -419,7 +419,7 @@ export const TechSpecs: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('camera') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Triple caméra</div>
-                <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
+                <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
                     <Camera size={14} /> Plans larges et zooms
                 </div>
               </div>
@@ -432,7 +432,7 @@ export const TechSpecs: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('cinema') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>LiDAR 3D</div>
-                <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
+                <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
                     <Scan size={14} /> Cartographie laser
                 </div>
               </div>
@@ -445,7 +445,7 @@ export const TechSpecs: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('security') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Vitesse max</div>
-                <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
+                <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
                     <ScanEye size={14} /> 90 km/h
                 </div>
               </div>
@@ -458,7 +458,7 @@ export const TechSpecs: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('range') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Portée 40km</div>
-                <div className="text-textSecondary text-[11px] uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
+                <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
                     <Radio size={14} /> Signal vidéo stable
                 </div>
               </div>

@@ -84,14 +84,14 @@ export const ReviewsAndFaq: React.FC = () => {
                                     {/* Author */}
                                     <div className="animate-fade-in w-full sm:w-auto">
                                         <div className="text-base font-bold text-white">{activeReview.name}</div>
-                                        <div className="text-accent text-[10px] font-bold uppercase tracking-widest mt-0.5 opacity-80">{activeReview.role}</div>
+                                        <div className="text-accent text-xs font-bold uppercase tracking-widest mt-0.5 opacity-80">{activeReview.role}</div>
                                     </div>
 
                                     {/* Controls Capsule */}
                                     <div className="flex items-center gap-2 bg-[#0A0A0A] p-1 rounded-full border border-white/10 shadow-inner">
                                         <button 
                                             onClick={prevReview}
-                                            className="w-8 h-8 rounded-full flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all duration-300 group/nav"
+                                            className="w-8 h-8 rounded-full flex items-center justify-center text-white/65 hover:bg-white hover:text-black transition-all duration-300 group/nav"
                                             aria-label="Précédent"
                                         >
                                             <ChevronLeft size={16} className="transform group-hover/nav:-translate-x-0.5 transition-transform" />
@@ -99,7 +99,7 @@ export const ReviewsAndFaq: React.FC = () => {
                                         
                                         <div className="h-3 w-[1px] bg-white/10"></div>
 
-                                        <div className="text-[10px] font-mono text-white/50 tracking-widest px-2 min-w-[2.5rem] text-center">
+                                        <div className="text-xs font-mono text-white/65 tracking-widest px-2 min-w-[2.5rem] text-center">
                                             <span className="text-white font-bold">{currentReviewIndex + 1}</span>
                                             <span className="opacity-30">/</span>
                                             <span className="opacity-30">{reviews.length}</span>
@@ -109,7 +109,7 @@ export const ReviewsAndFaq: React.FC = () => {
 
                                         <button 
                                             onClick={nextReview}
-                                            className="w-8 h-8 rounded-full flex items-center justify-center text-white/50 hover:bg-accent hover:text-black transition-all duration-300 group/nav"
+                                            className="w-8 h-8 rounded-full flex items-center justify-center text-white/65 hover:bg-accent hover:text-black transition-all duration-300 group/nav"
                                             aria-label="Suivant"
                                         >
                                             <ChevronRight size={16} className="transform group-hover/nav:translate-x-0.5 transition-transform" />

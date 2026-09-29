@@ -278,7 +278,7 @@ export const Services: React.FC = () => {
                         <div className="text-white font-extrabold text-base leading-tight">{p.title}</div>
                         <div className="mt-2 text-sm text-white/60 leading-relaxed">{p.description}</div>
                       </div>
-                      <span className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/10 transition-all">
+                      <span className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/65 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/10 transition-all">
                         <ArrowRight size={18} />
                       </span>
                     </div>

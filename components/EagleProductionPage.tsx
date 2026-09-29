@@ -238,11 +238,11 @@ export const EagleProductionPage: React.FC = () => {
 
                   <div className="relative p-7 md:p-8">
                     <div className="flex items-center justify-between gap-4">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/[0.10] text-white/80 text-[11px] font-semibold tracking-[0.25em] uppercase">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/[0.10] text-white/80 text-xs font-semibold tracking-[0.25em] uppercase">
                         <Scan size={14} className="text-accent" />
                         Terrain
                       </div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/[0.10] text-white/80 text-[11px] font-semibold tracking-[0.25em] uppercase">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/[0.10] text-white/80 text-xs font-semibold tracking-[0.25em] uppercase">
                         <Camera size={14} className="text-accent" />
                         4K
                       </div>
@@ -312,7 +312,7 @@ export const EagleProductionPage: React.FC = () => {
 
                         <div className="relative p-7 flex items-end justify-between h-full">
                           <div>
-                            <div className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.25em] uppercase bg-black/40 text-white/80 border border-white/[0.10]">
+                            <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-[0.25em] uppercase bg-black/40 text-white/80 border border-white/[0.10]">
                               {s.badge}
                             </div>
                             <h3 className="mt-3 text-2xl md:text-3xl font-extrabold text-white leading-tight">
@@ -377,7 +377,7 @@ export const EagleProductionPage: React.FC = () => {
                       <div className="mt-3 text-sm text-white/65 leading-relaxed flex-1">{c.desc}</div>
                       <div className="mt-6 flex items-center justify-between">
                         <span className="text-sm font-semibold text-accent">Voir la page</span>
-                        <span className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/10 transition-all">
+                        <span className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/65 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/10 transition-all">
                           <ArrowRight size={18} />
                         </span>
                       </div>
