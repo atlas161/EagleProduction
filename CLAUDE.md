@@ -20,6 +20,13 @@ Site vitrine **Eagle Production / Eagle Digital** (drone, vidéo, web) — https
 - **`netlify.toml`** : build `npm run build`, publish `dist`, headers de sécurité/cache, redirections non-www→www (`eagle-prod.com` → `www.eagle-prod.com`), fallback SPA `/* → /index.html` (doit rester **en dernier**).
 - `public/` : fichiers statiques copiés tels quels (favicons, geojson, mentions-legales.html…). `tarif eagle digitale/` : documents de tarifs (hors build).
 
+## Captcha, analytics et RGPD
+
+Détails dans `docs/CAPTCHA-ANALYTICS-RGPD.md`. En bref :
+- Formulaire de contact → Cloudflare Turnstile (thème sombre) → fonction `netlify/functions/contact.mjs` (vérifie le jeton avec `TURNSTILE_SECRET_KEY`, défini dans Netlify) → Netlify Forms.
+- `CookieBanner.tsx` : GTM et Clarity ne se chargent qu'après consentement (`eagle_consent_v2`, 6 mois) ; « Gérer mes cookies » dans le footer. Toute modification des traceurs implique de mettre à jour `public/mentions-legales.html`.
+- `public/mentions-legales.html` est en `noindex` (meta + header Netlify) et absent du sitemap : ne pas la rajouter dans `build.js`, ne pas la bloquer dans `robots.txt`.
+
 ## Notes
 
 - Textes du site en français ; garder le ton et les accents.
