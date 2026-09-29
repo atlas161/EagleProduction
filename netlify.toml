@@ -32,6 +32,12 @@
     Cache-Control = "public, max-age=3600, must-revalidate"
     X-Robots-Tag = "index, follow"
 
+# Page légale : exclue de l'index Google (ne pas la bloquer dans robots.txt, sinon le noindex ne serait pas lu)
+[[headers]]
+  for = "/mentions-legales.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, follow"
+
 # Headers pour assets statiques
 [[headers]]
   for = "/assets/*"

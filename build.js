@@ -117,11 +117,6 @@ let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.eagle-prod.com/mentions-legales.html</loc>
-    <lastmod>${currentDate}</lastmod>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://www.eagle-prod.com/chantier/</loc>
     <lastmod>${currentDate}</lastmod>
     <priority>0.8</priority>
