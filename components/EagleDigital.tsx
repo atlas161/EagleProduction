@@ -223,7 +223,7 @@ export const EagleDigital: React.FC = () => {
                 <Star size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-amber-300 font-semibold text-sm mb-1">Nous recommandons un abonnement Solocal</div>
-                  <p className="text-white/45 text-sm leading-relaxed">
+                  <p className="text-white/65 text-sm leading-relaxed">
                     Solocal (PagesJaunes) booste significativement votre visibilité locale. Dans le cadre de nos contrats de maintenance <span className="text-white/70">Pro</span> et <span className="text-white/70">Business</span>, nous gérons intégralement votre compte Solocal : mise à jour, photos, avis clients, synchronisation avec Google, vous n'avez plus rien à faire.
                   </p>
                 </div>
@@ -416,7 +416,7 @@ export const EagleDigital: React.FC = () => {
                     </div>
                     <div className="pb-10">
                       <div className="text-white font-bold text-lg mb-1 group-hover:text-accent transition-colors">{s.title}</div>
-                      <p className="text-white/45 text-sm leading-relaxed">{s.desc}</p>
+                      <p className="text-white/65 text-sm leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 </Reveal>

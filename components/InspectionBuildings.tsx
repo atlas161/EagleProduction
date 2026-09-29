@@ -144,7 +144,7 @@ export const InspectionBuildings: React.FC = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
                 Le drone voit tout.
               </h2>
-              <p className="text-white/45 text-lg max-w-2xl mx-auto mb-16">
+              <p className="text-white/65 text-lg max-w-2xl mx-auto mb-16">
                 Des infiltrations invisibles à l'œil nu aux microfissures sur façade, rien n'échappe à la caméra 4K.
               </p>
             </Reveal>
@@ -201,7 +201,7 @@ export const InspectionBuildings: React.FC = () => {
                     </div>
                     <div className={`pb-10 ${i === arr.length - 1 ? '' : ''}`}>
                       <div className="text-white font-bold text-lg mb-1 group-hover:text-accent transition-colors">{s.title}</div>
-                      <p className="text-white/45 text-sm leading-relaxed">{s.desc}</p>
+                      <p className="text-white/65 text-sm leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 </Reveal>

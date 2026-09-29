@@ -51,6 +51,16 @@ export const TechSpecs: React.FC = () => {
 
   const handleMouseEnter = (feature: FeatureType) => setActiveFeature(feature);
   const handleMouseLeave = () => setActiveFeature(null);
+  // Tactile : un appui active l'effet (le navigateur émule déjà mouseenter, donc pas de bascule)
+  const toggleFeature = (feature: FeatureType) => {
+    setActiveFeature(feature);
+    // Mobile : l'effet s'affiche sur l'image, souvent hors écran → on la ramène dans la vue
+    const img = droneRef.current;
+    if (img && window.matchMedia('(max-width: 767px)').matches) {
+      const r = img.getBoundingClientRect();
+      if (r.top < 80 || r.bottom > window.innerHeight) img.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
   const isActive = (f: FeatureType) => activeFeature === f;
 
   // Calcul des lignes de connexion
@@ -182,7 +192,7 @@ export const TechSpecs: React.FC = () => {
         `}</style>
 
         {/* DRONE IMAGE - LEFT */}
-        <div className="hidden md:flex flex-1 w-full justify-center order-1 md:order-1">
+        <div className="flex flex-1 w-full justify-center order-1">
           <Reveal delay={300} className="relative w-full max-w-[600px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-gradient-to-br from-zinc-900 via-neutral-900 to-stone-950">
             
             {/* Background Texture & Gradients */}
@@ -199,7 +209,7 @@ export const TechSpecs: React.FC = () => {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.4)_100%)]"></div>
 
             {/* Image Container */}
-            <div className="absolute inset-0 flex items-center justify-center p-12 transition-transform duration-700">
+            <div className="absolute inset-0 flex items-center justify-center p-6 md:p-12 transition-transform duration-700">
                {/* Ombre du drone */}
                <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[60%] h-[8%] bg-black/30 rounded-[50%] blur-xl"></div>
                <img 
@@ -364,16 +374,16 @@ export const TechSpecs: React.FC = () => {
 
             {/* Interactive Hotspots */}
             <div className="absolute inset-0 z-30 grid grid-cols-3 grid-rows-3">
-                <div className="col-start-2 row-start-1 row-span-2 cursor-pointer" onMouseEnter={() => handleMouseEnter('camera')} onMouseLeave={handleMouseLeave} />
-                <div className="col-start-1 row-start-1 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} />
-                <div className="col-start-3 row-start-1 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} />
-                <div className="col-start-1 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} />
-                <div className="col-start-3 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} />
-                <div className="col-start-2 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('range')} onMouseLeave={handleMouseLeave} />
+                <div className="col-start-2 row-start-1 row-span-2 cursor-pointer" onMouseEnter={() => handleMouseEnter('camera')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('camera')} />
+                <div className="col-start-1 row-start-1 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('security')} />
+                <div className="col-start-3 row-start-1 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('security')} />
+                <div className="col-start-1 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('security')} />
+                <div className="col-start-3 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('security')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('security')} />
+                <div className="col-start-2 row-start-3 cursor-pointer" onMouseEnter={() => handleMouseEnter('range')} onMouseLeave={handleMouseLeave} onClick={() => toggleFeature('range')} />
             </div>
 
             {/* Indicateur technique discret */}
-            <div className={`absolute bottom-5 right-5 z-40 transition-all duration-300 ${activeFeature ? 'opacity-100' : 'opacity-50'}`}>
+            <div className={`absolute bottom-5 right-5 z-40 transition-all duration-300 ${activeFeature ? 'opacity-100' : 'opacity-80'}`}>
                 <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-white/70">
                     <span className={`inline-block w-1.5 h-1.5 rounded-full transition-colors duration-200 ${activeFeature ? 'bg-accent' : 'bg-white/40'}`}></span>
                     <span className="transition-all duration-200">
@@ -414,9 +424,13 @@ export const TechSpecs: React.FC = () => {
               {/* Feature 1 - Triple caméra */}
               <div 
                 ref={(el) => { featureRefs.current['camera'] = el; }}
-                className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('camera') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
+                className={`relative border-l pl-6 group transition-all duration-300 cursor-pointer ${isActive('camera') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('camera')}
                 onMouseLeave={handleMouseLeave}
+                onFocus={() => handleMouseEnter('camera')}
+                onBlur={handleMouseLeave}
+                onClick={() => toggleFeature('camera')}
+                tabIndex={0}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('camera') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Triple caméra</div>
                 <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
@@ -427,9 +441,13 @@ export const TechSpecs: React.FC = () => {
               {/* Feature 2 - LiDAR 3D */}
               <div 
                 ref={(el) => { featureRefs.current['cinema'] = el; }}
-                className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('cinema') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
+                className={`relative border-l pl-6 group transition-all duration-300 cursor-pointer ${isActive('cinema') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('cinema')}
                 onMouseLeave={handleMouseLeave}
+                onFocus={() => handleMouseEnter('cinema')}
+                onBlur={handleMouseLeave}
+                onClick={() => toggleFeature('cinema')}
+                tabIndex={0}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('cinema') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>LiDAR 3D</div>
                 <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
@@ -440,9 +458,13 @@ export const TechSpecs: React.FC = () => {
               {/* Feature 3 - Vitesse max */}
               <div 
                 ref={(el) => { featureRefs.current['security'] = el; }}
-                className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('security') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
+                className={`relative border-l pl-6 group transition-all duration-300 cursor-pointer ${isActive('security') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('security')}
                 onMouseLeave={handleMouseLeave}
+                onFocus={() => handleMouseEnter('security')}
+                onBlur={handleMouseLeave}
+                onClick={() => toggleFeature('security')}
+                tabIndex={0}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('security') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Vitesse max</div>
                 <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">
@@ -453,9 +475,13 @@ export const TechSpecs: React.FC = () => {
               {/* Feature 4 - Portée 40km */}
               <div 
                 ref={(el) => { featureRefs.current['range'] = el; }}
-                className={`relative border-l pl-6 group transition-all duration-300 cursor-default ${isActive('range') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
+                className={`relative border-l pl-6 group transition-all duration-300 cursor-pointer ${isActive('range') ? 'border-accent' : 'border-white/20 hover:border-accent'}`}
                 onMouseEnter={() => handleMouseEnter('range')}
                 onMouseLeave={handleMouseLeave}
+                onFocus={() => handleMouseEnter('range')}
+                onBlur={handleMouseLeave}
+                onClick={() => toggleFeature('range')}
+                tabIndex={0}
               >
                 <div className={`text-3xl font-semibold transition-colors ${isActive('range') ? 'text-accent' : 'text-textPrimary group-hover:text-accent'}`}>Portée 40km</div>
                 <div className="text-textSecondary text-xs uppercase tracking-wider mt-2 flex items-center gap-2 font-medium">

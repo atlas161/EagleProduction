@@ -1,0 +1,581 @@
+{
+  "communities": {
+    "0": [
+      "components_about",
+      "components_about_about",
+      "components_about_renderparagraph",
+      "components_aboutpage",
+      "components_aboutpage_aboutpage",
+      "components_constructiontracking",
+      "components_constructiontracking_constructiontracking",
+      "components_constructiontrackingpage",
+      "components_constructiontrackingpage_constructiontrackingpage",
+      "components_creationsitewebpage",
+      "components_creationsitewebpage_creationsitewebpage",
+      "components_eagledigital",
+      "components_eagledigital_eagledigital",
+      "components_eagledigitalpage",
+      "components_eagledigitalpage_eagledigitalpage",
+      "components_eagleproductionpage",
+      "components_eagleproductionpage_eagleproductionpage",
+      "components_evenementielpage",
+      "components_evenementielpage_evenementielpage",
+      "components_footer",
+      "components_footer_computeisopen",
+      "components_footer_footer",
+      "components_hebergementmailpage",
+      "components_hebergementmailpage_hebergementmailpage",
+      "components_immobilierdronepage",
+      "components_immobilierdronepage_immobilierdronepage",
+      "components_inspectionbuildings",
+      "components_inspectionbuildings_inspectionbuildings",
+      "components_inspectionbuildingspage",
+      "components_inspectionbuildingspage_inspectionbuildingspage",
+      "components_inspectionsuivipage",
+      "components_inspectionsuivipage_inspectionsuivipage",
+      "components_maintenancepage",
+      "components_maintenancepage_maintenancepage",
+      "components_navbar",
+      "components_navbar_desktopitem",
+      "components_navbar_formules_paths",
+      "components_navbar_mobileitem",
+      "components_navbar_nav_links",
+      "components_navbar_navbar",
+      "components_navbar_navlink",
+      "components_notfoundpage",
+      "components_notfoundpage_notfoundpage",
+      "components_notfoundpage_suggestions",
+      "components_photovideopage",
+      "components_photovideopage_photovideopage",
+      "components_reelsshortspage",
+      "components_reelsshortspage_reelsshortspage",
+      "components_referencementseopage",
+      "components_referencementseopage_emailcampaignscalculator",
+      "components_referencementseopage_referencementseopage",
+      "components_reveal",
+      "components_reveal_reveal",
+      "components_reveal_revealprops",
+      "components_sportactionpage",
+      "components_sportactionpage_sportactionpage",
+      "hooks_useseo",
+      "hooks_useseo_metaattr",
+      "hooks_useseo_seooptions",
+      "hooks_useseo_setlink",
+      "hooks_useseo_setmeta",
+      "hooks_useseo_useseo",
+      "index_constructiontrackingpage",
+      "index_eagledigitalpage",
+      "index_inspectionbuildingspage",
+      "index_notfoundpage",
+      "media_logo_beige",
+      "ref_lucide_react",
+      "ref_react"
+    ],
+    "1": [
+      "app",
+      "app_app",
+      "app_ordered_sections",
+      "app_readpreloaded",
+      "components_cmscontent",
+      "components_cmscontent_cmsfaqitem",
+      "components_cmscontent_cmsreviewitem",
+      "components_cmscontent_home_faq_count",
+      "components_cmscontent_loadallfaqitems",
+      "components_cmscontent_loadallreviews",
+      "components_cmscontent_safeparse",
+      "components_cmscontent_striphtml",
+      "components_faqpage",
+      "components_faqpage_category_meta",
+      "components_faqpage_droneicon",
+      "components_faqpage_faqitem",
+      "components_faqpage_faqpage",
+      "components_gallery",
+      "components_gallery_gallery",
+      "components_hero",
+      "components_hero_hero",
+      "components_hero_heroprops",
+      "components_lazymount",
+      "components_lazymount_lazymount",
+      "components_lazymount_lazymountprops",
+      "components_preloader",
+      "components_preloader_preloader",
+      "components_preloader_preloaderprops",
+      "components_reviewsandfaq",
+      "components_reviewsandfaq_reviewsandfaq",
+      "components_seoschema",
+      "components_seoschema_seoschema",
+      "components_services",
+      "components_services_digitalcards",
+      "components_services_formatprice",
+      "components_services_productionpage",
+      "components_services_productionpages",
+      "components_services_services",
+      "components_techspecs",
+      "components_techspecs_drone_targets",
+      "components_techspecs_featuretype",
+      "components_techspecs_lidar_triangle",
+      "components_techspecs_techspecs",
+      "config_siteconfig",
+      "config_siteconfig_about",
+      "config_siteconfig_contact",
+      "config_siteconfig_digital_rates",
+      "config_siteconfig_google_rating",
+      "config_siteconfig_google_review_link",
+      "config_siteconfig_hero_video",
+      "config_siteconfig_rates",
+      "config_siteconfig_site_credit",
+      "index_app",
+      "index_faqpage",
+      "media_aigle_beige",
+      "media_images_formules_img_3658",
+      "media_images_formules_img_4258",
+      "media_logo_dji_dji_innovations_logo_svg",
+      "media_photo_dji_drone_mavic_4",
+      "ref_framer_motion",
+      "ref_vimeo_player"
+    ],
+    "2": [
+      "components_cookiebanner",
+      "components_cookiebanner_clearanalyticscookies",
+      "components_cookiebanner_cookiebanner",
+      "components_cookiebanner_injectclarity",
+      "components_cookiebanner_injectgtm",
+      "components_cookiebanner_loadanalytics",
+      "components_cookiebanner_open_cookie_settings_event",
+      "components_cookiebanner_readconsent",
+      "components_routerhelpers",
+      "components_routerhelpers_internallinkhandler",
+      "components_routerhelpers_scrollmanager",
+      "index",
+      "index_aboutpage",
+      "index_creationsitewebpage",
+      "index_eagleproductionpage",
+      "index_evenementielpage",
+      "index_hebergementmailpage",
+      "index_immobilierdronepage",
+      "index_inspectionsuivipage",
+      "index_maintenancepage",
+      "index_page",
+      "index_photovideopage",
+      "index_reelsshortspage",
+      "index_referencementseopage",
+      "index_root",
+      "index_rootelement",
+      "index_routefallback",
+      "index_sportactionpage",
+      "ref_react_router_dom"
+    ],
+    "3": [
+      "build",
+      "build_buildnoscript",
+      "build_builtindex",
+      "build_declared",
+      "build_dirname",
+      "build_dist",
+      "build_eschtml",
+      "build_generatepages",
+      "build_injectmetas",
+      "build_missinginregistry",
+      "build_missinginrouter",
+      "build_posts",
+      "build_routepaths",
+      "build_routersource",
+      "build_setcontent",
+      "build_shorttitle",
+      "build_sitemap",
+      "build_stylepages",
+      "build_urlentry",
+      "lib_pages",
+      "lib_pages_canonicalfor",
+      "lib_pages_default_og_image",
+      "lib_pages_findpage",
+      "lib_pages_home",
+      "lib_pages_pages",
+      "lib_pages_site_url",
+      "ref_child_process",
+      "ref_url"
+    ],
+    "4": [
+      "build_readblogposts",
+      "components_blogarticlepage",
+      "components_blogarticlepage_blogarticlepage",
+      "components_blogdata",
+      "components_blogdata_blogpost",
+      "components_blogdata_findpostbyslug",
+      "components_blogdata_getreadingtimeminutes",
+      "components_blogdata_loadallposts",
+      "components_blogdata_striphtml",
+      "components_blogdata_topost",
+      "components_bloglistpage",
+      "components_bloglistpage_bloglistpage",
+      "components_bloglistpage_cat_icons",
+      "components_bloglistpage_category_meta",
+      "components_bloglistpage_droneiconsm",
+      "components_bloglistpage_formatdate",
+      "components_blogpreview",
+      "components_blogpreview_blogpreview",
+      "index_blogarticlepage",
+      "index_bloglistpage",
+      "lib_frontmatter",
+      "lib_frontmatter_parsefrontmatter",
+      "lib_frontmatter_parsescalar",
+      "lib_frontmatter_parseyamlsubset",
+      "lib_frontmatter_splitinlinelist"
+    ],
+    "5": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowimportingtsextensions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_experimentaldecorators",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduledetection",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_target",
+      "tsconfig_compileroptions_types",
+      "tsconfig_compileroptions_usedefineforclassfields",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "6": [
+      "package",
+      "package_engines",
+      "package_engines_node",
+      "package_name",
+      "package_private",
+      "package_type",
+      "package_version",
+      "ref_autoprefixer",
+      "ref_fontsource_variable_inter",
+      "ref_leaflet",
+      "ref_postcss",
+      "ref_react_dom",
+      "ref_tailwindcss",
+      "ref_types_leaflet",
+      "ref_types_node",
+      "ref_typescript"
+    ],
+    "7": [
+      "components_contact",
+      "components_contact_blocked_domains",
+      "components_contact_checkratelimit",
+      "components_contact_contact",
+      "components_contact_formstatus",
+      "components_contact_isvalidemail",
+      "components_contact_recordsubmission",
+      "components_contact_status_messages",
+      "components_contact_subjects",
+      "components_contactpage",
+      "components_contactpage_contactpage",
+      "docref_rfc_5322",
+      "index_contactpage",
+      "ref_clsx",
+      "ref_headlessui_react"
+    ],
+    "8": [
+      "app_coverage",
+      "components_breadcrumbs",
+      "components_breadcrumbs_breadcrumbitem",
+      "components_breadcrumbs_breadcrumbs",
+      "components_breadcrumbs_breadcrumbsprops",
+      "components_coverage",
+      "components_coverage_cities",
+      "components_coverage_city",
+      "components_coverage_coverage",
+      "components_coverage_department",
+      "components_coverage_departments",
+      "components_zonepage",
+      "components_zonepage_zonepage",
+      "index_zonepage"
+    ],
+    "9": [
+      "components_navbar_navbarprops",
+      "types",
+      "types_section",
+      "types_section_about",
+      "types_section_blog",
+      "types_section_contact",
+      "types_section_gallery",
+      "types_section_hero",
+      "types_section_reviews",
+      "types_section_services",
+      "types_section_tech",
+      "types_section_zone",
+      "types_serviceitem"
+    ],
+    "10": [
+      "package_dependencies",
+      "package_dependencies_clsx",
+      "package_dependencies_fontsource_variable_inter",
+      "package_dependencies_framer_motion",
+      "package_dependencies_headlessui_react",
+      "package_dependencies_leaflet",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_router_dom",
+      "package_dependencies_vimeo_player"
+    ],
+    "11": [
+      "vite_env_d",
+      "vite_env_d_importmeta",
+      "vite_env_d_importmetaenv",
+      "vite_env_d_jpeg",
+      "vite_env_d_jpg",
+      "vite_env_d_mp4",
+      "vite_env_d_png",
+      "vite_env_d_svg",
+      "vite_env_d_webm",
+      "vite_env_d_webp",
+      "vite_env_d_window"
+    ],
+    "12": [
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_postcss",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_types_leaflet",
+      "package_devdependencies_types_node",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react"
+    ],
+    "13": [
+      "ref_fs",
+      "ref_path",
+      "ref_vite",
+      "ref_vitejs_plugin_react",
+      "vite_config",
+      "vite_config_copymediaatbuild",
+      "vite_config_media_dir",
+      "vite_config_public_media",
+      "vite_config_servemediaindev"
+    ],
+    "14": [
+      "src_declarations_d",
+      "src_declarations_d_jpeg",
+      "src_declarations_d_jpg",
+      "src_declarations_d_mp4",
+      "src_declarations_d_png",
+      "src_declarations_d_svg",
+      "src_declarations_d_webm",
+      "src_declarations_d_webp"
+    ],
+    "15": [
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_scripts_typecheck"
+    ],
+    "16": [
+      "lib_pages_d",
+      "lib_pages_d_pagemeta"
+    ],
+    "17": [
+      "netlify_functions_contact",
+      "netlify_functions_contact_json"
+    ],
+    "18": [
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "19": [
+      "lib_frontmatter_d"
+    ],
+    "20": [
+      "lib_pages_d_default_og_image"
+    ],
+    "21": [
+      "lib_pages_d_home"
+    ],
+    "22": [
+      "lib_pages_d_pages"
+    ],
+    "23": [
+      "lib_pages_d_site_url"
+    ],
+    "24": [
+      "postcss_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.10400682011935208,
+    "1": 0.0546448087431694,
+    "2": 0.09113300492610837,
+    "3": 0.11375661375661375,
+    "4": 0.15,
+    "5": 0.10526315789473684,
+    "6": 0.125,
+    "7": 0.17142857142857143,
+    "8": 0.16483516483516483,
+    "9": 0.15384615384615385,
+    "10": 0.18181818181818182,
+    "11": 0.18181818181818182,
+    "12": 0.2222222222222222,
+    "13": 0.2222222222222222,
+    "14": 0.25,
+    "15": 0.4,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0
+  },
+  "gods": [
+    {
+      "id": "hooks_useseo_useseo",
+      "label": "useSeo()",
+      "degree": 49
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 47
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "degree": 34
+    },
+    {
+      "id": "components_navbar_navbar",
+      "label": "Navbar()",
+      "degree": 25
+    },
+    {
+      "id": "components_reveal_reveal",
+      "label": "Reveal()",
+      "degree": 25
+    },
+    {
+      "id": "components_footer_footer",
+      "label": "Footer()",
+      "degree": 24
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "types_section",
+      "label": "Section",
+      "degree": 13
+    },
+    {
+      "id": "components_cmscontent_loadallfaqitems",
+      "label": "loadAllFaqItems()",
+      "degree": 8
+    },
+    {
+      "id": "components_blogdata_getreadingtimeminutes",
+      "label": "getReadingTimeMinutes()",
+      "degree": 8
+    }
+  ],
+  "surprises": [
+    {
+      "source": "ContactPage()",
+      "target": "useSeo()",
+      "source_files": [
+        "components/ContactPage.tsx",
+        "hooks/useSeo.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `ContactPage()` unexpectedly reaches hub `useSeo()`"
+    },
+    {
+      "source": "ZonePage()",
+      "target": "useSeo()",
+      "source_files": [
+        "components/ZonePage.tsx",
+        "hooks/useSeo.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `ZonePage()` unexpectedly reaches hub `useSeo()`"
+    },
+    {
+      "source": "NavbarProps",
+      "target": "Section",
+      "source_files": [
+        "components/Navbar.tsx",
+        "types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `NavbarProps` unexpectedly reaches hub `Section`"
+    },
+    {
+      "source": "AboutPage()",
+      "target": "useSeo()",
+      "source_files": [
+        "components/AboutPage.tsx",
+        "hooks/useSeo.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `AboutPage()` unexpectedly reaches hub `useSeo()`"
+    },
+    {
+      "source": "ConstructionTrackingPage()",
+      "target": "useSeo()",
+      "source_files": [
+        "components/ConstructionTrackingPage.tsx",
+        "hooks/useSeo.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `ConstructionTrackingPage()` unexpectedly reaches hub `useSeo()`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `Community 0` to `Community 1`, `Community 2`, `Community 4`, `Community 6`, `Community 7`, `Community 8`, `Community 9`?",
+      "why": "High betweenness centrality (0.181) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `lucide-react` connect `Community 0` to `Community 1`, `Community 4`, `Community 6`, `Community 7`, `Community 8`?",
+      "why": "High betweenness centrality (0.086) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `useSeo()` connect `Community 0` to `Community 1`, `Community 3`, `Community 4`, `Community 7`, `Community 8`?",
+      "why": "High betweenness centrality (0.073) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `NavLink`, `RevealProps`, `MetaAttr` to the rest of the system?",
+      "why": "129 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10400682011935208 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0546448087431694 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09113300492610837 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

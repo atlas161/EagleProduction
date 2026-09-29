@@ -204,7 +204,7 @@ export const HebergementMailPage: React.FC = () => {
                       <Inbox size={16} className="text-sky-400 shrink-0 mt-0.5" />
                       <div>
                         <div className="text-white font-semibold text-sm mb-2">{item.q}</div>
-                        <div className="text-white/45 text-sm leading-relaxed">{item.a}</div>
+                        <div className="text-white/65 text-sm leading-relaxed">{item.a}</div>
                       </div>
                     </div>
                   </div>
@@ -272,7 +272,7 @@ export const HebergementMailPage: React.FC = () => {
                           Demander un devis <ArrowRight size={14} />
                         </a>
                       </div>
-                      <div className="mt-4 text-xs text-white/45 leading-relaxed">
+                      <div className="mt-4 text-xs text-white/65 leading-relaxed">
                         Objectif: éviter les “petits problèmes” qui coûtent cher quand ils arrivent au mauvais moment.
                       </div>
                     </div>

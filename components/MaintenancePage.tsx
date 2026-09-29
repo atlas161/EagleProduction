@@ -304,7 +304,7 @@ export const MaintenancePage: React.FC = () => {
                     </div>
                     <div className="pb-10">
                       <div className="text-white font-bold text-lg mb-1 group-hover:text-rose-300 transition-colors">{s.title}</div>
-                      <p className="text-white/45 text-sm leading-relaxed">{s.desc}</p>
+                      <p className="text-white/65 text-sm leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 </Reveal>

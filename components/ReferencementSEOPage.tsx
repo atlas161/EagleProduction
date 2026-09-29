@@ -279,7 +279,7 @@ export const ReferencementSEOPage: React.FC = () => {
                           Demander un devis <ArrowRight size={14} />
                         </a>
                       </div>
-                      <div className="mt-4 text-xs text-white/45 leading-relaxed">
+                      <div className="mt-4 text-xs text-white/65 leading-relaxed">
                         Objectif: garder la dynamique, éviter les régressions, et rester stable sur Google.
                       </div>
                     </div>

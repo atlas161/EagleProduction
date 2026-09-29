@@ -491,7 +491,7 @@ export const Coverage: React.FC = () => {
         </div>
 
         {/* --- CARTE MOBILE (visible uniquement sur mobile) --- */}
-        <div className="lg:hidden h-[400px] w-full relative order-1 mb-8">
+        <div className="lg:hidden h-[300px] w-full relative order-1 mb-8">
             <div className="w-full h-full relative border border-white/20 bg-black rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)]">
                 <div ref={mobileMapRef} role="img" aria-label="Carte de la zone d’intervention d’Eagle Production en Nouvelle-Aquitaine" className="w-full h-full z-0 outline-none" style={{ background: '#080808' }} />
                 
