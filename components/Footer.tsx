@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import eagleBeige from '../media/aigle_beige.png';
 import { Mail, Phone, Instagram, Linkedin } from 'lucide-react';
 import { Section } from '../types';
+import { OPEN_COOKIE_SETTINGS_EVENT } from './CookieBanner';
 
 export const Footer: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -129,8 +130,15 @@ export const Footer: React.FC = () => {
             <div>
             &copy; {new Date().getFullYear()} Eagle Production. Tous droits réservés.
             </div>
-            <div>
+            <div className="flex items-center gap-4">
               <a href="/mentions-legales.html" className="text-xs text-textSecondary hover:text-accent transition-colors">Mentions légales &amp; RGPD</a>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS_EVENT))}
+                className="text-xs text-textSecondary hover:text-accent transition-colors"
+              >
+                Gérer mes cookies
+              </button>
             </div>
         </div>
       </div>

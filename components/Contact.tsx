@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Reveal } from './Reveal';
 import { Mail, Phone, Instagram, MapPin, Send, ChevronDown, Check, CheckCircle, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
@@ -28,7 +28,11 @@ const BLOCKED_DOMAINS = [
   'temp-mail.org', 'getnada.com', 'maildrop.cc'
 ];
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error' | 'rate_limited' | 'invalid_email';
+// Cloudflare Turnstile (clé publique ; la clé secrète est dans les variables d'environnement Netlify)
+const TURNSTILE_SITE_KEY = '0x4AAAAAAFJEDmel7ydKYU03';
+const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error' | 'rate_limited' | 'invalid_email' | 'captcha_required';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 🔒 SÉCURITÉ - Fonctions de validation
@@ -83,6 +87,51 @@ export const Contact: React.FC = () => {
     email: '',
     message: '',
   });
+  const captchaRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState('');
+
+  // Chargement du captcha Turnstile (thème sombre)
+  useEffect(() => {
+    let cancelled = false;
+    const render = () => {
+      const ts = (window as any).turnstile;
+      if (cancelled || !ts || !captchaRef.current || widgetId.current !== null) return;
+      widgetId.current = ts.render(captchaRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: 'dark',
+        language: 'fr',
+        callback: (token: string) => setCaptchaToken(token),
+        'expired-callback': () => setCaptchaToken(''),
+        'error-callback': () => setCaptchaToken(''),
+      });
+    };
+    if ((window as any).turnstile) {
+      render();
+    } else {
+      let script = document.querySelector<HTMLScriptElement>(`script[src="${TURNSTILE_SCRIPT}"]`);
+      if (!script) {
+        script = document.createElement('script');
+        script.src = TURNSTILE_SCRIPT;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+      script.addEventListener('load', render);
+    }
+    return () => {
+      cancelled = true;
+      const ts = (window as any).turnstile;
+      if (ts && widgetId.current !== null) ts.remove(widgetId.current);
+      widgetId.current = null;
+    };
+  }, []);
+
+  const resetCaptcha = () => {
+    setCaptchaToken('');
+    const ts = (window as any).turnstile;
+    if (ts && widgetId.current !== null) ts.reset(widgetId.current);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -107,13 +156,21 @@ export const Contact: React.FC = () => {
       return;
     }
     
+    // 🔒 Captcha Cloudflare Turnstile
+    if (!captchaToken) {
+      setFormStatus('captcha_required');
+      setTimeout(() => setFormStatus('idle'), 5000);
+      return;
+    }
+
     setFormStatus('submitting');
 
     const form = e.currentTarget;
     const formDataObj = new FormData(form);
+    formDataObj.set('cf-turnstile-response', captchaToken);
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/.netlify/functions/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formDataObj as any).toString(),
@@ -126,12 +183,14 @@ export const Contact: React.FC = () => {
         setFormStatus('success');
         setFormData({ name: '', email: '', message: '' });
         setSelectedSubject(subjects[0]);
+        resetCaptcha();
         setTimeout(() => setFormStatus('idle'), 5000);
       } else {
         throw new Error('Erreur lors de l\'envoi');
       }
     } catch (error) {
       console.error('Form submission error:', error);
+      resetCaptcha();
       setFormStatus('error');
       setTimeout(() => setFormStatus('idle'), 5000);
     }
@@ -352,6 +411,9 @@ export const Contact: React.FC = () => {
                         ></textarea>
                     </div>
 
+                    {/* Captcha Cloudflare Turnstile (thème sombre) */}
+                    <div ref={captchaRef} className="min-h-[65px]" />
+
                     {/* Bouton avec états */}
                     <button 
                       type="submit"
@@ -362,6 +424,7 @@ export const Contact: React.FC = () => {
                         formStatus === 'error' && "bg-red-500 text-white",
                         formStatus === 'rate_limited' && "bg-orange-500 text-white cursor-not-allowed",
                         formStatus === 'invalid_email' && "bg-red-500 text-white",
+                        formStatus === 'captcha_required' && "bg-orange-500 text-white",
                         formStatus === 'submitting' && "bg-white/50 text-black cursor-wait",
                         formStatus === 'idle' && "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98]"
                       )}
@@ -394,6 +457,12 @@ export const Contact: React.FC = () => {
                           <>
                             <Clock size={18} />
                             Patientez {rateLimitSeconds}s
+                          </>
+                        )}
+                        {formStatus === 'captcha_required' && (
+                          <>
+                            <AlertCircle size={18} />
+                            Validez le captcha
                           </>
                         )}
                         {formStatus === 'invalid_email' && (
