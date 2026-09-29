@@ -70,12 +70,7 @@ export const Coverage: React.FC = () => {
 
         mapInstance.current = map;
 
-        // Fond de carte Dark Matter (très sombre pour contraste HUD)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-          subdomains: 'abcd',
-          maxZoom: 19,
-          opacity: 1
-        }).addTo(map);
+        // Pas de fond de carte tiers (CARTO exige désormais une clé API) : le fond est dessiné par le GeoJSON des départements
 
         // --- MARQUEUR SONAR (QG) ---
         // On utilise un Custom Icon pour faire l'effet d'onde CSS
@@ -217,10 +212,11 @@ export const Coverage: React.FC = () => {
 
     if (!isInZone) {
         return {
-            fillColor: '#000000',
-            weight: 0,
-            opacity: 0,
-            fillOpacity: 0.8 // Cache le reste de la France
+            fillColor: '#101010',
+            color: '#1f1f1f', // départements hors zone : discrets, mais la France reste lisible
+            weight: 0.6,
+            opacity: 1,
+            fillOpacity: 1
         };
     }
 

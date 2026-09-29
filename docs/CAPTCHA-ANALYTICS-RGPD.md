@@ -42,7 +42,7 @@ Le formulaire caché pour la détection Netlify reste dans `index.html` ; le hon
 Déclarés dans la section « Cookies et traceurs » des mentions légales :
 - **Vimeo** (vidéo d'accueil) : paramètre `dnt=1` activé (`HERO_VIDEO.embedUrl`).
 - **Elfsight** (fil Instagram, page d'accueil) : script chargé uniquement quand la section approche de l'écran (`LazyMount` + `Gallery.tsx`).
-- **CARTO / OpenStreetMap** (tuiles de la carte de la zone d'intervention).
+- La carte de la zone est dessinée localement (GeoJSON) : plus aucun fond de carte tiers.
 - La police **Inter est auto-hébergée** (`@fontsource-variable/inter`) : plus aucun appel à Google Fonts.
 
 Ces services reçoivent l'adresse IP du visiteur. Si un conseil juridique impose un consentement préalable, l'étape suivante est de les charger derrière le même choix que la mesure d'audience (`CookieBanner.tsx`).

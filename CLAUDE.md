@@ -33,7 +33,7 @@ Site vitrine **Eagle Production / Eagle Digital** (drone, vidéo, web) — https
 Détails dans `docs/CAPTCHA-ANALYTICS-RGPD.md`. En bref :
 - Formulaire de contact → Cloudflare Turnstile (thème sombre) → fonction `netlify/functions/contact.mjs` (vérifie le jeton avec `TURNSTILE_SECRET_KEY`, défini dans Netlify) → Netlify Forms. En local, Turnstile affiche l'erreur 110200 (domaine `localhost` non autorisé) : normal.
 - `CookieBanner.tsx` (monté une seule fois dans `index.tsx`) : GTM et Clarity ne se chargent qu'après consentement (`eagle_consent_v2`, 6 mois) ; « Gérer mes cookies » dans le footer. Toute modification des traceurs implique de mettre à jour `public/mentions-legales.html`.
-- Contenus tiers chargés sans consentement (déclarés dans les mentions légales) : Vimeo (`dnt=1`), Elfsight/Instagram (chargé seulement à l'approche de la section), tuiles CARTO. La police Inter est **auto-hébergée** (`@fontsource-variable/inter`) : ne pas remettre Google Fonts.
+- Contenus tiers chargés sans consentement (déclarés dans les mentions légales) : Vimeo (`dnt=1`), Elfsight/Instagram (chargé seulement à l'approche de la section). La police Inter est **auto-hébergée** (`@fontsource-variable/inter`) : ne pas remettre Google Fonts.
 - `public/mentions-legales.html` est en `noindex` (meta + header Netlify) et absent du sitemap : ne pas la rajouter dans `lib/pages.mjs`, ne pas la bloquer dans `robots.txt`.
 
 ## Notes
